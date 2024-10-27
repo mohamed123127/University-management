@@ -10,7 +10,7 @@ export default function ButtonStyle1({ buttonText, onClick , buttonClassName}){
 }
 
 ButtonStyle1.propTypes = {
-    text: PropTypes.string.isRequired,
+    buttonText: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     className: PropTypes.string,
   };
