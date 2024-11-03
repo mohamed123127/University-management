@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function ButtonStyle1({ buttonText, onClick , buttonClassName}){
     return(
-      <button onClick={onClick} className={`bg-[#1E3A8A] hover:bg-[#3B82F6] text-white rounded-[5px] p-1 text-[16px] font-Cairo ${buttonClassName}`}>
+      <button onClick={onClick} className={`bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-500 transition duration-200 p-1 text-[16px] font-Cairo ${buttonClassName}`}>
       {buttonText}
     </button>
     );
