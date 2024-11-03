@@ -4,12 +4,10 @@ import LabelStyle1 from "../components/custom controls/labels/LabelStyle1"
 import TextBoxStyle2 from "../components/custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../components/custom controls/buttons/ButtonStyle1"
 import GoogleIcon from "../Images/GoogleIcon.png"
+import { useNavigate } from 'react-router-dom';
 
 export default function Login({SignUpButtonHandled}){
-    const LoginButtonHandled =()=> {
-        alert("hee");
-    }
-
+    const navigate = useNavigate();
     const handleChange = (e) => {
         const { name, value } = e.target;
         setLoginFormData((prevData) => ({
@@ -22,6 +20,34 @@ export default function Login({SignUpButtonHandled}){
         email:'',
         password:''
     });
+
+    const LoginButtonHandled = async(e)=> {
+        e.preventDefault();
+        try{
+            const response = await fetch('http://localhost/University%20Managment/backend/roots/Login.php', { // تأكد من تغيير الرابط
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email:loginFormData.email, password:loginFormData.password })
+            });
+            if(response.ok){
+                const data = await response.json();
+                if (data.success === true) {
+                    localStorage.setItem('jwt', data.token); // تخزين التوكن في Local Storage
+                    alert('Login successful!');
+                    // يمكنك توجيه المستخدم إلى صفحة أخرى هنا
+                    navigate("/EtudientDashboard");
+                } else {
+                    alert('Login baad');
+                }
+            }else{
+                alert('http dosent work');
+            }
+        } catch (err) {
+            alert("cathch:    "+err);
+        }
+    }
     return(
                 <div className="flex flex-col">
                     {/* Student_adminstation switch and welcom part */}
