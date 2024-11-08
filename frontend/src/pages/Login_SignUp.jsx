@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Login_SignUp_bg from "../Images/Login_SignUp_bg.png";
-import Login_SignUp_image from "../Images/Login_Signup_image.jpg"
+import Login_SignUp_bg from "../resources/Images/Login_SignUp_bg.png";
+import Login_SignUp_image from "../resources/Images/Login_Signup_image.jpg"
 import Login from "../components/Login";
 import SignUp from "../components/SignUp";
 

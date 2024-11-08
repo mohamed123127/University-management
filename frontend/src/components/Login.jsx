@@ -3,7 +3,7 @@ import ToggleButton from "../components/custom controls/ToggleButton"
 import LabelStyle1 from "../components/custom controls/labels/LabelStyle1"
 import TextBoxStyle2 from "../components/custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../components/custom controls/buttons/ButtonStyle1"
-import GoogleIcon from "../Images/GoogleIcon.png"
+import GoogleIcon from "../resources/Icons/GoogleIcon.png"
 import { useNavigate } from 'react-router-dom';
 
 export default function Login({SignUpButtonHandled}){
