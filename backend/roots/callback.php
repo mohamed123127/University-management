@@ -8,11 +8,20 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 require_once '../packages/vendor/autoload.php';
+require_once '../config/SecreteData.php';
+
+/*$dotenv = Dotenv\Dotenv::createImmutable(realpath(__DIR__ . '\\..\\'));
+$dotenv->load();
+
+// الوصول إلى المتغيرات
+$googleClientId = getenv('GOOGLE_OAUTH_CLIENT_ID');
+$googleClientSecret = getenv('GOOGLE_OAUTH_CLIENT_SECRET');*/
 
 session_start();
 
 $client = new Google_Client();
-
+$client->setClientId(SecreteData::$clientId); // استبدلها بـ Client ID
+$client->setClientSecret(SecreteData::$clientSecrete); // استبدلها بـ Client Secret
 $client->setRedirectUri('http://localhost/University-management/backend/roots/callback.php');//الرابط العودة الذي تم تعيينه في Google People APi
 
 if (isset($_GET['code'])) {

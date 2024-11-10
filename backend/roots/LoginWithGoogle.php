@@ -9,10 +9,13 @@ header("Content-Type: application/json");
 
 require_once '../utils/JwtLogin.php';
 require_once '../packages/vendor/autoload.php';
+require_once '../config/SecreteData.php';
+
 session_start();
 
 $client = new Google_Client();
-
+$client->setClientId(SecreteData::$clientId); // استبدلها بـ Client ID
+$client->setClientSecret(SecreteData::$clientSecrete); // استبدلها بـ Client Secret
 $client->setRedirectUri('http://localhost/University-management/backend/roots/callback.php'); // رابط العودة
 $client->addScope('email');//to get email
 

@@ -1,6 +1,8 @@
 frontend/packages
 frontend/build
 frontend/node_modules
-backend/packages
+/backend/packages/*
+!/backend/packages/composer.json
+backend/config/SecreteData.php
 backend/test
 frontend/src/components/Tests
