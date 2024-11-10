@@ -3,8 +3,7 @@ import NotificationIcon from "resources/Icons/Notification.png";
 import { IoNotifications } from "react-icons/io5";
 
 
-export default function Notification({notificationsList,setNotification,ClassName}){
-    const [isOpen,setIsOpen] = useState(false);
+export default function Notification({notificationsList,setNotification,isOpen,setIsOpen,ClassName}){
     const clickButtonHandled = ()=>{
          setIsOpen(!isOpen);
          setNotification((prevNotifications) =>

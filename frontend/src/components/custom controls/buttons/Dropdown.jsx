@@ -2,15 +2,13 @@
 import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 
-export default function Dropdown({ isOpen, setIsOpen, Orientation }) {
+export default function Dropdown({ isOpen, setIsOpen, Orientation,ClassName }) {
   // دالة لتبديل الحالة
   const handleClick = () => setIsOpen(!isOpen);
 
-  
-
   return (
     <button
-      className="p-2bg-blue-500 hover:bg-blue-600  focus:outline-none rounded"
+      className={`p-2bg-blue-500 focus:outline-none rounded ${ClassName}`}
       onClick={handleClick}
     >
       {Orientation === "horizontal" ? (

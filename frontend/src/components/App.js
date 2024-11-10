@@ -1,27 +1,21 @@
-import React, { useState } from "react";
-import Login_SignUp from "../pages/Login_SignUp";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid"; 
-import SignUp from "./SignUp";
-import SideBar from "./SideBar";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import EtudientDashboard from '../pages/EtudientDashboard'
-
+import EtudientMainPage from "pages/EtudientMainPage";
+import Login_SignUp from "pages/Login_SignUp";
 
 export default function App(){
-
- 
-  
-    
-    
-      return (
-        <div className="flex">
-          <SideBar />
-          
-        </div>
-      );
-    
-    
-   
-    
-  
+  return(
+    <Router>
+    <div>
+      <Routes>
+        {/* مسار الصفحة الرئيسية يشير إلى صفحة تسجيل الدخول */}
+        {/*<Route path="/" element={<Header ActualPage='Dashboard' ActualPageIcon={FiGrid}/>} />*/}
+        {/*<Route path="/" element={<EtudientMainPage />}/>*/}
+        <Route path="/" element={<Login_SignUp />} />
+        {/* مسار لوحة التحكم الخاصة بالطلاب */}
+        <Route path="/EtudientDashboard" element={<EtudientMainPage />} />
+      </Routes>
+    </div>
+  </Router>
+  );
 }

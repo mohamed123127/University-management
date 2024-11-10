@@ -3,8 +3,7 @@ import { useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa"; // استيراد الأيقونة من React Icons
 
 
-export default function Account({AccountName,AccountImage,ClassName}){
-    const [isOpen,setIsOpen] = useState(false);
+export default function Account({AccountName,AccountImage,isOpen,setIsOpen,ClassName}){
     const clickButtonHandled = ()=>{ setIsOpen(!isOpen);}
     return (
         <div className={`${ClassName}`}>

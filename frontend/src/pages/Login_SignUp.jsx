@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Login_SignUp_bg from "../resources/Images/Login_SignUp_bg.png";
 import Login_SignUp_image from "../resources/Images/Login_Signup_image.jpg"
-import Login from "../components/Login";
-import SignUp from "../components/SignUp";
+import Login from "../components/Login_SignUp/Login";
+import SignUp from "../components/Login_SignUp/SignUp";
 
 export default function Login_SignUp() {
   const [position, setPosition] = useState(0);
