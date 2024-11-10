@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 require_once '../utils/JwtLogin.php';
-require_once '../vendor/autoload.php';
+require_once '../packages/vendor/autoload.php';
 session_start();
 
 $client = new Google_Client();

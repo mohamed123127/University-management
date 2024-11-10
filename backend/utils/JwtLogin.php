@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 
-require_once('vendor/autoload.php');
+require_once('../packages/vendor/autoload.php');
 use \Firebase\JWT\JWT;
 
 class JwtLogin {

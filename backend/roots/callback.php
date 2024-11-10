@@ -7,7 +7,7 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
-require_once '../vendor/autoload.php';
+require_once '../packages/vendor/autoload.php';
 
 session_start();
 
