@@ -1,21 +1,33 @@
-// ToggleButton.js
 import React from "react";
-import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from "@heroicons/react/24/solid";
 
-export default function Dropdown({ isOpen, setIsOpen, Orientation,ClassName }) {
+export default function Dropdown({ isOpen, setIsOpen, Orientation, ClassName}) {
   // دالة لتبديل الحالة
   const handleClick = () => setIsOpen(!isOpen);
 
   return (
     <button
-      className={`p-2bg-blue-500 focus:outline-none rounded ${ClassName}`}
+      className={`focus:outline-none rounded ${ClassName}`}
       onClick={handleClick}
     >
       {Orientation === "horizontal" ? (
-        isOpen ? (
-          <ChevronLeftIcon className="h-5 w-5 text-white" />
+        document.dir === "rtl" ? (
+          isOpen ? (
+            <ChevronRightIcon className="h-5 w-5 text-white" />
+          ) : (
+            <ChevronLeftIcon className="h-5 w-5 text-white" />
+          )
         ) : (
-          <ChevronRightIcon className="h-5 w-5 text-white" />
+          isOpen ? (
+            <ChevronLeftIcon className="h-5 w-5 text-white" />
+          ) : (
+            <ChevronRightIcon className="h-5 w-5 text-white" />
+          )
         )
       ) : Orientation === "vertical" ? (
         isOpen ? (
