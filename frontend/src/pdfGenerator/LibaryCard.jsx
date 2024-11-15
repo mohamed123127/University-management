@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 
-export default function StudentIDCardRequest() {
+export default function LibraryCardRequest() {
     const certRef = useRef();
 
     const generatePDF = async () => {
@@ -15,7 +15,7 @@ export default function StudentIDCardRequest() {
         const width = pdf.internal.pageSize.getWidth();
         const height = pdf.internal.pageSize.getHeight();
         pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-        pdf.save('Student_ID_Card_Request.pdf');
+        pdf.save('Library_Card_Request.pdf');
     };
 
     return (
@@ -32,7 +32,7 @@ export default function StudentIDCardRequest() {
                 </div>
                 
                 <hr />
-                <h2 className="mt-6 text-2xl font-bold mb-4 text-center">طلب بطاقة الطالب</h2>
+                <h2 className="mt-6 text-2xl font-bold mb-4 text-center">طلب بطاقة المكتبة</h2>
 
                 <div className="text-right mb-4 space-y-2">
                     <div className="flex">
@@ -54,7 +54,7 @@ export default function StudentIDCardRequest() {
                 </div>
 
                 <div className="mt-8 text-right">
-                    <span className="font-semibold">هذه البطاقة صالحة خلال السنة الجامعية:</span>
+                    <span className="font-semibold">البطاقة صالحة خلال السنة الجامعية:</span>
                     <span className="mr-2">2025/2024</span>
                 </div>
                 <div className="mt-4  ml-24 text-left">
@@ -62,7 +62,7 @@ export default function StudentIDCardRequest() {
                 </div>
                 
                 <div className="mt-40 text-right">
-                    <p className="mb-2">أتعهد بتطبيق ميثاق الآداب الجامعية داخل الحرم الجامعي.</p>
+                    <p className="mb-2">أتعهد باستخدام بطاقة المكتبة وفق القوانين المعمول بها.</p>
                 </div>
                 
                 <hr />
