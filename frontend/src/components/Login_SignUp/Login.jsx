@@ -1,12 +1,26 @@
 import React, { useState , useEffect} from "react";
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import ToggleButton from "../custom controls/ToggleButton"
 import LabelStyle1 from "../custom controls/labels/LabelStyle1"
 import TextBoxStyle2 from "../custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1"
 import GoogleIcon from "resources/Icons/GoogleIcon.png"
-import { useNavigate } from 'react-router-dom';
+import Language from "components/Basics/Language";
 
-export default function Login({SignUpButtonHandled}){
+export default function Login({SignUpButtonHandled,ClassName}){
+    const { t, i18n } = useTranslation();
+
+    const [language,setLanguage] = useState(i18n.language);
+    const [currentLanguage, setCurrentLanguage] = useState("");
+    
+    useEffect(()=>{
+        i18n.changeLanguage(currentLanguage);
+    },[currentLanguage])
+
+    const handleLanguageChange = (lang) => {
+        setCurrentLanguage(lang);
+    };
     const navigate = useNavigate();
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -64,31 +78,36 @@ export default function Login({SignUpButtonHandled}){
         }
     }, []);
     return(
-                <div className="flex flex-col">
+        <div className={`${ClassName} flex flex-col items-center relative`}>
+            <div className="flex flex-col items-center relative h-full w-full">
                     {/* Student_adminstation switch and welcom part */}
-                        <LabelStyle1 labelText="Login" labelClassName="mt-10 text-3xl justify-self-center text-blue-600 mb-10"/>
+                        <div className="flex justify-end w-full pb-20 ">
+                            <LabelStyle1 labelText={t('Login')} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap"/>
+                            <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language}/>
+                        </div>
                     {/* Login_SignUp form */}
-                    <form className="bg-white flex flex-col ml-10 w-[80%]">
-                    <LabelStyle1 labelText="Email:" labelClassName="text-md"/>
-                    <TextBoxStyle2 Name='email' placeholder="Example@gmail.com" value={loginFormData.email} onChange={handleChange} textBoxClassName="w-full"/>
-                    <LabelStyle1 labelText="Password:" labelClassName="text-md mt-5"/>
-                    <TextBoxStyle2 Name='password' placeholder="password" value={loginFormData.password} onChange={handleChange} textBoxClassName="w-full"/>
-                    <a href="#" className="self-end text-sm text-blue-400 max-w-fit">Forgot password</a>
-                    <ButtonStyle1 buttonText="Login" buttonClassName="mt-5" onClick={LoginButtonHandled}/>
+                    <form className="bg-white flex flex-col w-[80%]">
+                    <LabelStyle1 labelText={`${t('Email')}:`} labelClassName="text-md"/>
+                    <TextBoxStyle2 Name='email' placeholder="Example@gmail.com" value={loginFormData.email} onChange={handleChange} textBoxClassName="w-full pr-1"/>
+                    <LabelStyle1 labelText={`${t('Password')}:`} labelClassName="text-md mt-5"/>
+                    <TextBoxStyle2 Name='password' placeholder="password" value={loginFormData.password} onChange={handleChange} textBoxClassName="w-full pr-1"/>
+                    <a href="#" className="self-end text-sm text-blue-400 max-w-fit">{`${t('ForgotPassword')}`}</a>
+                    <ButtonStyle1 buttonText={`${t('Login')}`} buttonClassName="mt-5" onClick={LoginButtonHandled}/>
                     <div className="relative mt-8">
-                        <h5 className="absolute left-1/2 transform -translate-x-1/2 top-[-12px] bg-white px-2">OR</h5>
+                        <h5 className="absolute left-1/2 transform -translate-x-1/2 top-[-12px] bg-white px-2">{`${t('OR')}`}</h5>
                         <hr className="border border-gray-500" />
                     </div>
                     <button onClick={LoginWithGoogleButtonHandled} className={`text-gray-500 rounded-[5px] p-2 text-[12px] font-Cairo bg-white shadow-md mt-5`}>
                         <div className="flex justify-center">
-                            <img src={GoogleIcon} alt="Button Icon" className="w-4 h-4 mr-2 mt-[1px]"/>
-                            Sing with Google
+                            <img src={GoogleIcon} alt="Button Icon" className="w-4 h-4 mr-2 rtl:ml-2 mt-[1px]"/>
+                            {`${t('SignWithGoogle')}`}
                         </div>
                     </button>
                     </form>
-                    <p className={`text-gray-400 text-xs ml-10 mt-3 ${isStudent ? 'hidden' : 'visible'}`}>Dont have Account? <button onClick={SignUpButtonHandled} className="text-blue-400">Sing up</button></p>
+                    <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'hidden' : 'visible'}`}>{`${t('DontHaveAccount')}`} <button onClick={SignUpButtonHandled} className="text-blue-400">{`${t('SignUp')}`}</button></p>
 
-                    <ToggleButton toggleButtonClassName="justify-center mt-auto mb-2" leftLabel="Administration" rightLabel="Student" onToggle={setIsStudent}/>
-                </div>
+                    <ToggleButton toggleButtonClassName="absolute bottom-4" leftLabel={`${t('Administration')}`} rightLabel={`${t('Student')}`} onToggle={setIsStudent}/>
+            </div>
+        </div>
     );
 }

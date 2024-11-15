@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import LabelStyle1 from "../custom controls/labels/LabelStyle1";
 import TextBoxStyle2 from "../custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1";
 import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle1";
+import Language from "components/Basics/Language";
 
-export default function SignUp({ SingInButtonHandled }) {
+export default function SignUp({ SingInButtonHandled,ClassName}) {
+  const { t, i18n } = useTranslation();
+
+    const [language,setLanguage] = useState(i18n.language);
+    const [currentLanguage, setCurrentLanguage] = useState("");
+    
+    useEffect(()=>{
+        i18n.changeLanguage(currentLanguage);
+    },[currentLanguage])
+
+    const handleLanguageChange = (lang) => {
+        setCurrentLanguage(lang);
+    };
   const facultyOptions = ['Informatique', 'Math', 'Physique'];
   const specialityOptions = ['Isil', 'Si'];
   const academicYearOptions = ['Licence 1', 'Licence 2', 'Licence 3', 'Master 1', 'Master 2'];
@@ -52,46 +66,50 @@ export default function SignUp({ SingInButtonHandled }) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full p-6 bg-white rounded-lg shadow-md">
-      <LabelStyle1 labelText="Sign Up" labelClassName="text-3xl mb-6 text-blue-600" />
-      <form className="flex flex-col w-full">
+    <div className={`${ClassName} flex flex-col items-center relative`}>
+      <div className="flex justify-end w-full pb-16">
+        <LabelStyle1 labelText={t('SignUp')} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap"/>
+        <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language}/>
+      </div>
+      
+      <form className="flex flex-col w-[90%]">
         <div className="space-y-4">
-          <div className="flex space-x-2">
-            <div className="flex flex-col">
-              <LabelStyle1 labelText="First Name:" labelClassName="text-sm ml-1" />
+          <div className="flex">
+            <div className="flex flex-col ml-1 mr-1 w-full">
+              <LabelStyle1 labelText={`${t('FirstName')}:`} labelClassName="text-sm ml-1 mr-1" />
               <TextBoxStyle2
                 Name='firstName'
-                placeholder="First name"
+                placeholder={`${t('FirstName')}`}
                 value={SignUpFormData.firstName}
                 onChange={handleChange}
-                textBoxClassName="w-full border rounded-md shadow-sm"
+                textBoxClassName="w-full border rounded-md shadow-sm pr-1"
               />
             </div>
-            <div className="flex flex-col">
-              <LabelStyle1 labelText="Last Name:" labelClassName="text-sm ml-1" />
+            <div className="flex flex-col mr-1 w-full">
+              <LabelStyle1 labelText={`${t('LastName')}:`} labelClassName="text-sm ml-1" />
               <TextBoxStyle2
                 Name='lastName'
-                placeholder="Last name"
+                placeholder={`${t('LastName')}`}
                 value={SignUpFormData.lastName}
                 onChange={handleChange}
-                textBoxClassName="w-full border rounded-md shadow-sm"
+                textBoxClassName="w-full border rounded-md shadow-sm pr-1"
               />
             </div>
           </div>
 
           <div className="flex space-x-1 items-center">
-            <LabelStyle1 labelText="Matricule:" labelClassName="text-sm" />
+            <LabelStyle1 labelText={`${t('Matricule')}:`} labelClassName="text-sm ml-1 text-nowrap" />
             <TextBoxStyle2
               Name='matricule'
               placeholder="222231354689"
               value={SignUpFormData.matricule}
               onChange={handleChange}
-              textBoxClassName="w-full border rounded-md shadow-sm"
+              textBoxClassName="w-full border rounded-md shadow-sm pr-1"
             />
           </div>
 
           <div className="flex space-x-1 items-center">
-            <LabelStyle1 labelText="Faculty:" labelClassName="text-sm" />
+            <LabelStyle1 labelText={`${t('Faculty')}:`} labelClassName="text-sm ml-1" />
             <ComboBoxStyle1
               Name="faculty"
               options={facultyOptions}
@@ -102,72 +120,73 @@ export default function SignUp({ SingInButtonHandled }) {
           </div>
 
           <div className="flex space-x-1 items-center">
-            <LabelStyle1 labelText="Academic Year:" labelClassName="text-sm" />
+            <LabelStyle1 labelText={`${t('AcademicYear')}:`} labelClassName="text-sm ml-1 text-nowrap" />
             <ComboBoxStyle1
               Name="EducationYear"
               options={academicYearOptions}
               value={SignUpFormData.EducationYear}
               onChange={handleChange}
+              comboBoxClassName={`w-full`}
             />
-            <LabelStyle1 labelText="Speciality:" labelClassName="text-sm" />
+            <LabelStyle1 labelText={`${t('Speciality')}:`} labelClassName="text-sm ml-1" />
             <ComboBoxStyle1
               Name="Specialty"
               options={specialityOptions}
               value={SignUpFormData.Specialty}
               onChange={handleChange}
               disabled={specialityComboBoxDisabled}
-              comboBoxClassName={`${specialityComboBoxDisabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white'}`}
+              comboBoxClassName={`${specialityComboBoxDisabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white'} w-full`}
             />
           </div>
 
           <div className="flex space-x-1">
-            <LabelStyle1 labelText="Email:" labelClassName="text-md w-auto" />
+            <LabelStyle1 labelText={`${t('Email')}:`} labelClassName="text-md w-auto ml-1" />
             <TextBoxStyle2
               Name='email'
               textBoxtype='email'
               placeholder="example@gmail.com"
               value={SignUpFormData.email}
               onChange={handleChange}
-              textBoxClassName="border rounded-md shadow-sm flex-grow"
+              textBoxClassName="border rounded-md shadow-sm flex-grow pr-1 text-nowrap"
             />
           </div>
 
-          <div className="flex space-x-2">
-            <div className="flex flex-col">
-              <LabelStyle1 labelText="Password:" labelClassName="text-sm ml-1" />
+          <div className="flex space-x-1 w-full">
+            <div className="flex flex-col ml-1 w-full">
+              <LabelStyle1 labelText={`${t('Password')}:`} labelClassName="text-sm mr-1" />
               <TextBoxStyle2
                 Name='password'
                 type='password'
-                placeholder="Password"
+                placeholder={`${t('Password')}`}
                 value={SignUpFormData.password}
                 onChange={handleChange}
-                textBoxClassName="w-full border rounded-md shadow-sm"
+                textBoxClassName="w-[90%] border rounded-md shadow-sm pr-1"
               />
             </div>
-            <div className="flex flex-col">
-              <LabelStyle1 labelText="Confirm Password:" labelClassName="text-sm ml-1" />
+            <div className="flex flex-col w-full">
+              <LabelStyle1 labelText={`${t('ConfirmPassword')}:`} labelClassName="text-sm mr-1 text-nowrap" />
               <TextBoxStyle2
                 Name='confirmPassword'
                 type='password'
-                placeholder="Confirm password"
+                placeholder={`${t('ConfirmPassword')}`}
                 value={SignUpFormData.confirmPassword}
                 onChange={handleChange}
-                textBoxClassName="w-full border rounded-md shadow-sm"
+                textBoxClassName="w-full border rounded-md shadow-sm pr-1"
               />
             </div>
           </div>
         </div>
 
         <ButtonStyle1
-          buttonText="Sign Up"
-          buttonClassName="items-center w-full mt-10"
+          buttonText={`${t('SignUp')}`}
+          buttonClassName="items-center w-full mt-8"
           onClick={SignUpButtonHandled}
         />
       </form>
 
-      <p className="text-gray-400 text-xs mt-4">
-        Already have an account?
-        <button onClick={SingInButtonHandled} className="text-blue-400 hover:underline"> Sign In</button>
+      <p className="text-gray-400 text-xs mt-2 ltr:mr-auto rtl:ml-auto rtl:mr-6 ltr:ml-6">
+      {`${t('AlreadyHaveAnAccount')}`}
+        <button onClick={SingInButtonHandled} className="text-blue-400 hover:underline rtl:mr-1 ltr:ml-1"> {`${t('Login')}`}</button>
       </p>
     </div>
   );

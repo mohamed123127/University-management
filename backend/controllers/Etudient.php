@@ -1,5 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: *");
 require_once '../controllers/User.php'; // تأكد من تضمين User.php بشكل صحيح
 
 class Etudient extends User {

@@ -4,7 +4,11 @@ import html2canvas from 'html2canvas';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 
-export default function LibraryCardRequest() {
+
+
+
+export default function LibraryCard() {
+
     const certRef = useRef();
 
     const generatePDF = async () => {

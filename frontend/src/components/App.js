@@ -1,21 +1,71 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import EtudientMainPage from "pages/EtudientMainPage";
-import Login_SignUp from "pages/Login_SignUp";
-import PdfGenerator from "pdfGenerator/Certafica";
-import LibraryCardRequest from "pdfGenerator/LibaryCard";
-import StudentIDCardRequest from "pdfGenerator/IdStudentCard";
-import BlockAcademicYearRequest from "pdfGenerator/BlockAcademicYea";
-import ParkingPermitRequest from "pdfGenerator/ParkingPermit";
-import InternshipPermitRequest from "pdfGenerator/InternshipPermit";
-import GradeTranscriptRequest from "pdfGenerator/GradeTranscript";
-import DocumentRequests from "../pages/DocumentRequest";
-import GroupChangeRequest from "groupchange";
+import React, { useEffect } from "react";
+import LoginSignUp from "pages/Login_SignUp";
+import StudentIDCard from "pdfGenerator/StudentIDCard";
+import BlockAcademicYear from "pdfGenerator/BlockAcademicYear";
+import RegistrationCertificate from "pdfGenerator/RegistrationCertificate";
+import InternshipPermit from "pdfGenerator/InternshipPermit";
+import LibaryCard from "pdfGenerator/LibaryCard";
+import ParkingPermit from "pdfGenerator/ParkingPermit";
+import GradeTranscript from "pdfGenerator/GradeTranscript";
 
-export default function App(){
-  return(
-   <div>
-   <GroupChangeRequest/>
-   </div>
-  );
+const routes = [
+  {
+    path: "/",
+    element: <LoginSignUp />,
+  },
+  {
+    path: "/EtudientDashboard",
+    element: <EtudientMainPage />,
+  },
+  {
+    path: "/DocumentRequest/StudentIDCard",
+    element: <StudentIDCard />,
+  },
+  {
+    path: "/DocumentRequest/BlockAcademicYear",
+    element: <BlockAcademicYear />,
+  },
+  {
+    path: "/DocumentRequest/RegistrationCertificate",
+    element: <RegistrationCertificate />,
+  },
+  {
+    path: "/DocumentRequest/GradeTranscript",
+    element: <GradeTranscript />,
+  },
+  {
+    path: "/DocumentRequest/InternshipPermit",
+    element: <InternshipPermit />,
+  },
+  {
+    path: "/DocumentRequest/LibaryCard",
+    element: <LibaryCard />,
+  },
+  {
+    path: "/DocumentRequest/ParkingPermit",
+    element: <ParkingPermit />,
+  },
+];
+
+const router = createBrowserRouter(routes, {
+  future: {
+    v7_relativeSplatPath: true,        // لتعديل مسارات splat
+    v7_fetcherPersist: true,          // لتغيير سلوك fetchers
+    v7_normalizeFormMethod: true,     // لجعل formMethod بأحرف كبيرة
+    v7_partialHydration: true,        // لتغيير سلوك hydration
+    v7_skipActionErrorRevalidation: true, // لتخطي إعادة التحقق بعد أخطاء actions
+    v7_startTransition: true,         // لتفعيل React.startTransition لتحديثات الحالة
+  },
+});
+
+export default function App() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, [i18n.language]);
+
+  return <RouterProvider router={router} />;
 }
+
