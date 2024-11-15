@@ -55,7 +55,7 @@ export default function SideBar({ClassName,SetActualPageName,SetActualPageIcon,S
         {/* زر الشريط الجانبي */}
         <Dropdown isOpen={isOpen} setIsOpen={toggleStatSidebar} Orientation={"horizontal"} ClassName="mt-3 ltr:ml-2 rtl:mr-2"/>
 
-        <div className="flex flex-col space-y-4 mt-12 h-full relative">
+        <div className="flex flex-col space-y-4 mt-20 h-full relative">
           <SideBatItem 
             OnClick={() => sidebarItemClickHundled('dashboard', <RxDashboard className="w-8 h-8" />, <EtudientDashboard />)} 
             itemIcon={<RxDashboard size='25'/>} 
@@ -98,12 +98,7 @@ export default function SideBar({ClassName,SetActualPageName,SetActualPageIcon,S
             Title={t('manage_account')} 
             isOpen={isOpen}
           />
-          <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('settings', <Cog8ToothIcon className="w-8 h-8" />, <Settings />)} 
-            itemIcon={<Cog8ToothIcon />} 
-            Title={t('settings')} 
-            isOpen={isOpen}
-          />
+          
 
           <h1 className={`text-xl font-bold absolute bottom-4 left-1/2 transform -translate-x-1/2 ${isOpen ? '' : 'hidden'}`}>{new Date().toLocaleDateString('en-GB').toString("d")}</h1>
         </div>

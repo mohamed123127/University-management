@@ -6,7 +6,7 @@ export default function EtudientDashboard({ studentName }) {
 
   return (
     <div className="p-6 space-y-6">
-      {/* المحتوى */}
+      
       <div className="container mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6 text-center text-blue-800">
           {t('welcome_message', { studentName })}

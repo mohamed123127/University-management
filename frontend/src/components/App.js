@@ -3,6 +3,13 @@ import { useTranslation } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import EtudientMainPage from "pages/EtudientMainPage";
 import LoginSignUp from "pages/Login_SignUp";
+import StudentIDCard from "pdfGenerator/StudentIDCard";
+import BlockAcademicYear from "pdfGenerator/BlockAcademicYear";
+import RegistrationCertificate from "pdfGenerator/RegistrationCertificate";
+import InternshipPermit from "pdfGenerator/InternshipPermit";
+import LibaryCard from "pdfGenerator/LibaryCard";
+import ParkingPermit from "pdfGenerator/ParkingPermit";
+import GradeTranscript from "pdfGenerator/GradeTranscript";
 
 const routes = [
   {
@@ -12,6 +19,34 @@ const routes = [
   {
     path: "/EtudientDashboard",
     element: <EtudientMainPage />,
+  },
+  {
+    path: "/DocumentRequest/StudentIDCard",
+    element: <StudentIDCard />,
+  },
+  {
+    path: "/DocumentRequest/BlockAcademicYear",
+    element: <BlockAcademicYear />,
+  },
+  {
+    path: "/DocumentRequest/RegistrationCertificate",
+    element: <RegistrationCertificate />,
+  },
+  {
+    path: "/DocumentRequest/GradeTranscript",
+    element: <GradeTranscript />,
+  },
+  {
+    path: "/DocumentRequest/InternshipPermit",
+    element: <InternshipPermit />,
+  },
+  {
+    path: "/DocumentRequest/LibaryCard",
+    element: <LibaryCard />,
+  },
+  {
+    path: "/DocumentRequest/ParkingPermit",
+    element: <ParkingPermit />,
   },
 ];
 
