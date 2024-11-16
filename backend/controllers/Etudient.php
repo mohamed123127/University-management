@@ -37,7 +37,7 @@ class Etudient extends User {
     }
 
     public static function isExistEtudient($conn, $email, $password) {
-        $sql = "SELECT * FROM Etudient WHERE email = ? AND password = ?";
+        $sql = "SELECT `Id`, `Active` FROM etudient WHERE email = ? AND password = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $email, $password);
         $stmt->execute();
@@ -45,12 +45,24 @@ class Etudient extends User {
         if ($result->num_rows > 0) {
             $etudient = $result->fetch_assoc();
             if ($etudient['Active']) {
-                return $etudient;
+                return $etudient['Id'];
             }
         }
         return null;
     }
 
+    public static function getById($conn, $id) {
+        $sql = "SELECT * FROM etudient WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+        return null;
+    }
+}
     public function addEtudient($conn) {
         
         try{

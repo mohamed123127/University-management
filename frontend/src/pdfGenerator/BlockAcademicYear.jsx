@@ -1,10 +1,25 @@
 import React, { useRef } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useLocation } from 'react-router-dom';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 
-export default function StudentIDCardRequest() {
+export default function BlockAcademicYear() {
+    const location = useLocation();
+    const type = 'blockAcademicYear_request';
+    const url = 'ddddddddddsasas';
+    // استخدم URLSearchParams لاستخراج الـ query parameters
+    const params = new URLSearchParams(location.search);
+    const name = params.get('name');
+    const matricule = params.get('matricule');
+    const speciality = params.get('speciality');
+    const educationYear = params.get('educationYear');
+   
+ 
+    const academicYearBlocked= params.get('   academicYearBlocked');
+
+
     const certRef = useRef();
 
     const generatePDF = async () => {
@@ -15,7 +30,7 @@ export default function StudentIDCardRequest() {
         const width = pdf.internal.pageSize.getWidth();
         const height = pdf.internal.pageSize.getHeight();
         pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-        pdf.save('Student_ID_Card_Request.pdf');
+        pdf.save('Block_Academic_Year_Request.pdf');
     };
 
     return (
@@ -32,37 +47,37 @@ export default function StudentIDCardRequest() {
                 </div>
                 
                 <hr />
-                <h2 className="mt-6 text-2xl font-bold mb-4 text-center">طلب بطاقة الطالب</h2>
+                <h2 className="mt-6 text-2xl font-bold mb-4 text-center">طلب تجميد السنة الدراسية</h2>
 
-                <div className="text-right mb-2 space-y-1">
+                <div className="text-right mb-4 space-y-2">
                     <div className="flex">
-                        <span className="font-semibold">الاسم الكامل:</span>
-                        <span className="mr-2">بن علي</span>
+                        <span className="font-semibold">السيد :</span>
+                        <span className="mr-2">{name}  </span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">رقم التسجيل:</span>
-                        <span className="mr-2">12345678</span>
+                        <span className="mr-2">{matricule}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">التخصص:</span>
-                        <span className="mr-2"> الحاسوب</span>
+                        <span className="mr-2"> {speciality}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">السنة الدراسية:</span>
-                        <span className="mr-2">السنة الثانية</span>
+                        <span className="mr-2">{educationYear} </span>
                     </div>
                 </div>
 
-                <div className="mt-4 text-right">
-                    <span className="font-semibold">البطاقة صالحة خلال السنة الجامعية:</span>
-                    <span className="mr-2">2025/2024</span>
-                    <div className="text-left mt-2  ml-24 ">
-                        <span className="font-semibold ml-16">إمضاء:</span>
-                    </div>
+                <div className="mt-8 text-right">
+                    <span className="font-semibold"> تجميد السنة الدراسية:</span>
+                    <span className="mr-2">{academicYearBlocked}</span>
+                </div>
+                <div className="mt-4 ml-24 text-left">
+                    <span className="font-semibold">إمضاء :</span>
                 </div>
                 
                 <div className="mt-40 text-right">
-                    <p className="mb-2">أتعهد بتطبيق ميثاق الآداب الجامعية داخل الحرم الجامعي.</p>
+                    <p className="mb-2">أتعهد بتطبيق ميثاق الآداب الجامعية واحترام شروط التجميد المقررة.</p>
                 </div>
                 
                 <hr />
@@ -71,7 +86,7 @@ export default function StudentIDCardRequest() {
                 <h1 className="text-center">شارع الاستقلال</h1>
             </div>
 
-            <div className="flex justify-center mt-4 space-x-4">
+            <div className='flex justify-center mt-4 space-x-4'>
                 <ButtonStyle1
                     onClick={generatePDF}
                     buttonClassName="px-6 py-2 bg-green-500 w-[120px] text-white rounded-md hover:bg-green-600"

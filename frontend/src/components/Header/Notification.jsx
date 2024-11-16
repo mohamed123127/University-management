@@ -29,7 +29,9 @@ export default function Notification({notificationsList,setNotification,isOpen,s
                       className="flex flex-col items-start w-[95%] bg-white shadow-md border border-gray-200 my-1 p-2 rounded-lg hover:shadow-lg transition-shadow duration-300"
                     >
                       <h4 className="text-xs justify-self-start font-semibold text-blue-600">{n.message}</h4>
-                      <p className="text-sm text-gray-500 mt-1 ml-auto">{n.date_time}</p>
+                        <div className="flex justify-end w-full">
+                        <p className="text-sm text-gray-500 mt-1">{n.date_time}</p>
+                        </div>
                     </div>
                   ))}
 

@@ -1,10 +1,24 @@
 import React, { useRef } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useLocation } from 'react-router-dom';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 
 export default function ParkingPermitRequest() {
+    const location = useLocation();
+        const type = 'parkingPermit_request';
+        const url = 'ddddddddddsasas';
+        // استخدم URLSearchParams لاستخراج الـ query parameters
+        const params = new URLSearchParams(location.search);
+        const name = params.get('name');
+        const matricule = params.get('matricule');
+        const educationYear = params.get('educationYear');
+        const speciality = params.get('speciality');
+        const  carId= params.get('carId');
+        const  licenseCardId= params.get('icenseCardId');
+        const cardValidityYear = params.get('cardValidityYear');
+
     const certRef = useRef();
 
     const generatePDF = async () => {
@@ -37,33 +51,33 @@ export default function ParkingPermitRequest() {
                 <div className="text-right mb-4 space-y-2">
                     <div className="flex">
                         <span className="font-semibold">السيد :</span>
-                        <span className="mr-2">بن علي نازيم</span>
+                        <span className="mr-2">{name} </span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">رقم التسجيل:</span>
-                        <span className="mr-2">12345678</span>
+                        <span className="mr-2">{matricule}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">التخصص:</span>
-                        <span className="mr-2">هندسة الحاسوب</span>
+                        <span className="mr-2">{speciality}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">السنة الدراسية:</span>
-                        <span className="mr-2">السنة الثانية</span>
+                        <span className="mr-2"> {educationYear}</span>
                     </div>
                     
                 </div>
                 <div className="mt-2 text-right">
                 <span className="font-semibold">رقم السيارة:</span>
-                <span className="mr-2">ABC1234</span>
+                <span className="mr-2">{carId}</span>
                 </div>
                 <div className="mt-2 text-right">
                     <span className="font-semibold">رقم التعريف  الخاص برخصة القيادة:</span>
-                    <span className="mr-2">42332233</span>
+                    <span className="mr-2">{licenseCardId}</span>
                 </div>
                 <div className="mt-2 text-right">
                     <span className="font-semibold">  الرخصة صالحة لسنة:</span>
-                    <span className="mr-2">2024/2025</span>
+                    <span className="mr-2">{cardValidityYear}</span>
                 </div>
                 <div className="mt-4 ml-24 text-left">
                     <span className="font-semibold">إمضاء :</span>
