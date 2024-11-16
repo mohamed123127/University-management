@@ -7,15 +7,21 @@ import InternshipPermit from "pdfGenerator/InternshipPermit";
 import LibaryCard from "pdfGenerator/LibaryCard";
 import ParkingPermit from "pdfGenerator/ParkingPermit";
 import GradeTranscript from "pdfGenerator/GradeTranscript";
+import { createBrowserRouter } from "react-router-dom";
+import etudientDashboard from "pages/EtudientDashboard";
+import { RouterProvider } from "react-router-dom";
+import GroupChangeRequest from "groupchange";
+
+
 
 const routes = [
   {
     path: "/",
-    element: <LoginSignUp />,
+    element: <GroupChangeRequest />,
   },
   {
     path: "/EtudientDashboard",
-    element: <EtudientMainPage />,
+   // element: <EtudientMainPage />,
   },
   {
     path: "/DocumentRequest/StudentIDCard",
@@ -59,13 +65,13 @@ const router = createBrowserRouter(routes, {
 });
 
 export default function App() {
-  const { i18n } = useTranslation();
+ {/*const { i18n } = useTranslation();
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;
     document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
   }, [i18n.language]);
-
+*/}
   return <RouterProvider router={router} />;
 }
 
