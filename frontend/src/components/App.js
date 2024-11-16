@@ -10,11 +10,14 @@ import ParkingPermitRequest from "pdfGenerator/ParkingPermit";
 import InternshipPermitRequest from "pdfGenerator/InternshipPermit";
 import GradeTranscriptRequest from "pdfGenerator/GradeTranscript";
 import DocumentRequests from "../pages/DocumentRequest";
+import AnnouncementPage from "pages/AnnouncementPage";
+import Repport from "pages/Repport";
+import ManageAccount from "pages/AccounteManagment";
 
 export default function App(){
   return(
    <div>
-   <DocumentRequests/>
+   <Repport/>
    </div>
   );
 }
