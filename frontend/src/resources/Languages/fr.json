@@ -63,6 +63,16 @@
     "InProgress": "En cours",
     "Rejected": "Rejeté",
     "Pending": "En attente",
-    "Add": "Ajouter"
+    "Add": "Ajouter",
+    "changeGroup": "Changer de groupe",
+    "changeSection": "Changer de section",
+    "changeSpeciality": "Changer de spécialité",
+    "section1": "Section 1",
+    "section2": "Section 2",
+ 
+    "CurrentValue": "Valeur actuelle",
+    "NewValue": "Nouvelle valeur",
+
+    "Cancel": "Annuler"
 }
   

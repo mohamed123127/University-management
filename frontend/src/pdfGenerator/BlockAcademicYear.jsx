@@ -1,10 +1,25 @@
 import React, { useRef } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useLocation } from 'react-router-dom';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 
 export default function BlockAcademicYear() {
+    const location = useLocation();
+    const type = 'blockAcademicYear_request';
+    const url = 'ddddddddddsasas';
+    // استخدم URLSearchParams لاستخراج الـ query parameters
+    const params = new URLSearchParams(location.search);
+    const name = params.get('name');
+    const matricule = params.get('matricule');
+    const speciality = params.get('speciality');
+    const educationYear = params.get('educationYear');
+   
+ 
+    const academicYearBlocked= params.get('   academicYearBlocked');
+
+
     const certRef = useRef();
 
     const generatePDF = async () => {
@@ -37,25 +52,25 @@ export default function BlockAcademicYear() {
                 <div className="text-right mb-4 space-y-2">
                     <div className="flex">
                         <span className="font-semibold">السيد :</span>
-                        <span className="mr-2">بن علي نازيم</span>
+                        <span className="mr-2">{name}  </span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">رقم التسجيل:</span>
-                        <span className="mr-2">12345678</span>
+                        <span className="mr-2">{matricule}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">التخصص:</span>
-                        <span className="mr-2">هندسة الحاسوب</span>
+                        <span className="mr-2"> {speciality}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">السنة الدراسية:</span>
-                        <span className="mr-2">السنة الثالثة</span>
+                        <span className="mr-2">{educationYear} </span>
                     </div>
                 </div>
 
                 <div className="mt-8 text-right">
                     <span className="font-semibold"> تجميد السنة الدراسية:</span>
-                    <span className="mr-2">2024/2025</span>
+                    <span className="mr-2">{academicYearBlocked}</span>
                 </div>
                 <div className="mt-4 ml-24 text-left">
                     <span className="font-semibold">إمضاء :</span>

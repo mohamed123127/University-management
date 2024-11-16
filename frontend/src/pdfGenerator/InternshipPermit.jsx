@@ -3,8 +3,21 @@ import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
+import { useLocation } from 'react-router-dom';
 
 export default function InternshipPermitRequest() {
+    const location = useLocation();
+    const type = 'registration_certificate';
+    const url = 'ddddddddddsasas';
+    const params = new URLSearchParams(location.search);
+    const name = params.get('name');
+    const matricule = params.get('matricule');
+    const speciality = params.get('speciality');
+    const internshipPlace = params.get('internshipPlace');
+    const internshipPeriod = params.get('internshipPeriod');
+
+
+
     const certRef = useRef();
 
     const generatePDF = async () => {
@@ -37,15 +50,15 @@ export default function InternshipPermitRequest() {
                 <div className="text-right mb-4 space-y-2">
                     <div className="flex">
                         <span className="font-semibold">السيد :</span>
-                        <span className="mr-2">بن علي نازيم</span>
+                        <span className="mr-2"> {name}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">رقم التسجيل:</span>
-                        <span className="mr-2">12345678</span>
+                        <span className="mr-2">{matricule}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">التخصص:</span>
-                        <span className="mr-2">هندسة الحاسوب</span>
+                        <span className="mr-2"> {speciality} </span>
                     </div>
                    
                     
@@ -53,12 +66,12 @@ export default function InternshipPermitRequest() {
               
                 <div className="flex mt-2 text-right">
                         <span className="font-semibold">مكان التكوين:</span>
-                        <span className="mr-2">شركة تكنولوجيا المعلومات</span>
+                        <span className="mr-2">  {internshipPlace}</span>
                     </div>
                 
                 <div className="flex mt-2 text-right">
                         <span className="font-semibold">مدة تكوين:</span>
-                        <span className="mr-2">من 01/09/2004 إلى 14/11/2004    </span>
+                        <span className="mr-2">{internshipPeriod} </span>
                     </div>
                     <div className="text-left mt-2  ml-24 ">
                         <span className="font-semibold ml-16">إمضاء:</span>

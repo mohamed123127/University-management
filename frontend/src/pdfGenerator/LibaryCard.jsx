@@ -1,10 +1,26 @@
 import React, { useRef } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useLocation } from 'react-router-dom';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 
+
+
+
 export default function LibraryCard() {
+
+    const location = useLocation();
+        const type = 'libarycCrd_certificate';
+        const url = 'ddddddddddsasas';
+        // استخدم URLSearchParams لاستخراج الـ query parameters
+        const params = new URLSearchParams(location.search);
+        const name = params.get('name');
+        const matricule = params.get('matricule');
+        const educationYear = params.get('educationYear');
+        const speciality = params.get('speciality');
+        const cardValidityYear = params.get('cardValidityYear');
+
     const certRef = useRef();
 
     const generatePDF = async () => {
@@ -37,25 +53,25 @@ export default function LibraryCard() {
                 <div className="text-right mb-4 space-y-2">
                     <div className="flex">
                         <span className="font-semibold">الاسم الكامل:</span>
-                        <span className="mr-2">بن علي</span>
+                        <span className="mr-2">{name} </span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">رقم التسجيل:</span>
-                        <span className="mr-2">12345678</span>
+                        <span className="mr-2">{matricule}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">التخصص:</span>
-                        <span className="mr-2">هندسة الحاسوب</span>
+                        <span className="mr-2"> {speciality}</span>
                     </div>
                     <div className="flex">
                         <span className="font-semibold">السنة الدراسية:</span>
-                        <span className="mr-2">السنة الثانية</span>
+                        <span className="mr-2">{educationYear} </span>
                     </div>
                 </div>
 
                 <div className="mt-8 text-right">
                     <span className="font-semibold">البطاقة صالحة خلال السنة الجامعية:</span>
-                    <span className="mr-2">2025/2024</span>
+                    <span className="mr-2">{cardValidityYear}</span>
                 </div>
                 <div className="mt-4  ml-24 text-left">
                     <span className="font-semibold">إمضاء :</span>

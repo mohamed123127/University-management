@@ -57,12 +57,23 @@
     "RequestType": "Request Type",
     "Status": "Status",
     "Notes": "Notes",
-    "SubmissionDate": "Submission Date",
-    "LastUpdatedDate": "Last Updated Date",
+  
     "Completed": "Completed",
     "InProgress": "In Progress",
     "Rejected": "Rejected",
     "Pending": "Pending",
-    "Add": "Add"
+    "Add": "Add",
+    "changeGroup": "Change Group",
+    "changeSection": "Change Section",
+    "changeSpeciality": "Change Speciality",
+     "section1": "القسم 1",
+    "section2": "القسم 2",
+    
+    "CurrentValue": "Current Value",
+    "NewValue": "New Value",
+    "SubmissionDate": "Submission Date",
+    "LastUpdatedDate": "Last Updated Date",
+    "Cancel": "Cancel"
+
 }
   

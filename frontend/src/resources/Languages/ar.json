@@ -63,6 +63,17 @@
     "InProgress": "قيد التنفيذ",
     "Rejected": "مرفوض",
     "Pending": "قيد الانتظار",
-    "Add": "إضافة"
+    "Add": "إضافة",
+    "changeGroup": "تغيير القسم",
+    "changeSection": "تغيير المجموعة",
+    "changeSpeciality": "تغيير التخصص",
+    "section1": "المجموعة 1",
+    "section2": "المجموعة 2",
+  
+   
+    "CurrentValue": "القيمة الحالية",
+    "NewValue": "القيمة الجديدة",
+  
+    "Cancel": "إلغاء"
 }
   

@@ -217,22 +217,23 @@ export default function DocumentRequests({ClassName,selectedRequest}) {
                 window.open(`/DocumentRequest/RegistrationCertificate/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&educationYear=${studentData.EducationYear}&faculty=${studentData.Faculty}&speciality=${studentData.Specialty}`, "_blank");
             break;
             case t('internship_permit'):
-                window.open("/DocumentRequest/InternshipPermit", "_blank");
+              window.open(`/DocumentRequest/InternshipPermit/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&internshipPlace=${studentData.internshipPlace}&internshipPeriod=${studentData.internshipPeriod }`, "_blank");
+
             break;
             case t('library_card'):
-                window.open("/DocumentRequest/LibaryCard", "_blank");
+                window.open(`/DocumentRequest/LibaryCard/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
             break;
             case t('parking_permit'):
-                window.open("/DocumentRequest/ParkingPermit", "_blank");
+                window.open(`/DocumentRequest/ParkingPermit/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&carID=${studentData.carId}&licenseCardId=${studentData.licenseCardId}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
             break;
             case t('transcript_request'):
-                window.open("/DocumentRequest/GradeTranscript", "_blank");
+                window.open(`/DocumentRequest/GradeTranscript/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&groupe=${studentData.groupe}`, "_blank");
             break;
             case t('student_id_card'):
-                window.open("/DocumentRequest/StudentIDCard", "_blank");
+                window.open(`/DocumentRequest/StudentIDCard/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
             break;
             case t('block_academic_year'):
-                window.open("/DocumentRequest/BlockAcademicYear", "_blank");
+                window.open(`/DocumentRequest/BlockAcademicYear/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&academicYearBlocked=${studentData.academicYearBlocked}`, "_blank");
             break;
             default:
                 break;

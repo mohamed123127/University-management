@@ -1,7 +1,4 @@
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import EtudientMainPage from "pages/EtudientMainPage";
 import LoginSignUp from "pages/Login_SignUp";
 import StudentIDCard from "pdfGenerator/StudentIDCard";
 import BlockAcademicYear from "pdfGenerator/BlockAcademicYear";
@@ -11,15 +8,23 @@ import LibaryCard from "pdfGenerator/LibaryCard";
 import ParkingPermit from "pdfGenerator/ParkingPermit";
 import GradeTranscript from "pdfGenerator/GradeTranscript";
 import AdministrationMainPage from "pages/AdministrationMainPage"
+import { createBrowserRouter } from "react-router-dom";
+import EtudientDashboard from "pages/EtudientDashboard";
+import { RouterProvider } from "react-router-dom";
+import GroupChangeRequest from "groupchange";
+import Login from "./Login_SignUp/Login";
+import EtudientMainPage from "pages/EtudientMainPage"
+
+
 
 const routes = [
   {
     path: "/",
-    element: <AdministrationMainPage />,
+    element: <LoginSignUp />,
   },
   {
     path: "/EtudientDashboard",
-    element: <EtudientMainPage />,
+   element: <EtudientMainPage />,
   },
   {
     path: "/DocumentRequest/StudentIDCard",
@@ -63,12 +68,13 @@ const router = createBrowserRouter(routes, {
 });
 
 export default function App() {
-  const { i18n } = useTranslation();
+ {/*const { i18n } = useTranslation();
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;
     document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
   }, [i18n.language]);
-
+*/}
   return <RouterProvider router={router} />;
 }
+
