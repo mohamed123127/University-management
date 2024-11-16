@@ -7,11 +7,11 @@ import TextBoxStyle2 from "../custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1"
 import GoogleIcon from "resources/Icons/GoogleIcon.png"
 import Language from "components/Basics/Language";
+import Student from "js/models/Student";
 
 export default function Login({SignUpButtonHandled,ClassName}){
     const { t, i18n } = useTranslation();
 
-    const [language,setLanguage] = useState(i18n.language);
     const [currentLanguage, setCurrentLanguage] = useState("");
     
     useEffect(()=>{
@@ -38,29 +38,19 @@ export default function Login({SignUpButtonHandled,ClassName}){
     const LoginButtonHandled = async(e)=> {
         e.preventDefault();
         try{
-            const response = await fetch('http://localhost/University-management/backend/roots/Login.php', { // تأكد من تغيير الرابط
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({email:loginFormData.email, password:loginFormData.password })
-            });
-            if(response.ok){
-                const data = await response.json();
-                if (data.success === true) {
-                    localStorage.setItem('jwt', data.token); // تخزين التوكن في Local Storage
-                    alert('Login successful!');
-                    // يمكنك توجيه المستخدم إلى صفحة أخرى هنا
-                    navigate("/EtudientDashboard");
-                } else {
-                    alert('Login baad');
-                }
-            }else{
-                alert('http dosent work');
-            }
-        } catch (err) {
-            alert("cathch:    "+err);
+            const data =await Student.isExistEtudient(loginFormData.email,loginFormData.password);
+        if (data.success === true) {
+            localStorage.setItem('jwt', data.token); // تخزين التوكن في Local Storage
+            localStorage.setItem('id',data.id)
+            // يمكنك توجيه المستخدم إلى صفحة أخرى هنا
+            navigate("/EtudientDashboard");
+        } else {
+            alert(data.message);
         }
+    }catch(error)
+    {
+        alert("catch in LoginButtonHandled:" + error);
+    }
     }
 
     const LoginWithGoogleButtonHandled = (e)=>{

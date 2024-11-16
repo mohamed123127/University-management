@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
 import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
 import DataGridView from "../components/custom controls/data grid view/dataGridViewStyle1";
 import { useTranslation } from 'react-i18next';
+import Student from "js/models/Student";
   
-export default function DocumentRequests({ClassName}) {
+export default function DocumentRequests({ClassName,selectedRequest}) {
     const { t, i18n } = useTranslation();
-    const [studentData,setStudentData] = useState({
-      id : '1',
-      matricule : '12547896',
-      firstName : 'نزيم',
-      lastName : 'بن علي',
-      faculty : 'اعلام الي',
-      EducationYear : 'سنة ثالثة',
-      Speciality : 'هندسة نظم المعلومات والبرمجيات',
-      Section : '1',
-      Grp : '3'
-    });
+    const [studentData,setStudentData] = useState(null);
+    useEffect(() => {
+      const fetchStudentData = async () => {
+          try {
+              const data = await Student.GetById(localStorage.getItem('id')); // جلب البيانات
+              setStudentData(data.Data); // تحديث الحالة
+          } catch (error) {
+              alert("catch in Docement Request" + error);
+          }
+      };
+
+      fetchStudentData(); // استدعاء الدالة
+  }, []); // التأثير يحدث مرة واحدة عند تحميل المكون
     const columns = [
         { name: "ID", Header: 'ID', width: "50px" },
         { name: "RequestType", Header: 'RequestType', width: "150px" },
@@ -189,6 +192,9 @@ export default function DocumentRequests({ClassName}) {
         },
       ];
       
+      useEffect(()=>{
+        setdocunentType(t(selectedRequest));
+      },[selectedRequest])
 
     const demandeOptions = [
         t('registration_certificate'),
@@ -208,7 +214,7 @@ export default function DocumentRequests({ClassName}) {
     const AddButtonClickHandled = () => {
         switch(docunentType){
             case t('registration_certificate'):
-                window.open(`/DocumentRequest/RegistrationCertificate/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&educationYear=${studentData.EducationYear}&faculty=${studentData.faculty}&speciality=${studentData.Speciality}`, "_blank");
+                window.open(`/DocumentRequest/RegistrationCertificate/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&educationYear=${studentData.EducationYear}&faculty=${studentData.Faculty}&speciality=${studentData.Specialty}`, "_blank");
             break;
             case t('internship_permit'):
                 window.open("/DocumentRequest/InternshipPermit", "_blank");

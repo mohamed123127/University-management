@@ -10,11 +10,12 @@ import InternshipPermit from "pdfGenerator/InternshipPermit";
 import LibaryCard from "pdfGenerator/LibaryCard";
 import ParkingPermit from "pdfGenerator/ParkingPermit";
 import GradeTranscript from "pdfGenerator/GradeTranscript";
+import AdministrationMainPage from "pages/AdministrationMainPage"
 
 const routes = [
   {
     path: "/",
-    element: <LoginSignUp />,
+    element: <AdministrationMainPage />,
   },
   {
     path: "/EtudientDashboard",

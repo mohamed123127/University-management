@@ -13,8 +13,7 @@ export default function Dropdown({ isOpen, setIsOpen, Orientation, ClassName}) {
   return (
     <button
       className={`focus:outline-none rounded ${ClassName}`}
-      onClick={handleClick}
-    >
+      onClick={(event)=>{event.stopPropagation();handleClick()}}>
       {Orientation === "horizontal" ? (
         document.dir === "rtl" ? (
           isOpen ? (

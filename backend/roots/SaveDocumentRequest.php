@@ -1,17 +1,29 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_FILES['file'])) {
-        $pdfFile = $_FILES['file'];
+header("Access-Control-Allow-Origin: *");
+// السماح بالطرق المستخدمة (POST, GET, وغيرها)
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 
+// السماح بالهيدر Content-Type
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    if (isset($_FILES['file']) && isset($_POST['type'])) {
+        $pdfFile = $_FILES['file'];
+        $type = $_POST['type'];
         // تحديد مكان حفظ الملف
-        $uploadDirectory = '../../assets/Document Request/';
+        $uploadDirectory = '../../assets/'.$type.'/';
         $fileName = basename($pdfFile['name']);
         $filePath = $uploadDirectory . $fileName;
 
         // حفظ الملف
         if (move_uploaded_file($pdfFile['tmp_name'], $filePath)) {
-            // إرجاع رابط الملف
-            $fileUrl = "http://yourdomain.com/" . $filePath;
+            // تحديد رابط كامل للملف و إرجاع رابطه
+            $uploadDirectory = 'University-management/assets/'.$type.'/';
+            $fileName = basename($pdfFile['name']);
+            $filePath = $uploadDirectory . $fileName;
+            $fileUrl = "C:/xampp/htdocs/" . $filePath;
             echo json_encode(['success' => true, 'fileUrl' => $fileUrl]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Error while saving file']);

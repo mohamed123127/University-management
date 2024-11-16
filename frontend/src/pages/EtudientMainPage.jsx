@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Header from "components/Header/Header";
-import SideBar from "components/Sidebar/SideBar";
+import Header from "components/Header/EtudientHeader";
+import SideBar from "components/Sidebar/EtudientSideBar";
 import EtudientDashboard from "./EtudientDashboard";
 import { RxDashboard } from "react-icons/rx";
 import { FaUser } from "react-icons/fa";
@@ -12,9 +12,7 @@ export default function MainPage({openedPage}){
     const [actualPageIcon,setActualPageIcon] = useState(<RxDashboard className="w-8 h-8"/>);
     const [isOpenedSidebar,setIsOpenedSidebar] = useState(true);
     const [actualPage,setActualPage] = useState(<EtudientDashboard studentName="Nazim"/>);
-    useEffect(()=>{
-        console.log(typeof(actualPageIcon));
-    },[actualPageIcon])
+   
     return(
         <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] h-screen">
             <Header ClassName="col-start-2 row-start-1 justify-self-end" PageIcon={actualPageIcon} PageName={actualPageName}/>
