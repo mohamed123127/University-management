@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
 import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
-import DataGridView from "../components/custom controls/data grid view/dataGridViewStyle1";
+import DataGridView from "components/custom controls/data grid view/dataGridViewStyle1";
 import { useTranslation } from 'react-i18next';
 import Student from "js/models/Student";
   

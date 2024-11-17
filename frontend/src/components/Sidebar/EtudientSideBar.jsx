@@ -4,13 +4,13 @@ import SideBatItemWithList from "components/Sidebar/SideBarItemWithList";
 import SideBatItem from "components/Sidebar/SideBarItem";
 import { DocumentIcon , PlusCircleIcon , EyeIcon , ExclamationCircleIcon , BellIcon , Cog8ToothIcon  , UserCircleIcon  } from "@heroicons/react/24/solid";
 import { RxDashboard } from "react-icons/rx";
-import Announcements from "pages/Announcements";
-import DocumentRequests from "pages/DocumentRequests";
-import ManageAccount from "pages/ManageAccount";
-import ReportProblem from "pages/ReportProblem";
-import Settings from "pages/Settings";
-import VisualRequests from "pages/VisualRequests";
-import EtudientDashboard from "pages/EtudientDashboard";
+import Announcements from "pages/AdministrationSide/Announcements";
+import DocumentRequests from "pages/StudentSide/DocumentRequests";
+import ManageAccount from "pages/StudentSide/ManageAccount";
+import ReportProblem from "pages/StudentSide/ReportProblem";
+import Settings from "pages/StudentSide/Settings";
+import VisualRequests from "pages/StudentSide/VisualRequests";
+import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { useTranslation } from "react-i18next";
 
 export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen}) {

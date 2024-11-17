@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "components/Header/AdministrationHeader";
 import SideBar from "components/Sidebar/AdministrationSidebar";
-import StudentsPage from "./StudentsPage";
+import StudentsPage from "./Students";
 import { RxDashboard } from "react-icons/rx";
 import { FaUser } from "react-icons/fa";
 import { use } from "i18next";

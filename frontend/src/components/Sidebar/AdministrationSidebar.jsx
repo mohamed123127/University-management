@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import Dropdown from "components/custom controls/buttons/Dropdown";
 import SideBatItemWithList from "components/Sidebar/SideBarItemWithList";
 import SideBatItem from "components/Sidebar/SideBarItem";
-import { DocumentIcon , PlusCircleIcon , EyeIcon , ExclamationCircleIcon , BellIcon , Cog8ToothIcon  , UserCircleIcon  } from "@heroicons/react/24/solid";
+import { DocumentIcon , UserGroupIcon  , EyeIcon , ExclamationCircleIcon , BellIcon , Cog8ToothIcon  , UserCircleIcon  } from "@heroicons/react/24/solid";
 import { RxDashboard } from "react-icons/rx";
-import Announcements from "pages/Announcements";
-import DocumentRequests from "pages/DocumentRequests";
-import ManageAccount from "pages/ManageAccount";
-import ReportProblem from "pages/ReportProblem";
-import Settings from "pages/Settings";
-import VisualRequests from "pages/VisualRequests";
-import EtudientDashboard from "pages/EtudientDashboard";
+import Announcements from "pages/AdministrationSide/Announcements";
+import DocumentRequests from "pages/StudentSide/DocumentRequests";
+import ManageAccount from "pages/StudentSide/ManageAccount";
+import ReportProblem from "pages/StudentSide/ReportProblem";
+import Settings from "pages/StudentSide/Settings";
+import VisualRequests from "pages/StudentSide/VisualRequests";
+import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { useTranslation } from "react-i18next";
 
 export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen}) {
@@ -61,21 +61,39 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
 
         <div className="flex flex-col space-y-4 mt-20 h-full relative">
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('students', <RxDashboard className="w-8 h-8" />, <EtudientDashboard />)} 
-            itemIcon={<RxDashboard size='25'/>} 
+            OnClick={() => sidebarItemClickHundled('students', <UserGroupIcon  className="w-8 h-8" />, <EtudientDashboard />)} 
+            itemIcon={<UserGroupIcon  size='25'/>} 
             Title={t('students')} 
             isOpen={isOpen} 
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem />)} 
-            itemIcon={<ExclamationCircleIcon />} 
-            Title={t('report_problem')} 
+            OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <ReportProblem />)} 
+            itemIcon={<DocumentIcon />} 
+            Title={t('document_requests_administration')} 
             isOpen={isOpen}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('manage_account', <UserCircleIcon className="w-8 h-8" />, <ManageAccount />)} 
+            OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <ManageAccount />)} 
+            itemIcon={<EyeIcon />} 
+            Title={t('visual_requests')} 
+            isOpen={isOpen}
+          />
+          <SideBatItem 
+            OnClick={() => sidebarItemClickHundled('announcements', <BellIcon className="w-8 h-8" />, <ManageAccount />)} 
+            itemIcon={<BellIcon />} 
+            Title={t('announcements')} 
+            isOpen={isOpen}
+          />
+          <SideBatItem 
+            OnClick={() => sidebarItemClickHundled('problems', <ExclamationCircleIcon className="w-8 h-8" />, <ManageAccount />)} 
+            itemIcon={<ExclamationCircleIcon />} 
+            Title={t('Problems')} 
+            isOpen={isOpen}
+          />
+          <SideBatItem 
+            OnClick={() => sidebarItemClickHundled('Administration', <UserCircleIcon className="w-8 h-8" />, <ManageAccount />)} 
             itemIcon={<UserCircleIcon />} 
-            Title={t('manage_account')} 
+            Title={t('Administration')} 
             isOpen={isOpen}
           />
           

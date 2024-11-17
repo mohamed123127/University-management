@@ -1,6 +1,6 @@
 import React from "@heroicons/react";
 import Dropdown from "../custom controls/buttons/Dropdown";
-import DocumentRequests from "pages/DocumentRequests";
+import DocumentRequests from "pages/StudentSide/DocumentRequests";
 
 
 export default function SideBatItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled}) {

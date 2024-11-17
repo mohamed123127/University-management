@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import LoginSignUp from "pages/Login_SignUp";
+import LoginSignUp from "pages/Authentication/Login_SignUp";
 import StudentIDCard from "pdfGenerator/StudentIDCard";
 import BlockAcademicYear from "pdfGenerator/BlockAcademicYear";
 import RegistrationCertificate from "pdfGenerator/RegistrationCertificate";
@@ -7,13 +7,12 @@ import InternshipPermit from "pdfGenerator/InternshipPermit";
 import LibaryCard from "pdfGenerator/LibaryCard";
 import ParkingPermit from "pdfGenerator/ParkingPermit";
 import GradeTranscript from "pdfGenerator/GradeTranscript";
-import AdministrationMainPage from "pages/AdministrationMainPage"
+import AdministrationMainPage from "pages/AdministrationSide/AdministrationMainPage"
 import { createBrowserRouter } from "react-router-dom";
-import EtudientDashboard from "pages/EtudientDashboard";
+import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { RouterProvider } from "react-router-dom";
 import GroupChangeRequest from "groupchange";
-import Login from "./Login_SignUp/Login";
-import EtudientMainPage from "pages/EtudientMainPage"
+import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
 
 
 
@@ -24,7 +23,7 @@ const routes = [
   },
   {
     path: "/EtudientDashboard",
-   element: <EtudientMainPage />,
+   element: <AdministrationMainPage />,
   },
   {
     path: "/DocumentRequest/StudentIDCard",
@@ -53,6 +52,10 @@ const routes = [
   {
     path: "/DocumentRequest/ParkingPermit",
     element: <ParkingPermit />,
+  },
+  {
+    path: "/EtudientDashboard",
+   element: <AdministrationMainPage />,
   },
 ];
 

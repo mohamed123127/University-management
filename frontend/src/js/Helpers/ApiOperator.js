@@ -22,6 +22,7 @@ class ApiOperator{
                 if(!response.ok){
                     alert(`success: ${response.success} \n Message: ${response.message}`);
                 }
+                alert(this.rootUrl+apiUrl);
                     return await response.json();
             } catch (error){
                 alert("cathch error : " + error);
