@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LabelStyle1 from "../custom controls/labels/LabelStyle1";
 import TextBoxStyle2 from "../custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1";
-import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle1";
+import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle2";
 import Language from "components/Basics/Language";
 
 export default function SignUp({ SingInButtonHandled,ClassName}) {

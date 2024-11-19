@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
-import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
+import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle2";
 import DataGridView from "components/custom controls/data grid view/dataGridViewStyle1";
 import { useTranslation } from 'react-i18next';
 import Student from "js/models/Student";
@@ -195,7 +195,7 @@ export default function DocumentRequests({ClassName,selectedRequest,StudentData}
         t('student_id_card'),
         t('block_academic_year')
     ];
-    const [docunentType, setdocunentType] = useState('');
+    const [docunentType, setdocunentType] = useState();
 
     const handleChange = (e) => {
         const { value } = e.target;

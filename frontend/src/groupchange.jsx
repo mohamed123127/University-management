@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import ComboBoxStyle1 from 'components/custom controls/combo box/ComboBoxStyle1';
+import ComboBoxStyle1 from 'components/custom controls/combo box/ComboBoxStyle2';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 import TextBoxStyle2 from 'components/custom controls/textBox/TextBoxStyle2';
 import DataGridView from 'components/custom controls/data grid view/dataGridViewStyle1';
