@@ -8,9 +8,9 @@
     "block_academic_year": "حظر السنة الأكاديمية",
     "Cancel": "إلغاء",
     "change_language": "تغيير تفضيلات اللغة",
-    "changeGroup": "تغيير القسم",
-    "changeSection": "تغيير المجموعة",
-    "changeSpeciality": "تغيير التخصص",
+    "Group": "القسم",
+    "Section": "المجموعة",
+    "Speciality": "التخصص",
     "club_creation_request": "طلب إنشاء نادي",
     "Completed": "مكتمل",
     "ConfirmPassword": "تأكيد كلمة المرور",
@@ -67,10 +67,14 @@
     "Student": "طالب",
     "students": "الطلاب",
     "SubmissionDate": "تاريخ التقديم",
-    "transcript_request": "كشف الدرجات",
+    "grade_transcript": "كشف الدرجات",
     "university_announcements": "إعلانات الجامعة",
     "vehicle_access_permit": "تصريح دخول المركبات",
     "visual_requests": "طلبات افتراضية",
-    "welcome_message": "مرحبًا {{studentName}} في بوابة الطلاب بجامعة بومرداس"
+    "welcome_message": "مرحبًا {{studentName}} في بوابة الطلاب بجامعة بومرداس",
+    "send": "إرسال",
+  "close": "إغلاق",
+  "CompleteYourDataToLoginMessage": "يرجى ملأ بياناتك لتسجيل حسابك في موقع جامعة بومرداس"
+
   }
   

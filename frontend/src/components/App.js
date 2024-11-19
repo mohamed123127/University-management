@@ -13,17 +13,17 @@ import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { RouterProvider } from "react-router-dom";
 import GroupChangeRequest from "groupchange";
 import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
-
-
+import Cb1 from "./Tests/Cb1";
+import Login_SignUp from "pages/Authentication/Login_SignUp";
 
 const routes = [
   {
     path: "/",
-    element: <LoginSignUp />,
+    element: <Login_SignUp />,
   },
   {
-    path: "/EtudientDashboard",
-   element: <AdministrationMainPage />,
+    path: "/EtudientMainPage",
+   element: <EtudientMainPage />,
   },
   {
     path: "/DocumentRequest/StudentIDCard",
@@ -54,7 +54,7 @@ const routes = [
     element: <ParkingPermit />,
   },
   {
-    path: "/EtudientDashboard",
+    path: "/AdministrationMainPage",
    element: <AdministrationMainPage />,
   },
 ];

@@ -15,13 +15,22 @@ export default function DataGridView({ Columns, Data, ClassName }) {
         </tr>
       </thead>
       <tbody>
-        {Data.map((row, rowIndex) => (
-          <tr key={rowIndex} className={`text-gray-700 hover:bg-gray-100 ${rowIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
-            {Columns.map((col, colIndex) => (
-            <td key={colIndex} className={`p-3 border-b text-center text-sm ${col.name === 'Notes' ? 'text-start' : 'text-center'}`}>
-              {row[col.name]}
-            </td>))}
-          </tr>))}
+        {
+          Data.length > 0 ?
+            Data.map((row, rowIndex) => (
+            <tr key={rowIndex} className={`text-gray-700 hover:bg-gray-100 ${rowIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
+              {Columns.map((col, colIndex) => (
+              <td key={colIndex} className={`p-3 border-b text-center text-sm ${col.name === 'Notes' ? 'text-start' : 'text-center'}`}>
+                {row[col.name]}
+              </td>))}
+            </tr>))
+          :
+          <tr>
+          <td colSpan={Columns.length} className="p-3 text-center text-gray-500">
+            No data to show
+          </td>
+        </tr>
+        }
         </tbody>
     </table>
   );

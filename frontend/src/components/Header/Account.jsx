@@ -2,12 +2,16 @@ import React from "react";
 import { useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa"; // استيراد الأيقونة من React Icons
 import { useTranslation } from "react-i18next";
-
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Account({AccountName,AccountImage,isOpen,setIsOpen,ClassName}){
     const clickButtonHandled = ()=>{ setIsOpen(!isOpen);}
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
+    const LogoutButtonClickHandled = () =>{
+      navigate("/");
+    }
 
     return (
         <div className={`${ClassName}`}>
@@ -29,10 +33,10 @@ export default function Account({AccountName,AccountImage,isOpen,setIsOpen,Class
       <hr className="w-[90%] h-[1px] bg-gray-300 mx-auto mt-1" />
 
       {/* زر Logout */}
-      <div className="flex items-center w-full p-2 mt-1 text-blue-600 cursor-pointer hover:text-blue-800 transition-colors duration-200">
+      <button onClick={LogoutButtonClickHandled} className="flex items-center w-full p-2 mt-1 text-blue-600 cursor-pointer hover:text-blue-800 transition-colors duration-200">
         <FaSignOutAlt className="ltr:mr-2 rtl:ml-2 text-lg rtl:rotate-180" />
         <span className="text-sm font-medium">{t('logout')}</span>
-      </div>
+      </button>
     </div>
   </button>
 </div>
