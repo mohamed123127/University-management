@@ -8,9 +8,9 @@
     "block_academic_year": "Blocage de l'année académique",
     "Cancel": "Annuler",
     "change_language": "Changer les préférences de langue",
-    "changeGroup": "Changer de groupe",
-    "changeSection": "Changer de section",
-    "changeSpeciality": "Changer de spécialité",
+    "Group": "groupe",
+    "Section": "section",
+    "Speciality": "spécialité",
     "club_creation_request": "Demande de création de club",
     "Completed": "Terminé",
     "ConfirmPassword": "Confirmez le mot de passe",
@@ -68,10 +68,14 @@
     "Student": "Étudiant",
     "students": "Étudiants",
     "SubmissionDate": "Date de soumission",
-    "transcript_request": "Relevé de notes",
+    "grade_transcript": "Relevé de notes",
     "university_announcements": "Annonces de l'université",
     "vehicle_access_permit": "Permis d'accès au véhicule",
     "visual_requests": "Demandes Virtuel",
-    "welcome_message": "Bienvenue {{studentName}} sur le portail étudiant de l'Université de Boumerdes"
+    "welcome_message": "Bienvenue {{studentName}} sur le portail étudiant de l'Université de Boumerdes",
+    "send": "Envoyer",
+  "close": "Fermer",
+  "CompleteYourDataToLoginMessage": "Veuillez remplir vos informations pour créer un compte sur le site de l'Université de Boumerdès"
+
   }
   

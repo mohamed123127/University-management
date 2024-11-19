@@ -4,39 +4,65 @@ import html2canvas from 'html2canvas';
 import { useLocation } from 'react-router-dom';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
+import PdfGenerator from 'js/Helpers/PdfGenerator';
+import DocumentRequest from 'js/models/DocumentRequest';
+import { useTranslation } from 'react-i18next';
 
 
 
 
 export default function LibraryCard() {
-
+    const {t} = useTranslation();
+    const type = 'library_card';
+    const studentId = localStorage.getItem('id');
     const location = useLocation();
-        const type = 'libarycCrd_certificate';
-        const url = 'ddddddddddsasas';
         // استخدم URLSearchParams لاستخراج الـ query parameters
         const params = new URLSearchParams(location.search);
         const name = params.get('name');
         const matricule = params.get('matricule');
         const educationYear = params.get('educationYear');
-        const speciality = params.get('speciality');
-        const cardValidityYear = params.get('cardValidityYear');
+        const speciality = params.get('Speciality');
 
-    const certRef = useRef();
+    const documentRef = useRef();
 
-    const generatePDF = async () => {
-        const element = certRef.current;
-        const canvas = await html2canvas(element);
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const width = pdf.internal.pageSize.getWidth();
-        const height = pdf.internal.pageSize.getHeight();
-        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-        pdf.save('Library_Card_Request.pdf');
-    };
+    const ValiderButtonClickHandled = async()=> {
+        try {
+            // انتظر توليد ملف PDF
+            const pdf = await PdfGenerator.generate(documentRef);
+            const dataToSavePdf = 
+            {
+                "matricule" : matricule,
+                "name" : name,
+                "type" : type
+            }
+            const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf,dataToSavePdf);
+            if (result.success) {
+                // الحصول على رابط الملف المحفوظ
+                const fileUrl = result.fileUrl;
+                const dataToSaveDocumentRequestInDb = {
+                    "documentUrl" : fileUrl,
+                    "type" : type,
+                    "studentId" : studentId
+                }
+                const result2 = await DocumentRequest.SaveDocumentRequestInDb(dataToSaveDocumentRequestInDb);
+                
+                // إرسال رابط الملف إلى قاعدة البيانات
+                
+                if (result2.success) alert(result2.message);
+                else alert("لم يتم حفظ في قاعدة البيانات");
+            } else {
+                alert('لم يتم حفظ الملف. تأكد من الخادم.\n'+result.message);
+            }
+        } catch (error) {
+            alert("catch in ValiderButtonClickHandled: " + error);
+            console.log(error);
+        }
+    }
+    
 
     return (
         <div className="p-4 w-full">
-            <div ref={certRef} className="bg-white p-8 rounded-lg shadow-md w-[80%] max-w-2xl mx-auto border-2 border-gray-300" dir="rtl">
+            <div ref={documentRef} className="bg-white p-8 rounded-lg shadow-md w-[80%] max-w-2xl mx-auto border-2 border-gray-300" dir="rtl">
                 <div className="flex justify-between items-center mb-2">
                     <div className="text-center flex-1">
                         <h1>الجمهورية الجزائرية الديمقراطية الشعبية</h1>
@@ -59,19 +85,18 @@ export default function LibraryCard() {
                         <span className="font-semibold">رقم التسجيل:</span>
                         <span className="mr-2">{matricule}</span>
                     </div>
-                    <div className="flex">
-                        <span className="font-semibold">التخصص:</span>
-                        <span className="mr-2"> {speciality}</span>
+                    <div className="flex space-x-36 space-x-reverse">
+                        <span className="font-semibold">المستوى: {educationYear}</span>
+                        <span className="font-semibold">كلية : Informatique</span>
                     </div>
-                    <div className="flex">
-                        <span className="font-semibold">السنة الدراسية:</span>
-                        <span className="mr-2">{educationYear} </span>
+                    <div className="flex space-x-36 space-x-reverse">
+                        <span className="font-semibold mb-2 mt-2">التخصص : {speciality}</span>
                     </div>
                 </div>
 
                 <div className="mt-8 text-right">
                     <span className="font-semibold">البطاقة صالحة خلال السنة الجامعية:</span>
-                    <span className="mr-2">{cardValidityYear}</span>
+                    <span className="mr-2">{new Date().getFullYear()+1}/{new Date().getFullYear()}</span>
                 </div>
                 <div className="mt-4  ml-24 text-left">
                     <span className="font-semibold">إمضاء :</span>
@@ -88,16 +113,10 @@ export default function LibraryCard() {
             </div>
 
             <div className='flex justify-center mt-4 space-x-4'>
-                <ButtonStyle1
-                    onClick={generatePDF}
-                    buttonClassName="px-6 py-2 bg-green-500 w-[120px] text-white rounded-md hover:bg-green-600"
-                    buttonText="Confirm"
-                />
-                <ButtonStyle1
-                    buttonClassName="px-6 py-2 bg-red-600 w-[120px] text-white rounded-md hover:bg-red-700"
-                    buttonText="Cancel"
-                />
+            <ButtonStyle1 onClick={ValiderButtonClickHandled} buttonClassName="px-6 py-2 bg-green-500 font-bold  w-24 text-white rounded-md hover:bg-green-600" buttonText={t('send')}/>
+            <ButtonStyle1 onClick={()=>window.close()}   buttonClassName="px-6 py-2 bg-red-600 font-bold text-white w-24 rounded-md hover:bg-red-700" buttonText={t('close')}/>
             </div>
+          
         </div>
     );
 };

@@ -18,14 +18,21 @@ import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmi
 import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
 import Problems from "pages/AdministrationSide/Problems";
 
+import Cb1 from "./Tests/Cb1";
+import Login_SignUp from "pages/Authentication/Login_SignUp";
+
+
 const routes = [
   {
     path: "/",
+
     element: <Problems/>,
+    element: <Login_SignUp />,
+
   },
   {
     path: "/EtudientMainPage",
-   element: <EtudientMainPage/>,
+   element: <EtudientMainPage />,
   },
   {
     path: "/DocumentRequest/StudentIDCard",

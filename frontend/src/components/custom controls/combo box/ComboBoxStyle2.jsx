@@ -16,7 +16,7 @@ export default function ComboBoxStyle2({
         name={Name}
         value={value}
         onChange={onChange}
-        className={`border border-gray-200 rounded-md text-[#374151] focus:outline-none placeholder-[#9CA3AF] pl-1 cursor-pointer`}
+        className={`border border-gray-200 rounded-md text-[#374151] focus:outline-none placeholder-[#9CA3AF] pl-1 w-full cursor-pointer`}
         style={{ backgroundColor: bgColor }} // تطبيق لون الخلفية هنا
         disabled={disabled}
       >
@@ -34,6 +34,7 @@ export default function ComboBoxStyle2({
 }
 
 ComboBoxStyle2.propTypes = {
+
   Name: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -47,5 +48,5 @@ ComboBoxStyle2.propTypes = {
   onChange: PropTypes.func.isRequired,
   comboBoxClassName: PropTypes.string,
   disabled: PropTypes.bool,
-  bgColor: PropTypes.string, // لون الخلفية الحالي
+  bgColor: PropTypes.string, // 
 };
