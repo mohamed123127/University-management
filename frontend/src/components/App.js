@@ -16,11 +16,12 @@ import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
 import dataGridViewStyle3 from "./custom controls/data grid view/dataGridViewStyle3";
 import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
 import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
+import Problems from "pages/AdministrationSide/Problems";
 
 const routes = [
   {
     path: "/",
-    element: <VisualRequestsAdmin/>,
+    element: <Problems/>,
   },
   {
     path: "/EtudientMainPage",
