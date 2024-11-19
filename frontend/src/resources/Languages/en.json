@@ -8,9 +8,9 @@
     "block_academic_year": "Block Academic Year",
     "Cancel": "Cancel",
     "change_language": "Change Language Preferences",
-    "changeGroup": "Change Group",
-    "changeSection": "Change Section",
-    "changeSpeciality": "Change Speciality",
+    "Group": "Group",
+    "Section": "Section",
+    "Speciality": "Speciality",
     "club_creation_request": "Club Creation Request",
     "Completed": "Completed",
     "ConfirmPassword": "Confirm Password",
@@ -42,7 +42,7 @@
     "NewValue": "New Value",
     "Notes": "Notes",
     "OR": "OR",
-    "Parking Permit": "Parking Permit",
+    "parking_permit": "Parking Permit",
     "Password": "Password",
     "Pending": "Pending",
     "platform_description": "Our platform offers a variety of features to streamline your university experience. Access services and manage your academic needs with ease.",
@@ -68,11 +68,13 @@
     "Student": "Student",
     "students": "Students",
     "SubmissionDate": "Submission Date",
-    "transcript_request": "Grade transcript",
+    "grade_transcript": "Grade transcript",
     "university_announcements": "University Announcements",
     "vehicle_access_permit": "Vehicle Access Permit",
     "visual_requests": "Virtual requests",
-    "welcome_message": "Welcome {{studentName}} to the Univ Boumerdes Student Portal"
-    
+    "welcome_message": "Welcome {{studentName}} to the Univ Boumerdes Student Portal",
+    "send": "Send",
+  "close": "Close",
+  "CompleteYourDataToLoginMessage": "Please fill in your details to register an account on the University of Boumerdès website"
   }
   

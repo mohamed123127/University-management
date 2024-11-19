@@ -16,15 +16,17 @@ import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
 import dataGridViewStyle3 from "./custom controls/data grid view/dataGridViewStyle3";
 import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
 import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
+import Cb1 from "./Tests/Cb1";
+import Login_SignUp from "pages/Authentication/Login_SignUp";
 
 const routes = [
   {
     path: "/",
-    element: <VisualRequestsAdmin/>,
+    element: <Login_SignUp />,
   },
   {
     path: "/EtudientMainPage",
-   element: <EtudientMainPage/>,
+   element: <EtudientMainPage />,
   },
   {
     path: "/DocumentRequest/StudentIDCard",

@@ -5,21 +5,10 @@ import DataGridView from "components/custom controls/data grid view/dataGridView
 import { useTranslation } from 'react-i18next';
 import Student from "js/models/Student";
   
-export default function DocumentRequests({ClassName,selectedRequest}) {
+export default function DocumentRequests({ClassName,selectedRequest,StudentData}) {
     const { t, i18n } = useTranslation();
     const [studentData,setStudentData] = useState(null);
-    useEffect(() => {
-      const fetchStudentData = async () => {
-          try {
-              const data = await Student.GetById(localStorage.getItem('id')); // جلب البيانات
-              setStudentData(data.Data); // تحديث الحالة
-          } catch (error) {
-              alert("catch in Docement Request" + error);
-          }
-      };
-
-      fetchStudentData(); // استدعاء الدالة
-  }, []); // التأثير يحدث مرة واحدة عند تحميل المكون
+    useEffect(()=>{setStudentData(StudentData)},[])
     const columns = [
         { name: "ID", Header: 'ID', width: "50px" },
         { name: "RequestType", Header: 'RequestType', width: "150px" },
@@ -193,12 +182,13 @@ export default function DocumentRequests({ClassName,selectedRequest}) {
       ];
       
       useEffect(()=>{
+        console.log(StudentData);
         setdocunentType(t(selectedRequest));
       },[selectedRequest])
 
     const demandeOptions = [
         t('registration_certificate'),
-        t('transcript_request'),
+        t('grade_transcript'),
         t('parking_permit'),
         t('library_card'),
         t('internship_permit'),
@@ -214,26 +204,26 @@ export default function DocumentRequests({ClassName,selectedRequest}) {
     const AddButtonClickHandled = () => {
         switch(docunentType){
             case t('registration_certificate'):
-                window.open(`/DocumentRequest/RegistrationCertificate/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&educationYear=${studentData.EducationYear}&faculty=${studentData.Faculty}&speciality=${studentData.Specialty}`, "_blank");
+                window.open(`/DocumentRequest/RegistrationCertificate/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&educationYear=${studentData.EducationYear}&faculty=${studentData.Faculty}&Speciality=${studentData.Speciality}`, "_blank");
             break;
             case t('internship_permit'):
-              window.open(`/DocumentRequest/InternshipPermit/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&internshipPlace=${studentData.internshipPlace}&internshipPeriod=${studentData.internshipPeriod }`, "_blank");
+              window.open(`/DocumentRequest/InternshipPermit/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&educationYear=${studentData.EducationYear}&Speciality=${studentData.Speciality}&internshipPlace=${studentData.internshipPlace}&internshipPeriod=${studentData.internshipPeriod }`, "_blank");
 
             break;
             case t('library_card'):
-                window.open(`/DocumentRequest/LibaryCard/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
+                window.open(`/DocumentRequest/LibaryCard/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}`, "_blank");
             break;
             case t('parking_permit'):
-                window.open(`/DocumentRequest/ParkingPermit/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&carID=${studentData.carId}&licenseCardId=${studentData.licenseCardId}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
+                window.open(`/DocumentRequest/ParkingPermit/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&carId=${studentData.carId}&licenseCardId=${studentData.licenseCardId}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
             break;
-            case t('transcript_request'):
-                window.open(`/DocumentRequest/GradeTranscript/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&groupe=${studentData.groupe}`, "_blank");
+            case t('grade_transcript'):
+                window.open(`/DocumentRequest/GradeTranscript/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&section=${studentData.Section}&groupe=${studentData.Grp}`, "_blank");
             break;
             case t('student_id_card'):
-                window.open(`/DocumentRequest/StudentIDCard/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
+                window.open(`/DocumentRequest/StudentIDCard/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
             break;
             case t('block_academic_year'):
-                window.open(`/DocumentRequest/BlockAcademicYear/?name=${studentData.lastName} ${studentData.firstName}&matricule=${studentData.matricule}&speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&academicYearBlocked=${studentData.academicYearBlocked}`, "_blank");
+                window.open(`/DocumentRequest/BlockAcademicYear/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&academicYearBlocked=${studentData.academicYearBlocked}`, "_blank");
             break;
             default:
                 break;
@@ -243,18 +233,18 @@ export default function DocumentRequests({ClassName,selectedRequest}) {
 
     return (
         <div className={ClassName}>
-            <div className="flex justify-start items-center rounded-lg shadow-md border border-gray-300 m-2 w-fit">
+            <div className="flex justify-start items-center rounded-lg shadow-md border space-x-2 border-gray-300 m-2 w-fit p-2">
+            <p className={`text-[#374151] font-bold ml-2`}>Request Type:</p>
                 <ComboBoxStyle1
                     Name="Type of demande"
                     options={demandeOptions}
                     value={docunentType}
                     onChange={handleChange}
-                    comboBoxClassName="p-2 rounded-md shadow-sm"
+                    comboBoxClassName="rounded-md shadow-sm h-8"
                 />
-
                 <ButtonStyle1
                     buttonText={t('Add')}
-                    buttonClassName={`w-20 h-10 font-bold ltr:mr-2 rtl:ml-2`}
+                    buttonClassName={`w-20 h-8 font-bold ltr:mr-2 rtl:ml-2`}
                     onClick={AddButtonClickHandled}
                 />
             </div>
