@@ -13,17 +13,18 @@ import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { RouterProvider } from "react-router-dom";
 import GroupChangeRequest from "groupchange";
 import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
-
-
+import dataGridViewStyle3 from "./custom controls/data grid view/dataGridViewStyle3";
+import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
+import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
 
 const routes = [
   {
     path: "/",
-    element: <LoginSignUp />,
+    element: <VisualRequestsAdmin/>,
   },
   {
-    path: "/EtudientDashboard",
-   element: <AdministrationMainPage />,
+    path: "/EtudientMainPage",
+   element: <EtudientMainPage/>,
   },
   {
     path: "/DocumentRequest/StudentIDCard",
@@ -54,7 +55,7 @@ const routes = [
     element: <ParkingPermit />,
   },
   {
-    path: "/EtudientDashboard",
+    path: "/AdministrationMainPage",
    element: <AdministrationMainPage />,
   },
 ];
