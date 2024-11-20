@@ -2,13 +2,13 @@ import ApiOperator from '../Helpers/ApiOperator'
 
 class Student 
 {
-  static studentrooturl = "StudentRouter.php?endpoint="
+  static StudentRootUrl = "StudentRouter.php?endpoint="
 
   static async isExistEtudient(Email, Password) 
   {
     try 
     {
-        const data = await ApiOperator.post(this.studentrooturl + "isExistEtudient", {email: Email,password: Password});
+        const data = await ApiOperator.post(this.StudentRootUrl + "isExistEtudient", {email: Email,password: Password});
         return data; 
     } catch (error) {
         alert("catch in isExistEtudient: " + error);
@@ -19,11 +19,23 @@ class Student
   {
     try
     {
-      const data = await ApiOperator.get(this.studentrooturl + "getStudentById",{id:Id});
+      const data = await ApiOperator.get(this.StudentRootUrl + "getStudentById",{id:Id});
       return data;
     } catch(error)
     {
-      alert("catch in isExistEtudient: " + error);
+      alert("catch in GetById: " + error);
+    }
+  }
+
+  static async GetByEmail(Email)
+  {
+    try
+    {
+      const data = await ApiOperator.get(this.StudentRootUrl + "getStudentByEmail",{email:Email});
+      return data;
+    } catch(error)
+    {
+      alert("catch in GetByEmail: " + error);
     }
   }
 }

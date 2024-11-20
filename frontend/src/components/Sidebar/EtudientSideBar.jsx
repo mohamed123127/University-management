@@ -4,16 +4,16 @@ import SideBatItemWithList from "components/Sidebar/SideBarItemWithList";
 import SideBatItem from "components/Sidebar/SideBarItem";
 import { DocumentIcon , PlusCircleIcon , EyeIcon , ExclamationCircleIcon , BellIcon , Cog8ToothIcon  , UserCircleIcon  } from "@heroicons/react/24/solid";
 import { RxDashboard } from "react-icons/rx";
-import Announcements from "pages/Announcements";
-import DocumentRequests from "pages/DocumentRequests";
-import ManageAccount from "pages/ManageAccount";
-import ReportProblem from "pages/ReportProblem";
-import Settings from "pages/Settings";
-import VisualRequests from "pages/VisualRequests";
-import EtudientDashboard from "pages/EtudientDashboard";
+import Announcements from "pages/AdministrationSide/Announcements";
+import DocumentRequests from "pages/StudentSide/DocumentRequests";
+import ManageAccount from "pages/StudentSide/ManageAccount";
+import ReportProblem from "pages/StudentSide/ReportProblem";
+import Settings from "pages/StudentSide/Settings";
+import VisualRequests from "pages/StudentSide/VisualRequests";
+import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { useTranslation } from "react-i18next";
 
-export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen}) {
+export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen,studentData}) {
   const [openedList, setOpenedList] = useState(""); // القائمة الفرعية المفتوحة
   const { t, i18n } = useTranslation();
 
@@ -61,13 +61,13 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
 
         <div className="flex flex-col space-y-4 mt-20 h-full relative">
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('dashboard', <RxDashboard className="w-8 h-8" />, <EtudientDashboard />)} 
+            OnClick={() => sidebarItemClickHundled('dashboard', <RxDashboard className="w-8 h-8" />, <EtudientDashboard studentName={studentData.FirstName}/>)} 
             itemIcon={<RxDashboard size='25'/>} 
             Title={t('dashboard')} 
             isOpen={isOpen} 
           />
           <SideBatItemWithList 
-            OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <DocumentRequests />)} 
+            OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <DocumentRequests StudentData={studentData}/>)} 
             itemIcon={<DocumentIcon />} 
             Title={t('document_requests')} 
             isOpen={isOpen} 

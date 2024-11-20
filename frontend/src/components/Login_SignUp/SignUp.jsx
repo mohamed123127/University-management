@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LabelStyle1 from "../custom controls/labels/LabelStyle1";
 import TextBoxStyle2 from "../custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1";
-import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle1";
+import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle2";
 import Language from "components/Basics/Language";
 
 export default function SignUp({ SingInButtonHandled, ClassName }) {
@@ -221,4 +221,18 @@ export default function SignUp({ SingInButtonHandled, ClassName }) {
             </p>
         </div>
     );
+}
+        <ButtonStyle1
+          buttonText={`${t('SignUp')}`}
+          buttonClassName="items-center w-full mt-8"
+          onClick={SignUpButtonHandled}
+        />
+      </form>
+
+      <p className="text-gray-400 text-xs mt-2 ltr:mr-auto rtl:ml-auto rtl:mr-6 ltr:ml-6">
+      {`${t('AlreadyHaveAnAccount')}`}
+        <button onClick={SingInButtonHandled} className="text-blue-400 hover:underline rtl:mr-1 ltr:ml-1"> {`${t('Login')}`}</button>
+      </p>
+    </div>
+  );
 }
