@@ -62,7 +62,7 @@ class Etudient extends User {
         }
         return null;
     }
-}
+
     public function addEtudient($conn) {
         
         try{
@@ -92,6 +92,79 @@ class Etudient extends User {
         }
         
     }
+
+    public static function changeActivate($conn, $id, $status) {
+        try {
+            $sql = "UPDATE etudient SET Active = ? WHERE Id = ?";
+            $stmt = $conn->prepare($sql);
+    
+            if (!$stmt) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Database statement preparation failed: " . $conn->error
+                ]);
+                return;
+            }
+    
+            $stmt->bind_param("ii", $status, $id);
+    
+            if ($stmt->execute()) {
+                if ($stmt->affected_rows > 0) {
+                    echo json_encode([
+                        "success" => true,
+                        "message" => "Student activation status updated successfully."
+                    ]);
+                } else {
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "No records were updated. Please check the provided ID."
+                    ]);
+                }
+            } else {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Failed to execute the query: " . $stmt->error
+                ]);
+            }
+    
+            $stmt->close();
+    
+        } catch (Exception $ex) {
+            echo json_encode([
+                "success" => false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+    
+
+    public static function getall($conn) {
+        try {
+            $sql = "SELECT * FROM etudient";
+            $stmt = $conn->prepare($sql);
+    
+            if (!$stmt) {
+                echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+                return;
+            }
+    
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            $students = [];
+            while ($row = $result->fetch_assoc()) {
+                $students[] = $row;
+            }
+    
+            echo json_encode(["success" => true, "students" => $students]);
+    
+            $stmt->close();
+        } catch (Exception $ex) {
+            echo json_encode(["success" => false, "message" => "An error occurred: " . $ex]);
+        }
+    }
+    
+    
         
 }
 
