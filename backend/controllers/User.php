@@ -1,13 +1,12 @@
 <?php
 header("Access-Control-Allow-Origin: *");
     class User{
-        private $id;
-        private $email;
-        private $password;
-        private $isActive;
+        protected $id;
+        protected $email;
+        protected $password;
+        protected $isActive;
 
-        public function __construct($id, $email, $password, $isActive) {
-            $this->id = $id;
+        public function __construct( $email, $password, $isActive) {
             $this->email = $email;
             $this->password = $password;
             $this->isActive = $isActive;
