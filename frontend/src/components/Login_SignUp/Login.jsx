@@ -11,16 +11,26 @@ import Student from "js/models/Student";
 import Administration from "js/models/Administration";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
 import Swal from 'sweetalert2';
+import i18n from 'i18next';
 
 
-export default function Login({SignUpButtonHandled,ClassName}){
+
+export default function Login({SignUpButtonHandled,ClassName,currentLanguage,setCurrentLanguage}){
     const { t, i18n } = useTranslation();
-
-    const [currentLanguage, setCurrentLanguage] = useState("");
     const SignUpButton = useRef(null);
+
+    
     useEffect(()=>{
         i18n.changeLanguage(currentLanguage);
+        console.log("Current language: ", i18n.language);
+        const html = document.documentElement;
+        html.setAttribute('lang', i18n.language);
+        html.setAttribute('dir', i18n.language === 'ar' ? 'rtl' : 'ltr');
     },[currentLanguage])
+
+    useEffect(()=>{
+        setCurrentLanguage(i18n.language);
+      },[i18n.language])
 
     const handleLanguageChange = (lang) => {
         setCurrentLanguage(lang);
@@ -71,12 +81,15 @@ export default function Login({SignUpButtonHandled,ClassName}){
 
         if (email) {
                 const result = await Student.GetByEmail(email);
-                if(result.success){
-                    if(result.isRegistered){
-                        const data = result.Data;
-                        localStorage.setItem('id',data.Id)
-                        navigate("/EtudientMainPage");
-                    }else{
+                if(result.success)
+                    {
+                        if(result.isRegistered){
+                            const data = result.Data;
+                            localStorage.setItem('id',data.Id)
+                            navigate("/EtudientMainPage");
+                    }
+                     else
+                    {
                         Swal.fire({
                             title: 'تنبيه!',
                             text: t('CompleteYourDataToLoginMessage'),
@@ -104,7 +117,7 @@ export default function Login({SignUpButtonHandled,ClassName}){
                     {/* Student_adminstation switch and welcom part */}
                         <div className="flex justify-end w-full pb-20 ">
                             <LabelStyle1 labelText={t('Login')} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap"/>
-                            <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language}/>
+                            <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={currentLanguage}/>
                         </div>
                     {/* Login_SignUp form */}
                     <form className="bg-white flex flex-col w-[80%]">

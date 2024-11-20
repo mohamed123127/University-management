@@ -7,13 +7,9 @@ import DataGridView from 'components/custom controls/data grid view/dataGridView
 import Language from 'components/Basics/Language';
 import LabelStyle1 from 'components/custom controls/labels/LabelStyle1';
 
-const studentData = {
-    group: '5',
-    section: 'section 1',
-    speciality: 'isil',
-};
 
-export default function VisualRequests(){
+
+export default function VisualRequests({selectedRequest,studentData=[]}){
     const { t, i18n } = useTranslation(); 
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
     const [selectedDemande, setSelectedDemande] = useState('');
@@ -36,7 +32,11 @@ export default function VisualRequests(){
         t('section1'), 
         t('section2')
     ];
-
+    //const [studentData,setStudentData] = useState(null);
+    //useEffect(()=>{setStudentData(StudentData)},[])
+    useEffect(()=>{
+        setSelectedDemande(t(selectedRequest));
+      },[selectedRequest])
     const specialityOptions = ['ISIL', 'SI'];
 
     const columns = [

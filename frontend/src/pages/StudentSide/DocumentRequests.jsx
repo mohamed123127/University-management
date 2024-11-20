@@ -182,7 +182,6 @@ export default function DocumentRequests({ClassName,selectedRequest,StudentData}
       ];
       
       useEffect(()=>{
-        console.log(StudentData);
         setdocunentType(t(selectedRequest));
       },[selectedRequest])
 
@@ -192,7 +191,7 @@ export default function DocumentRequests({ClassName,selectedRequest,StudentData}
         t('parking_permit'),
         t('library_card'),
         t('internship_permit'),
-        t('student_id_card'),
+        t('studentCard'),
         t('block_academic_year')
     ];
     const [docunentType, setdocunentType] = useState('');
@@ -219,7 +218,7 @@ export default function DocumentRequests({ClassName,selectedRequest,StudentData}
             case t('grade_transcript'):
                 window.open(`/DocumentRequest/GradeTranscript/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&section=${studentData.Section}&groupe=${studentData.Grp}`, "_blank");
             break;
-            case t('student_id_card'):
+            case t('studentCard'):
                 window.open(`/DocumentRequest/StudentIDCard/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
             break;
             case t('block_academic_year'):

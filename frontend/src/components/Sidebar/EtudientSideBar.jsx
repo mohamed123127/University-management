@@ -19,18 +19,18 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
 
   const DocumentRequestItemsList = [
     t('registration_certificate'),
-    t('transcript_request'),
+    t('grade_transcript'),
     t('parking_permit'),
     t('library_card'),
     t('internship_permit'),
-    t('student_id_card'),
+    t('studentCard'),
     t('block_academic_year'),
   ];
 
   const VisualRequestsItemsList = [
-    t('group_change_request'),
-    t('specialty_change_request'),
-    t('club_creation_request')
+    t('Group'),
+    t('Section'),
+    t('Speciality')
   ];
 
   const toggleStatSidebar = () => {
@@ -49,6 +49,13 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
   const DocumentRequestListItemClickHundled = (Page) => {
     SetActualPageName('document_requests');
     SetActualPageIcon(<DocumentIcon className="w-8 h-8" />);
+    SetActualPage(Page);
+    setOpenedList('');
+  }
+
+  const VisualRequestsListItemClickHundled = (Page) => {
+    SetActualPageName('visual_requests');
+    SetActualPageIcon(<EyeIcon className="w-8 h-8" />);
     SetActualPage(Page);
     setOpenedList('');
   }
@@ -84,6 +91,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             ItemsList={VisualRequestsItemsList} 
             OpenedList={openedList} 
             setOpenedList={setOpenedList}
+            itemClickHandled={VisualRequestsListItemClickHundled}
           />
           <SideBatItem 
             OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem />)} 

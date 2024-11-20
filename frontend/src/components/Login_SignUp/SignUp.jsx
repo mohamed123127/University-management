@@ -5,16 +5,27 @@ import TextBoxStyle2 from "../custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1";
 import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle1";
 import Language from "components/Basics/Language";
+import i18n from 'i18next';
 
-export default function SignUp({ SingInButtonHandled,ClassName}) {
+
+export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,setCurrentLanguage}) {
   const { t, i18n } = useTranslation();
-
-    const [language,setLanguage] = useState(i18n.language);
-    const [currentLanguage, setCurrentLanguage] = useState("");
-    
     useEffect(()=>{
-        i18n.changeLanguage(currentLanguage);
-    },[currentLanguage])
+      i18n.changeLanguage(currentLanguage);
+      const html = document.documentElement;
+      html.setAttribute('lang', i18n.language);
+      html.setAttribute('dir', i18n.language === 'ar' ? 'rtl' : 'ltr');
+  },[currentLanguage])
+
+    useEffect(()=>{
+      setCurrentLanguage(i18n.language);
+    },[i18n.language])
+
+    useEffect(()=>{
+      const params = new URLSearchParams(window.location.search);
+        const email = params.get('email');
+      if(email) SignUpFormData.email = email;
+    },[])
 
     const handleLanguageChange = (lang) => {
         setCurrentLanguage(lang);
@@ -69,7 +80,7 @@ export default function SignUp({ SingInButtonHandled,ClassName}) {
     <div className={`${ClassName} flex flex-col items-center relative`}>
       <div className="flex justify-end w-full pb-16">
         <LabelStyle1 labelText={t('SignUp')} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap"/>
-        <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language}/>
+        <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={currentLanguage}/>
       </div>
       
       <form className="flex flex-col w-[90%]">
@@ -119,7 +130,7 @@ export default function SignUp({ SingInButtonHandled,ClassName}) {
             />
           </div>
 
-          <div className="flex space-x-1 items-center">
+          <div className="flex space-x-1 items-center w-[90%]">
             <LabelStyle1 labelText={`${t('AcademicYear')}:`} labelClassName="text-sm ml-1 text-nowrap" />
             <ComboBoxStyle1
               Name="EducationYear"

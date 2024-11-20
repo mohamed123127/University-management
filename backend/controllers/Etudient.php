@@ -45,5 +45,17 @@ class Etudient extends User {
         }
         return null;
     }
+
+    public static function getByEmail($conn, $email) {
+        $sql = "SELECT * FROM etudient WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+        return null;
+    }
 }
 ?>
