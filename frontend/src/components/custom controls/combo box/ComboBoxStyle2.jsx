@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export default function ComboBoxStyle1({
+export default function ComboBoxStyle2({
   Name,
   options,
   value,
@@ -33,7 +33,8 @@ export default function ComboBoxStyle1({
   );
 }
 
-ComboBoxStyle1.propTypes = {
+ComboBoxStyle2.propTypes = {
+
   Name: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -47,5 +48,5 @@ ComboBoxStyle1.propTypes = {
   onChange: PropTypes.func.isRequired,
   comboBoxClassName: PropTypes.string,
   disabled: PropTypes.bool,
-  bgColor: PropTypes.string, // لون الخلفية الحالي
+  bgColor: PropTypes.string, // 
 };

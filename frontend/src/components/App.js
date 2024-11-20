@@ -13,6 +13,9 @@ import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { RouterProvider } from "react-router-dom";
 import GroupChangeRequest from "groupchange";
 import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
+import dataGridViewStyle3 from "./custom controls/data grid view/dataGridViewStyle3";
+import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
+import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
 import Cb1 from "./Tests/Cb1";
 import Login_SignUp from "pages/Authentication/Login_SignUp";
 
