@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import Language from "components/Basics/Language"; 
 import { useTranslation } from "react-i18next";
 
-export default function EtudientHeader({ ClassName, PageName, PageIcon }) {
+export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentName="" }) {
   const [notifications, setNotifications] = useState([
     { id: 1, message: "Your account has been activated", date_time: "04/11/2024 16:32", read: true },
     { id: 2, message: "Your demand to change group was accepted", date_time: "06/11/2024 09:20", read: false },
@@ -28,7 +28,7 @@ export default function EtudientHeader({ ClassName, PageName, PageIcon }) {
       <div className="flex items-center">
         <Language onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language} ClassName="ltr:mr-2 rtl:ml-2" PrimaryButtonColor="red" />
         <Notification notificationsList={notifications} setNotification={setNotifications} isOpen={openedPanel === "Notifications"} setIsOpen={() => handleOpenPanelClick("Notifications")} ClassName="ltr:mr-2 rtl:ml-2" />
-        <Account AccountImage={FaUser} AccountName="Mohamed Louahchi" isOpen={openedPanel === "Account"} setIsOpen={() => handleOpenPanelClick("Account")} ClassName="ltr:mr-4 rtl:ml-4" />
+        <Account AccountImage={FaUser} AccountName={StudentName} isOpen={openedPanel === "Account"} setIsOpen={() => handleOpenPanelClick("Account")} ClassName="ltr:mr-4 rtl:ml-4" />
       </div>
     </div>
   );

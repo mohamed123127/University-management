@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Dropdown from "components/custom controls/buttons/Dropdown";
-import SideBatItemWithList from "components/Sidebar/SideBarItemWithList";
+import SideBarItemWithList from "components/Sidebar/SideBarItemWithList";
 import SideBatItem from "components/Sidebar/SideBarItem";
 import { DocumentIcon , UserGroupIcon  , EyeIcon , ExclamationCircleIcon , BellIcon , Cog8ToothIcon  , UserCircleIcon  } from "@heroicons/react/24/solid";
 import { RxDashboard } from "react-icons/rx";

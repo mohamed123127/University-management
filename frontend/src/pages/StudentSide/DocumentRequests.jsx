@@ -28,7 +28,17 @@ export default function DocumentRequests({ ClassName, selectedRequest, StudentDa
         { name: "Notes", Header: 'Notes', width: "200px" },
         { name: "Submission_Date", Header: 'SubmissionDate', width: "100px" },
         { name: "Last_Updated_Date", Header: 'LastUpdatedDate', width: "100px" }
+
     ];
+
+      
+  
+     
+      
+      useEffect(()=>{
+        setdocunentType(t(selectedRequest));
+      },[selectedRequest])
+
 
     const data = [
       {
@@ -204,14 +214,17 @@ export default function DocumentRequests({ ClassName, selectedRequest, StudentDa
         t('block_academic_year')
     ];
 
-    useEffect(() => {
-        setdocunentType(t(selectedRequest));
-    }, [selectedRequest]);
+
+
+
+    
+
 
     const handleChange = (e) => {
         const { value } = e.target;
         setdocunentType(value);       
     };
+
 
     const AddButtonClickHandled = () => {
       switch(docunentType){
@@ -302,11 +315,13 @@ export default function DocumentRequests({ ClassName, selectedRequest, StudentDa
                         onClick={AddButtonClickHandled}
                     />
                 </div>
-            </div>
 
-            <div className="overflow-auto bg-white border border-gray-200 shadow-sm rounded-md mt-4">
-                <DataGridView Columns={columns} Data={data} ClassName="ltr:ml-2 rtl:mr-2" />
-            </div>
-        </div>
-    );
+                </div>
+                </div>
+        
+    
+
+    
+
+);
 }

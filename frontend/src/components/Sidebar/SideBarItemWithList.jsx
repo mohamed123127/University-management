@@ -1,12 +1,15 @@
 import React from "@heroicons/react";
 import Dropdown from "../custom controls/buttons/Dropdown";
 import DocumentRequests from "pages/StudentSide/DocumentRequests";
+import VisualRequests from "pages/StudentSide/VisualRequests";
+import { useTranslation } from "react-i18next";
 
 
-export default function SideBatItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled}) {
+export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled}) {
   const handleListClick = (listName) => {
     setOpenedList((prevList) => (prevList === listName ? "" : listName));
   };
+  const { t, i18n } = useTranslation();
 
   return (
     <button onClick={OnClick} className={`flex flex-col items-center space-y-2`}>
@@ -37,7 +40,7 @@ export default function SideBatItemWithList({ itemIcon, Title, isOpen, ItemsList
           <li
             onClick={(e) => {
               e.stopPropagation();
-              itemClickHandled(<DocumentRequests selectedRequest={item}/>);
+              itemClickHandled(t('document_requests') === Title ? <DocumentRequests selectedRequest={item}/> : <VisualRequests selectedRequest={item}/>);
             }}
             key={index}
             className="cursor-pointer bg-blue-500 hover:bg-blue-600 p-2 rounded"

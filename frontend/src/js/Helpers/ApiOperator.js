@@ -4,6 +4,8 @@ class ApiOperator{
     static rootUrl = settings.domain + "University-management/backend/roots/";
 
     static async request(apiUrl,method,data){
+        //alert(this.rootUrl+apiUrl);
+
         if(apiUrl != null && method != null){
             const options = {
                 method,
@@ -15,7 +17,10 @@ class ApiOperator{
                 options.body = JSON.stringify(data); // إرسال كـ JSON
               } 
             const response = await fetch(this.rootUrl+apiUrl,options);
-            alert(this.rootUrl+apiUrl);
+
+           // alert(this.rootUrl+apiUrl);
+
+
             try{
                 if(!response.ok){
                     alert(`success: ${response.success} \n Message: ${response.message}`);

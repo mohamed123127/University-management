@@ -26,10 +26,3 @@ export default function ComboBoxStyle1({ Name, options, value, onChange, comboBo
         </div>
     );
 }
-
-ComboBoxStyle1.propTypes = {
-    Name: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(PropTypes.string).isRequired,
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-};
