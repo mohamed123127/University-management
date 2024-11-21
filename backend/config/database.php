@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "University Managment";
+$dbname = "university managment";
 
 try {
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,6 +13,6 @@ try {
         die(json_encode(["success" => false, "message" => "Connection failed: " . $conn->connect_error]));
     }
 } catch(Exception $e) {
-    echo json_encode(["success" => false, "message" => "هناك خطأ في الاتصال بقاعدة البيانات"]);
+    echo json_encode(["success" => false, "message" => "هناك خطأ في الاتصال بقاعدة البيانات \n".$e]);
 }
 ?>

@@ -16,19 +16,13 @@ import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
 import dataGridViewStyle3 from "./custom controls/data grid view/dataGridViewStyle3";
 import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
 import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
-import Problems from "pages/AdministrationSide/Problems";
 
-import Cb1 from "./Tests/Cb1";
 import Login_SignUp from "pages/Authentication/Login_SignUp";
-
-
+import DocumentRequests from "pages/StudentSide/DocumentRequests";
 const routes = [
   {
     path: "/",
-
-    element: <Problems/>,
-    element: <Login_SignUp />,
-
+    element: <DocumentRequests/>,
   },
   {
     path: "/EtudientMainPage",
@@ -46,7 +40,7 @@ const routes = [
     path: "/DocumentRequest/RegistrationCertificate",
     element: <RegistrationCertificate />,
   },
-  {
+{
     path: "/DocumentRequest/GradeTranscript",
     element: <GradeTranscript />,
   },
@@ -89,4 +83,3 @@ export default function App() {
 */}
   return <RouterProvider router={router} />;
 }
-
