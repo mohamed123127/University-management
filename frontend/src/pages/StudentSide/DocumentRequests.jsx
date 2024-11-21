@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
-import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle2";
+import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
 import DataGridView from "components/custom controls/data grid view/dataGridViewStyle1";
 import { useTranslation } from 'react-i18next';
 import Student from "js/models/Student";
@@ -194,7 +194,7 @@ export default function DocumentRequests({ClassName,selectedRequest,StudentData}
         t('studentCard'),
         t('block_academic_year')
     ];
-    const [docunentType, setdocunentType] = useState();
+    const [docunentType, setdocunentType] = useState("");
 
     const handleChange = (e) => {
         const { value } = e.target;
@@ -233,13 +233,13 @@ export default function DocumentRequests({ClassName,selectedRequest,StudentData}
     return (
         <div className={ClassName}>
             <div className="flex justify-start items-center rounded-lg shadow-md border space-x-2 border-gray-300 m-2 w-fit p-2">
-            <p className={`text-[#374151] font-bold ml-2`}>Request Type:</p>
+            <p className={`text-[#374151] font-bold ml-2`}>{t('RequestType')}</p>
                 <ComboBoxStyle1
                     Name="Type of demande"
                     options={demandeOptions}
                     value={docunentType}
                     onChange={handleChange}
-                    comboBoxClassName="rounded-md shadow-sm h-8"
+                    comboBoxClassName="rounded-md shadow-sm"
                 />
                 <ButtonStyle1
                     buttonText={t('Add')}

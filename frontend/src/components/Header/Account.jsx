@@ -33,10 +33,10 @@ export default function Account({AccountName,AccountImage,isOpen,setIsOpen,Class
       <hr className="w-[90%] h-[1px] bg-gray-300 mx-auto mt-1" />
 
       {/* زر Logout */}
-      <button onClick={LogoutButtonClickHandled} className="flex items-center w-full p-2 mt-1 text-blue-600 cursor-pointer hover:text-blue-800 transition-colors duration-200">
+      <div onClick={LogoutButtonClickHandled} className="flex items-center w-full p-2 mt-1 text-blue-600 cursor-pointer hover:text-blue-800 transition-colors duration-200">
         <FaSignOutAlt className="ltr:mr-2 rtl:ml-2 text-lg rtl:rotate-180" />
         <span className="text-sm font-medium">{t('logout')}</span>
-      </button>
+      </div>
     </div>
   </button>
 </div>

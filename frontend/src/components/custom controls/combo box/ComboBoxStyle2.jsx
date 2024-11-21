@@ -33,20 +33,3 @@ export default function ComboBoxStyle2({
   );
 }
 
-ComboBoxStyle2.propTypes = {
-
-  Name: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string,
-      className: PropTypes.string,
-      bgColor: PropTypes.string, // لون الخلفية الخاص بكل خيار
-    })
-  ).isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  comboBoxClassName: PropTypes.string,
-  disabled: PropTypes.bool,
-  bgColor: PropTypes.string, // 
-};

@@ -9,41 +9,41 @@ header("Content-Type: application/json");
 require_once '../config/database.php'; 
 
 class StudentsProblems {
-    private $Sender;
+    private $Id;
     private $Title;
     private $Content;
+    private $StudentId;
 
 
-    public function __construct($Sender,$Title,$Content){
-        $this->Sender = $Sender;
+    public function __construct($StudentId,$Title,$Content){
+        $this->StudentId = $StudentId;
         $this->Title = $Title;
         $this->Content = $Content;
     }
 
 
-public function addProblem($conn) {
+public function add($conn) {
     try {
-        $sql = "INSERT INTO studyverse (Sender, Title, Content, Date) 
+        $sql = "INSERT INTO ReportProblem (StudentId, Title, Content, Date) 
                 VALUES (?, ?, ?, CURRENT_TIME())";
 
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
-            return;
+            return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
         }
 
         // Bind parameters
-        $stmt->bind_param("ssss", $this->Sender, $this->Title, $this->Content);
+        $stmt->bind_param("iss", $this->StudentId, $this->Title, $this->Content);
 
         if ($stmt->execute()) {
-            echo json_encode(["success" => true, "message" => "Problem added successfully."]);
+            return ["success" => true, "message" => "Problem added successfully."];
         } else {
-            echo json_encode(["success" => false, "message" => "Failed to add problem."]);
+            return ["success" => false, "message" => "Failed to add problem."];
         }
 
     } catch (Exception $ex) {
-        echo json_encode(["success" => false, "message" => $ex->getMessage()]);
+        return ["success" => false, "message" => $ex->getMessage()];
     }
 }
 

@@ -74,7 +74,7 @@ class Etudient extends User {
         }
         return null;
     }
-}
+
 
     public function addEtudient($conn) {
         

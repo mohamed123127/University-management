@@ -5,7 +5,7 @@ import VisualRequests from "pages/StudentSide/VisualRequests";
 import { useTranslation } from "react-i18next";
 
 
-export default function SideBatItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled}) {
+export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled}) {
   const handleListClick = (listName) => {
     setOpenedList((prevList) => (prevList === listName ? "" : listName));
   };

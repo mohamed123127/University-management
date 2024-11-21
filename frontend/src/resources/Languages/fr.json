@@ -55,7 +55,6 @@
     "report_problem": "Signaler un problème",
     "Problems": "Plaintes des étudiants",
     "report_problems": "Signalez tout problème rencontré au sein de l'université et obtenez un support rapide.",
-    "RequestType": "Type de demande",
     "request_services": "Demande de documents universitaires et de permis",
     "section1": "Section 1",
     "section2": "Section 2",
@@ -77,7 +76,23 @@
     "welcome_message": "Bienvenue {{studentName}} sur le portail étudiant de l'Université de Boumerdes",
     "send": "Envoyer",
   "close": "Fermer",
-  "CompleteYourDataToLoginMessage": "Veuillez remplir vos informations pour créer un compte sur le site de l'Université de Boumerdès"
+  "CompleteYourDataToLoginMessage": "Veuillez remplir vos informations pour créer un compte sur le site de l'Université de Boumerdès",
+"reportTitle": "Titre",
+  "reportContent": "Contenu",
+  "reportPlaceholderTitle": "Entrez le titre du rapport",
+  "reportPlaceholderContent": "Écrivez le contenu du rapport ici",
+  "SelectField": "Sélectionnez un champ :",
+    "UpdateField": "Mettre à jour le champ",
+    "PleaseSelectField": "Veuillez sélectionner un champ et fournir une nouvelle valeur.",
+    "ManageAccount": "Gérer le compte",
+    "RequestType": "Type de demande :",
+    "SendReport": "Envoyer le rapport",
+    "NewSpeciality": "Nouvelle spécialité :",
+    "CurrentSpeciality": "Spécialité actuelle :",
+    "NewSection": "Nouvelle section :",
+    "CurrentSection": "Section actuelle :",
+    "NewGroup": "Nouveau groupe :",
+    "CurrentGroup": "Groupe actuel :"
 
   }
   

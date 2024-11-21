@@ -21,7 +21,10 @@
     "CurrentValue": "Current Value",
     "dashboard": "Dashboard",
     "studentCard": "Student Card",
-
+ "reportTitle": "Title",
+  "reportContent": "Content",
+  "reportPlaceholderTitle": "Enter the report title",
+  "reportPlaceholderContent": "Write the report content here",
     "department_change": "Department Change",
     "document_requests_administration": "Document requests",
     "document_requests": "Document requests",
@@ -56,7 +59,6 @@
     "report_problem": "Report problem",
     "Problems": "Student Complaints",
     "report_problems": "Report any problems you encounter within the university and receive timely support.",
-    "RequestType": "Request Type",
     "request_services": "University Documents and Permits Request",
     "section1": "القسم 1",
     "section2": "القسم 2",
@@ -78,6 +80,17 @@
     "welcome_message": "Welcome {{studentName}} to the Univ Boumerdes Student Portal",
     "send": "Send",
   "close": "Close",
-  "CompleteYourDataToLoginMessage": "Please fill in your details to register an account on the University of Boumerdès website"
+  "CompleteYourDataToLoginMessage": "Please fill in your details to register an account on the University of Boumerdès website",
+  "SelectField": "Select Field:",
+    "UpdateField": "Update Field",
+    "PleaseSelectField": "Please select a field and provide a new value.",
+    "RequestType": "Request Type:",
+    "SendReport": "Send Report",
+    "NewSpeciality": "New Speciality:",
+    "CurrentSpeciality": "Current Speciality:",
+    "NewSection": "New Section:",
+    "CurrentSection": "Current Section:",
+    "NewGroup": "New Group:",
+    "CurrentGroup": "Current Group:"
   }
   

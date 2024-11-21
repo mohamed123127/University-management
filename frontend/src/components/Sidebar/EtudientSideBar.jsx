@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Dropdown from "components/custom controls/buttons/Dropdown";
-import SideBatItemWithList from "components/Sidebar/SideBarItemWithList";
+import SideBarItemWithList from "components/Sidebar/SideBarItemWithList";
 import SideBatItem from "components/Sidebar/SideBarItem";
 import { DocumentIcon , PlusCircleIcon , EyeIcon , ExclamationCircleIcon , BellIcon , Cog8ToothIcon  , UserCircleIcon  } from "@heroicons/react/24/solid";
 import { RxDashboard } from "react-icons/rx";
@@ -73,7 +73,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             Title={t('dashboard')} 
             isOpen={isOpen} 
           />
-          <SideBatItemWithList 
+          <SideBarItemWithList 
             OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <DocumentRequests StudentData={studentData}/>)} 
             itemIcon={<DocumentIcon />} 
             Title={t('document_requests')} 
@@ -83,8 +83,8 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             setOpenedList={setOpenedList}
             itemClickHandled={DocumentRequestListItemClickHundled}
           />
-          <SideBatItemWithList 
-            OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests />)} 
+          <SideBarItemWithList 
+            OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests studentData={studentData}/>)} 
             itemIcon={<EyeIcon />} 
             Title={t('visual_requests')} 
             isOpen={isOpen} 
@@ -94,7 +94,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             itemClickHandled={VisualRequestsListItemClickHundled}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem />)} 
+            OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem StudentId={studentData.Id}/>)} 
             itemIcon={<ExclamationCircleIcon />} 
             Title={t('report_problem')} 
             isOpen={isOpen}

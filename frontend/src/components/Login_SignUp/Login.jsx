@@ -22,7 +22,6 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
     
     useEffect(()=>{
         i18n.changeLanguage(currentLanguage);
-        console.log("Current language: ", i18n.language);
         const html = document.documentElement;
         html.setAttribute('lang', i18n.language);
         html.setAttribute('dir', i18n.language === 'ar' ? 'rtl' : 'ltr');
