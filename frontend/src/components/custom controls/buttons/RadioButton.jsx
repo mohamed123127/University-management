@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default  function RadioButton({ options, name, value, onChange }) {
+export default  function RadioButton({ options, name, value, onChange,radioClassName }) {
     return (
         <div className="flex items-center space-x-4">
             {options.map((option, index) => (
@@ -11,7 +11,7 @@ export default  function RadioButton({ options, name, value, onChange }) {
                         value={option}
                         checked={value === option}
                         onChange={onChange}
-                        className="form-radio text-blue-600"
+                        className={radioClassName}
                     />
                     <span>{option}</span>
                 </label>

@@ -31,10 +31,6 @@ export default function DocumentRequests({ ClassName, selectedRequest, StudentDa
 
     ];
 
-      
-  
-     
-      
       useEffect(()=>{
         setdocunentType(t(selectedRequest));
       },[selectedRequest])
@@ -214,12 +210,6 @@ export default function DocumentRequests({ ClassName, selectedRequest, StudentDa
         t('block_academic_year')
     ];
 
-
-
-
-    
-
-
     const handleChange = (e) => {
         const { value } = e.target;
         setdocunentType(value);       
@@ -232,23 +222,23 @@ export default function DocumentRequests({ ClassName, selectedRequest, StudentDa
               window.open(`/DocumentRequest/RegistrationCertificate/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&educationYear=${studentData.EducationYear}&faculty=${studentData.Faculty}&Speciality=${studentData.Speciality}`, "_blank");
           break;
           case t('internship_permit'):
-            window.open(`/DocumentRequest/InternshipPermit/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&educationYear=${studentData.EducationYear}&Speciality=${studentData.Speciality}&internshipPlace=${studentData.internshipPlace}&internshipPeriod=${studentData.internshipPeriod }`, "_blank");
+            window.open(`/DocumentRequest/InternshipPermit/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&educationYear=${studentData.EducationYear}&Speciality=${studentData.Speciality}&internshipPlace=${internshipPlace}&internshipPeriod=${internshipPeriod }`, "_blank");
 
           break;
           case t('library_card'):
               window.open(`/DocumentRequest/LibaryCard/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}`, "_blank");
           break;
           case t('parking_permit'):
-              window.open(`/DocumentRequest/ParkingPermit/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&carId=${studentData.carId}&licenseCardId=${studentData.licenseCardId}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
+              window.open(`/DocumentRequest/ParkingPermit/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&carId=${carId}&licenseCardId=${licenseCardId}`, "_blank");
           break;
           case t('grade_transcript'):
               window.open(`/DocumentRequest/GradeTranscript/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&section=${studentData.Section}&groupe=${studentData.Grp}`, "_blank");
           break;
           case t('studentCard'):
-              window.open(`/DocumentRequest/StudentIDCard/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&cardValidityYear=${studentData.cardValidityYear}`, "_blank");
+              window.open(`/DocumentRequest/StudentIDCard/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}`, "_blank");
           break;
           case t('block_academic_year'):
-              window.open(`/DocumentRequest/BlockAcademicYear/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}&academicYearBlocked=${studentData.academicYearBlocked}`, "_blank");
+              window.open(`/DocumentRequest/BlockAcademicYear/?name=${studentData.LastName} ${studentData.FirstName}&matricule=${studentData.Matricule}&Speciality=${studentData.Speciality}&educationYear=${studentData.EducationYear}`, "_blank");
           break;
           default:
               break;
@@ -293,16 +283,16 @@ export default function DocumentRequests({ ClassName, selectedRequest, StudentDa
                         <>
                             <TextBoxStyle2
                                 type="text"
-                                placeholder="Enter internshipPlace "
-                                value={carId}
-                                onChange={(e) => setCarId(e.target.value)}
+                                placeholder="Enter internship Place "
+                                value={internshipPlace}
+                                onChange={(e) => setinternshipPlace(e.target.value)}
                                 className="h-8"
                             />
                             <TextBoxStyle2
                                 type="text"
                                 placeholder="Enter internship Period"
-                                value={licenseCardId}
-                                onChange={(e) => setLicenseCardId(e.target.value)}
+                                value={internshipPeriod}
+                                onChange={(e) => setinternshipPeriod(e.target.value)}
                                 className="h-8"
                             />
                         </>
