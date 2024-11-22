@@ -37,6 +37,15 @@ try {
                 $response = ["success" => false, "message" => "Invalid method"];
             }
             break;
+
+        case 'getAll':
+            $Problems = StudentsProblems::gettall($conn);
+            if ($Problems != null) {
+                $response = ["success" => true, 'Data' => $Problems];
+            } else {
+                    $response = ["success" => false, "message" => "it's not exists"];
+                }
+                break;
         
         default:
             $response = ["success" => false, "message" => "Invalid endpoint"];
