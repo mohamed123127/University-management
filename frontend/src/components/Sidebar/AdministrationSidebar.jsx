@@ -12,6 +12,7 @@ import Settings from "pages/StudentSide/Settings";
 import VisualRequests from "pages/StudentSide/VisualRequests";
 import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { useTranslation } from "react-i18next";
+import Announcement from "pages/AdministrationSide/Announcements";
 
 export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen}) {
   const [openedList, setOpenedList] = useState(""); // القائمة الفرعية المفتوحة
@@ -79,7 +80,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             isOpen={isOpen}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('announcements', <BellIcon className="w-8 h-8" />, <ManageAccount />)} 
+            OnClick={() => sidebarItemClickHundled('announcements', <BellIcon className="w-8 h-8" />, <Announcement />)} 
             itemIcon={<BellIcon />} 
             Title={t('announcements')} 
             isOpen={isOpen}

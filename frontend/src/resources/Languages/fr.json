@@ -77,8 +77,11 @@
     "send": "Envoyer",
   "close": "Fermer",
   "CompleteYourDataToLoginMessage": "Veuillez remplir vos informations pour créer un compte sur le site de l'Université de Boumerdès",
-"reportTitle": "Titre",
-  "reportContent": "Contenu",
+  "Title": "Titre",
+  "Content": "Contenu",
+  "recipient" : "récepteur",
+  "AnnouncementPlaceholderTitle": "Entrez le titre du rapport",
+  "AnnouncementPlaceholderContent": "Écrivez le contenu du rapport ici",
   "reportPlaceholderTitle": "Entrez le titre du rapport",
   "reportPlaceholderContent": "Écrivez le contenu du rapport ici",
   "SelectField": "Sélectionnez un champ :",
@@ -92,7 +95,13 @@
     "NewSection": "Nouvelle section :",
     "CurrentSection": "Section actuelle :",
     "NewGroup": "Nouveau groupe :",
-    "CurrentGroup": "Groupe actuel :"
+    "CurrentGroup": "Groupe actuel :",
+    "NewFirstName": "Nouveau prénom :",
+    "NewLastName": "Nouveau nom de famille :",
+    "NewEmail": "Nouvel email :",
+    "NewPassword": "Nouveau mot de passe :",
+    "NewField": "Nouveau {{field}} :",
+    "SendAnnouncement": "Envoyer une annonce"
 
   }
   

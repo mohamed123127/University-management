@@ -24,8 +24,11 @@
     "document_requests_administration": "طلبات المستندات",
     "document_requests": "طلب المستندات الورقية",
     "DontHaveAccount": "ليس لديك حساب؟",
-    "reportTitle": "العنوان",
-    "reportContent": "المحتوى",
+    "Title": "العنوان",
+    "Content": "المحتوى",
+    "recipient" : "المتلقي",
+    "AnnouncmentPlaceholderTitle": "أدخل عنوان الإعلان",
+    "AnnouncmentPlaceholderContent": "اكتب محتوى الإعلان هنا",
     "reportPlaceholderTitle": "أدخل عنوان التقرير",
     "reportPlaceholderContent": "اكتب محتوى التقرير هنا",
     "Email": "البريد الإلكتروني",
@@ -92,7 +95,13 @@
     "NewSection": "المجموعة الجديدة: ",
     "CurrentSection": "المجموعة الحالي: ",
     "NewGroup": "القسم الجديد: ",
-    "CurrentGroup": "القسم الحالي: "
+    "CurrentGroup": "القسم الحالي: ",
+    "NewFirstName": "الاسم الأول الجديد:",
+    "NewLastName": "اسم العائلة الجديد:",
+    "NewEmail": "البريد الإلكتروني الجديد:",
+    "NewPassword": "كلمة المرور الجديدة:",
+    "NewField": "{{field}} الجديد :",
+    "SendAnnouncement": "إرسال الإعلان"
 
   }
   
