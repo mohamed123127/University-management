@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next"; 
 
-function DataGridViewStyle2({ Columns, Data, onAction }) {
+function DataGridViewStyle2({ Columns, Data, onAction,ClassName }) {
     const { t } = useTranslation();
     
     const [selectedOptions, setSelectedOptions] = useState({}); // State for selected option per row
@@ -16,8 +16,8 @@ function DataGridViewStyle2({ Columns, Data, onAction }) {
     };
 
     return (
-        <div className="overflow-x-auto bg-white shadow-md rounded-md">
-            <table className="min-w-full border border-gray-300">
+        <div className={`${ClassName} min-w-full border border-gray-300 bg-white shadow-lg rounded-md`}>
+            <table className="min-w-full">
                 <thead className="bg-gray-100">
                     <tr>
                         {Columns.map((column) => (

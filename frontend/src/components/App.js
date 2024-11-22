@@ -23,7 +23,7 @@ import Student from "js/models/Student";
 const routes = [
   {
     path: "/",
-    element: <StudentsTable/>,
+    element: <Login_SignUp/>,
   },
   {
     path: "/EtudientMainPage",

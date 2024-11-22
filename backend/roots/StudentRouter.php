@@ -130,9 +130,6 @@ try{
                 $response = ["success" => false, "message" => "Method does not match"];
             }
         break;
-        default:
-            $response = ['success' => false, 'message' => 'Endpoint not exsist'];
-        break;
         case 'changeActivationStatus':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $data = json_decode(file_get_contents('php://input'), true);

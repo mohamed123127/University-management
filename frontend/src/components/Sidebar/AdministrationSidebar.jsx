@@ -5,6 +5,9 @@ import { DocumentIcon , UserGroupIcon  , EyeIcon , ExclamationCircleIcon , BellI
 import { useTranslation } from "react-i18next";
 import Administration from "pages/AdministrationSide/Administration";
 import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
+import Problems from "pages/AdministrationSide/ReportProblem";
+import Students from "pages/AdministrationSide/Students";
+import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
 import Announcement from "pages/AdministrationSide/Announcements";
 
 export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen}) {
@@ -32,19 +35,19 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
 
         <div className="flex flex-col space-y-4 mt-20 h-full relative">
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('students', <UserGroupIcon  className="w-8 h-8" />, <EtudientDashboard />)} 
+            OnClick={() => sidebarItemClickHundled('students', <UserGroupIcon  className="w-8 h-8" />, <Students />)} 
             itemIcon={<UserGroupIcon  size='25'/>} 
             Title={t('students')} 
             isOpen={isOpen} 
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <ReportProblem />)} 
+            OnClick={() => sidebarItemClickHundled('document_requests_administration', <DocumentIcon className="w-8 h-8" />, <DocumentRequestsAdmin />)} 
             itemIcon={<DocumentIcon />} 
             Title={t('document_requests_administration')} 
             isOpen={isOpen}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <ManageAccount />)} 
+            OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequestsAdmin />)} 
             itemIcon={<EyeIcon />} 
             Title={t('visual_requests')} 
             isOpen={isOpen}
@@ -56,13 +59,13 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             isOpen={isOpen}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('problems', <ExclamationCircleIcon className="w-8 h-8" />, <ManageAccount />)} 
+            OnClick={() => sidebarItemClickHundled('Problems', <ExclamationCircleIcon className="w-8 h-8" />, <Problems />)} 
             itemIcon={<ExclamationCircleIcon />} 
             Title={t('Problems')} 
             isOpen={isOpen}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('Administration', <UserCircleIcon className="w-8 h-8" />, <ManageAccount />)} 
+            OnClick={() => sidebarItemClickHundled('Administration', <UserCircleIcon className="w-8 h-8" />, <Administration />)} 
             itemIcon={<UserCircleIcon />} 
             Title={t('Administration')} 
             isOpen={isOpen}
