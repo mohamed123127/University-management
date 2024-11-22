@@ -1,38 +1,15 @@
 import React, { useState } from "react";
 import Dropdown from "components/custom controls/buttons/Dropdown";
-import SideBarItemWithList from "components/Sidebar/SideBarItemWithList";
 import SideBatItem from "components/Sidebar/SideBarItem";
-import { DocumentIcon , UserGroupIcon  , EyeIcon , ExclamationCircleIcon , BellIcon , Cog8ToothIcon  , UserCircleIcon  } from "@heroicons/react/24/solid";
-import { RxDashboard } from "react-icons/rx";
-import Announcements from "pages/AdministrationSide/Announcements";
-import DocumentRequests from "pages/StudentSide/DocumentRequests";
-import ManageAccount from "pages/StudentSide/ManageAccount";
-import ReportProblem from "pages/StudentSide/ReportProblem";
-import Settings from "pages/StudentSide/Settings";
-import VisualRequests from "pages/StudentSide/VisualRequests";
-import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
+import { DocumentIcon , UserGroupIcon  , EyeIcon , ExclamationCircleIcon , BellIcon   , UserCircleIcon  } from "@heroicons/react/24/solid";
 import { useTranslation } from "react-i18next";
+import Administration from "pages/AdministrationSide/Administration";
+import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
 import Announcement from "pages/AdministrationSide/Announcements";
 
 export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen}) {
   const [openedList, setOpenedList] = useState(""); // القائمة الفرعية المفتوحة
   const { t, i18n } = useTranslation();
-
-  const DocumentRequestItemsList = [
-    t('registration_certificate'),
-    t('transcript_request'),
-    t('parking_permit'),
-    t('library_card'),
-    t('internship_permit'),
-    t('student_id_card'),
-    t('block_academic_year'),
-  ];
-
-  const VisualRequestsItemsList = [
-    t('group_change_request'),
-    t('specialty_change_request'),
-    t('club_creation_request')
-  ];
 
   const toggleStatSidebar = () => {
     if (isOpen) {
@@ -45,13 +22,6 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
     SetActualPageName(PageName);
     SetActualPageIcon(PageIcon);
     SetActualPage(Page);
-  }
-
-  const DocumentRequestListItemClickHundled = (Page) => {
-    SetActualPageName('document_requests');
-    SetActualPageIcon(<DocumentIcon className="w-8 h-8" />);
-    SetActualPage(Page);
-    setOpenedList('');
   }
 
   return (
