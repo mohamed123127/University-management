@@ -170,13 +170,17 @@ try{
             }
             break;
         
-            case 'getAll':
-                $Students = Etudient::getall($conn);
-                if ($Students != null) {
-                    $response = ["success" => true, 'Data' => $Students];
-                } else {
-                    $response = ["success" => false, "message" => "it's not exists"];
-                }
+        case 'getAll':
+            $Students = Etudient::getall($conn);
+            if ($Students != null) {
+                $response = ["success" => true, 'Data' => $Students];
+            } else {
+                $response = ["success" => false, "message" => "it's not exists"];
+            }
+            break;
+        default:
+            $response = ["success" => false, "message" => "Invalid endpoint"];
+            break;
         
     }
 }catch (Exception $e) {

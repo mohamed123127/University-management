@@ -1,6 +1,5 @@
 <?php 
 class DocumentRequest {
-    private $id;
     private $type;
     private $status;
     private $notes;
@@ -19,7 +18,7 @@ class DocumentRequest {
         $this->studentId = $studentId;
     }
 
-    public function Add($conn){
+    public function add($conn){
         try{
             $sql = "INSERT INTO DocumentRequest(Type, Status, Notes, SubmissionDate, LastUpdatedDate, DocumentUrl, studentId) VALUES (?,?,?,?,?,?,?)";
             $stmt = $conn->prepare($sql);
