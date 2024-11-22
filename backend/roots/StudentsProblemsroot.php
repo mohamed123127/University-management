@@ -5,7 +5,6 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 require_once '../config/database.php';
-require_once '../controllers/DocumentRequest.php';
 require_once '../controllers/StudentsProblems.php';  // Add this if it's missing
 require_once '../utils/JwtLogin.php';
 
@@ -39,6 +38,15 @@ try {
                 $response = ["success" => false, "message" => "Invalid method"];
             }
             break;
+
+        case 'getAll':
+            $Problems = StudentsProblems::gettall($conn);
+            if ($Problems != null) {
+                $response = ["success" => true, 'Data' => $Problems];
+            } else {
+                    $response = ["success" => false, "message" => "it's not exists"];
+                }
+                break;
         
         default:
             $response = ["success" => false, "message" => "Invalid endpoint"];
