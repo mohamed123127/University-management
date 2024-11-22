@@ -16,13 +16,14 @@ import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
 import dataGridViewStyle3 from "./custom controls/data grid view/dataGridViewStyle3";
 import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
 import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
-import Cb1 from "./Tests/Cb1";
+import StudentsTable from "pages/AdministrationSide/Students";
 import Login_SignUp from "pages/Authentication/Login_SignUp";
-
+import DocumentRequests from "pages/StudentSide/DocumentRequests";
+import Student from "js/models/Student";
 const routes = [
   {
     path: "/",
-    element: <Login_SignUp />,
+    element: <StudentsTable/>,
   },
   {
     path: "/EtudientMainPage",
@@ -40,7 +41,7 @@ const routes = [
     path: "/DocumentRequest/RegistrationCertificate",
     element: <RegistrationCertificate />,
   },
-  {
+{
     path: "/DocumentRequest/GradeTranscript",
     element: <GradeTranscript />,
   },
@@ -83,4 +84,3 @@ export default function App() {
 */}
   return <RouterProvider router={router} />;
 }
-

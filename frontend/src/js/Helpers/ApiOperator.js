@@ -17,11 +17,15 @@ class ApiOperator{
                 options.body = JSON.stringify(data); // إرسال كـ JSON
               } 
             const response = await fetch(this.rootUrl+apiUrl,options);
+
+           // alert(this.rootUrl+apiUrl);
+
+
             try{
                 if(!response.ok){
                     alert(`success: ${response.success} \n Message: ${response.message}`);
                 }
-                //console.log(response.text());
+                console.log(response.text());
                     return await response.json();
             } catch (error){
                 alert("cathch error : " + error);
