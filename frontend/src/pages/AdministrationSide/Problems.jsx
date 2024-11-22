@@ -47,7 +47,7 @@ export default function Problems() {
                         </div>
 
                         <div className="mt-4 max-h-40 overflow-y-auto text-gray-700 text-sm border-t pt-2">
-                            {problem.report}
+                            {problem.content}
                         </div>
 
                       

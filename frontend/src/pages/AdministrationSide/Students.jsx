@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import RadioButton from "components/custom controls/buttons/RadioButton";
 import TextBoxStyle2 from "components/custom controls/textBox/TextBoxStyle2";
 import DataGridViewStyle2 from "components/custom controls/data grid view/dataGridViewStyle2";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
+import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
 
 export default function StudentsTable() {
     const { t } = useTranslation();
@@ -49,11 +48,15 @@ export default function StudentsTable() {
         setSearchTerm(e.target.value);
     };
 
-    const options1 = ["matricule", "last name", "speciality"];
+    const options1 = ["matricule" ,"educationYear","full name", "speciality", "email"];
     const options2 = ["all", "active", "desactive"];
 
     const filteredStudents = students.filter((student) => {
-        if (searchTerm ==="") return true;
+        if (searchTerm === "") return true;
+        else if (selectedOption === "full name") {
+            const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
+            return fullName.includes(searchTerm.toLowerCase());
+        }
         return student[selectedOption]?.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
@@ -64,50 +67,49 @@ export default function StudentsTable() {
     });
 
     return (
-        <div className="p-6 bg-gradient-to-r from-blue-50 via-blue-100 to-blue-200 min-h-screen rounded-lg shadow-xl">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Search By</h2>
-            
-            {/* Search Field and Radio Buttons */}
-            <div className="mb-6 flex items-center space-x-6 shadow-md p-4 w-[55%] rounded-lg bg-white">
-                <RadioButton
-                    options={options1}
-                    name="searchBy"
-                    value={selectedOption}
-                    onChange={handleRadioChange}
-                    className="text-gray-700 hover:text-blue-500 transition duration-300"
-                />
+        <div className="p-6 bg-gray-100 min-h-screen rounded-lg shadow-md">
+           
+            <div className="mb-6 flex justify-between items-center bg-white p-4 rounded-lg shadow-sm">
                 
-                {/* TextBoxStyle2 with Search Icon */}
-                <div className="relative w-1/3">
-                 
+                <div className="w-[60%]">
                     <TextBoxStyle2
-                        type="saerch"
+                        type="search"
                         value={searchTerm}
-                        
                         onChange={handleSearchChange}
-                        placeholder="search  "
-                        className="pl-10 pr-3 py-2 border rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm w-full"
+                        placeholder="Search..."
+                        textBoxClassName="w-[500px] h-12 pr-3 py-2 mb-[20px] border rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <div>
+                        <RadioButton
+                            options={options1}
+                            name="searchBy"
+                            value={selectedOption}
+                            onChange={handleRadioChange}
+                            radioClassName="text-gray-700 hover:text-blue-500 transition duration-300"
+                        />
+                    </div>
+                </div>
+
+                {/* Filter ComboBox */}
+                <div className="mb-6 ">
+                    <ComboBoxStyle1
+                        options={options2}
+                        name="statusFilter"
+                        value={selectedOption2}
+                        onChange={handleRadioChange2}
+                        comboBoxClassName="p-3 mb-9  rounded-md h-12  border-gray-300"
                     />
                 </div>
             </div>
 
-            {/* Filter by Status */}
-            <div className="mb-6 flex items-center w-[55%] shadow-md p-4 rounded-lg bg-white">
-                <RadioButton
-                    options={options2}
-                    name="statusFilter"
-                    value={selectedOption2}
-                    onChange={handleRadioChange2}
-                    className="text-gray-700 hover:text-blue-500 transition duration-300"
+            {/* Data Grid View */}
+            <div className="shadow-lg rounded-lg p-4 bg-white">
+                <DataGridViewStyle2
+                    Columns={columns}
+                    Data={filteredStudents1}
+                    onAction={handleAction}
                 />
             </div>
-
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4 mt-8">Students List:</h2>
-            <DataGridViewStyle2
-                Columns={columns}
-                Data={filteredStudents1}
-                onAction={handleAction}
-            />
         </div>
     );
 }
