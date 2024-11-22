@@ -3,18 +3,29 @@ import { useTranslation } from 'react-i18next';
 import LabelStyle1 from "../custom controls/labels/LabelStyle1";
 import TextBoxStyle2 from "../custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1";
-import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle1";
+import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle2";
 import Language from "components/Basics/Language";
+import i18n from 'i18next';
 
-export default function SignUp({ SingInButtonHandled, ClassName }) {
-    const { t, i18n } = useTranslation();
 
-    const [language, setLanguage] = useState(i18n.language);
-    const [currentLanguage, setCurrentLanguage] = useState("");
+export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,setCurrentLanguage}) {
+  const { t, i18n } = useTranslation();
+    useEffect(()=>{
+      i18n.changeLanguage(currentLanguage);
+      const html = document.documentElement;
+      html.setAttribute('lang', i18n.language);
+      html.setAttribute('dir', i18n.language === 'ar' ? 'rtl' : 'ltr');
+  },[currentLanguage])
 
-    useEffect(() => {
-        i18n.changeLanguage(currentLanguage);
-    }, [currentLanguage]);
+    useEffect(()=>{
+      setCurrentLanguage(i18n.language);
+    },[i18n.language])
+
+    useEffect(()=>{
+      const params = new URLSearchParams(window.location.search);
+        const email = params.get('email');
+      if(email) SignUpFormData.email = email;
+    },[])
 
     const handleLanguageChange = (lang) => {
         setCurrentLanguage(lang);
@@ -139,6 +150,25 @@ export default function SignUp({ SingInButtonHandled, ClassName }) {
                         />
                     </div>
 
+          <div className="flex space-x-1 items-center w-[90%]">
+            <LabelStyle1 labelText={`${t('AcademicYear')}:`} labelClassName="text-sm ml-1 text-nowrap" />
+            <ComboBoxStyle1
+              Name="EducationYear"
+              options={academicYearOptions}
+              value={SignUpFormData.EducationYear}
+              onChange={handleChange}
+              comboBoxClassName={`w-full`}
+            />
+            <LabelStyle1 labelText={`${t('Speciality')}:`} labelClassName="text-sm ml-1" />
+            <ComboBoxStyle1
+              Name="Specialty"
+              options={specialityOptions}
+              value={SignUpFormData.Specialty}
+              onChange={handleChange}
+              disabled={specialityComboBoxDisabled}
+              comboBoxClassName={`${specialityComboBoxDisabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white'} w-full`}
+            />
+          </div>
                     <div className="flex space-x-1 items-center">
                         <LabelStyle1 labelText={`${t('Faculty')}:`} labelClassName="text-sm ml-1" />
                         <ComboBoxStyle1
@@ -150,25 +180,7 @@ export default function SignUp({ SingInButtonHandled, ClassName }) {
                         />
                     </div>
 
-                    <div className="flex space-x-1 items-center">
-                        <LabelStyle1 labelText={`${t('AcademicYear')}:`} labelClassName="text-sm ml-1 text-nowrap" />
-                        <ComboBoxStyle1
-                            Name="EducationYear"
-                            options={academicYearOptions}
-                            value={SignUpFormData.EducationYear}
-                            onChange={handleChange}
-                            comboBoxClassName={`w-full`}
-                        />
-                        <LabelStyle1 labelText={`${t('Speciality')}:`} labelClassName="text-sm ml-1" />
-                        <ComboBoxStyle1
-                            Name="Specialty"
-                            options={specialityOptions}
-                            value={SignUpFormData.Specialty}
-                            onChange={handleChange}
-                            disabled={specialityComboBoxDisabled}
-                            comboBoxClassName={`${specialityComboBoxDisabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white'} w-full`}
-                        />
-                    </div>
+                   
 
                     <div className="flex space-x-1">
                         <LabelStyle1 labelText={`${t('Email')}:`} labelClassName="text-md w-auto ml-1" />
@@ -208,17 +220,18 @@ export default function SignUp({ SingInButtonHandled, ClassName }) {
                     </div>
                 </div>
 
-                <ButtonStyle1
-                    buttonText={`${t('SignUp')}`}
-                    buttonClassName="items-center w-full mt-8"
-                    onClick={SignUpButtonHandled}
-                />
-            </form>
+           
+        <ButtonStyle1
+          buttonText={`${t('SignUp')}`}
+          buttonClassName="items-center w-full mt-8"
+          onClick={SignUpButtonHandled}
+        />
+      </form>
 
-            <p className="text-gray-400 text-xs mt-2 ltr:mr-auto rtl:ml-auto rtl:mr-6 ltr:ml-6">
-                {`${t('AlreadyHaveAnAccount')}`}
-                <button onClick={SingInButtonHandled} className="text-blue-400 hover:underline rtl:mr-1 ltr:ml-1"> {`${t('Login')}`}</button>
-            </p>
-        </div>
-    );
+      <p className="text-gray-400 text-xs mt-2 ltr:mr-auto rtl:ml-auto rtl:mr-6 ltr:ml-6">
+      {`${t('AlreadyHaveAnAccount')}`}
+        <button onClick={SingInButtonHandled} className="text-blue-400 hover:underline rtl:mr-1 ltr:ml-1"> {`${t('Login')}`}</button>
+      </p>
+    </div>
+  );
 }

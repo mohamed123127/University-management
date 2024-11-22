@@ -1,13 +1,19 @@
 import React, { useState } from "react";
-import Login_SignUp_bg from "../resources/Images/Login_SignUp_bg.png";
-import Login_SignUp_image from "../resources/Images/Login_Signup_image.jpg"
-import Login from "../components/Login_SignUp/Login";
-import SignUp from "../components/Login_SignUp/SignUp";
-import { use } from "i18next";
+import Login_SignUp_bg from "resources/Images/Login_SignUp_bg.png";
+import Login_SignUp_image from "resources/Images/Login_Signup_image.jpg"
+import Login from "../../components/Login_SignUp/Login";
+import SignUp from "../../components/Login_SignUp/SignUp";
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
+
+
 
 export default function Login_SignUp() {
   const [position, setPosition] = useState(0);
   const [isLoginPage,setLoginPage] = useState(true);
+  const { t } = useTranslation();
+
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 
   const handleSignInClick = () => {
     setPosition(0);
@@ -40,8 +46,8 @@ export default function Login_SignUp() {
         </div>
         
         {/* مكونات تسجيل الدخول والتسجيل */}
-        <SignUp SingInButtonHandled={handleSignInClick} ClassName={`${isLoginPage ? 'hidden' : 'block'} md:flex`}/>
-        <Login SignUpButtonHandled={handleSignUpClick} ClassName={`${!isLoginPage ? 'hidden' : 'block'} md:flex`}/>
+        <SignUp SingInButtonHandled={handleSignInClick} currentLanguage={currentLanguage} setCurrentLanguage={setCurrentLanguage} ClassName={`${isLoginPage ? 'hidden' : 'block'} md:flex`}/>
+        <Login SignUpButtonHandled={handleSignUpClick} currentLanguage={currentLanguage} setCurrentLanguage={setCurrentLanguage} ClassName={`${!isLoginPage ? 'hidden' : 'block'} md:flex`}/>
         
       </div>
     </div>

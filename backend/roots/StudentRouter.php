@@ -9,8 +9,9 @@ require_once '../controllers/Etudient.php'; // تضمين ملف Etudient
 require_once '../utils/JwtLogin.php';
 
 // احصل على طريقة الطلب (GET, POST, PUT, DELETE)
-$method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? null;
+$method = $_SERVER['REQUEST_METHOD'];
+if($method == "POST") $data = json_decode(file_get_contents('php://input'), true);
 
 // استجابة افتراضية
 $response = ['success' => false, 'message' => 'Invalid request'];
@@ -48,7 +49,6 @@ try{
         break;
         case 'isExistEtudient':
             if($method == "POST"){
-                $data = json_decode(file_get_contents('php://input'), true);
                 if (isset($data['email']) && isset($data['password'])) {
                     $email = $data['email'];
                     $password = $data['password'];
@@ -101,6 +101,37 @@ try{
             {
                 $response = ["success" => false, "message" => "Method does not match"];
             }
+        break;
+        case 'getStudentByEmail':
+            if($method =="GET")
+            {
+                if (isset($_GET['email'])) 
+                {
+                    $email = $_GET['email'];
+                } else 
+                {
+                    $response = ["success" => false, "message" => "Email is required"];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                if ($email !== '') {
+                    $StudentData = Etudient::getByEmail($conn, $email);
+                    if ($StudentData != null) {
+                        $response = ["success" => true, "isRegistered" => true,'Data' => $StudentData];
+                    } else {
+                        $response = ["success" => true, "isRegistered" => false];
+                    }
+                } else {
+                    $response = ["success" => false, "message" => "email is required"];
+                }
+            }else
+            {
+                $response = ["success" => false, "message" => "Method does not match"];
+            }
+        break;
+        default:
+            $response = ['success' => false, 'message' => 'Endpoint not exsist'];
         break;
         case 'changeActivationStatus':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {

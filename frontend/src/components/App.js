@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import LoginSignUp from "pages/Login_SignUp";
+import LoginSignUp from "pages/Authentication/Login_SignUp";
 import StudentIDCard from "pdfGenerator/StudentIDCard";
 import BlockAcademicYear from "pdfGenerator/BlockAcademicYear";
 import RegistrationCertificate from "pdfGenerator/RegistrationCertificate";
@@ -7,23 +7,26 @@ import InternshipPermit from "pdfGenerator/InternshipPermit";
 import LibaryCard from "pdfGenerator/LibaryCard";
 import ParkingPermit from "pdfGenerator/ParkingPermit";
 import GradeTranscript from "pdfGenerator/GradeTranscript";
-import AdministrationMainPage from "pages/AdministrationMainPage"
+import AdministrationMainPage from "pages/AdministrationSide/AdministrationMainPage"
 import { createBrowserRouter } from "react-router-dom";
-import EtudientDashboard from "pages/EtudientDashboard";
+import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { RouterProvider } from "react-router-dom";
 import GroupChangeRequest from "groupchange";
-import Login from "./Login_SignUp/Login";
-import EtudientMainPage from "pages/EtudientMainPage"
-
-
-
+import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
+import dataGridViewStyle3 from "./custom controls/data grid view/dataGridViewStyle3";
+import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
+import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
+import StudentsTable from "pages/AdministrationSide/Students";
+import Login_SignUp from "pages/Authentication/Login_SignUp";
+import DocumentRequests from "pages/StudentSide/DocumentRequests";
+import Student from "js/models/Student";
 const routes = [
   {
     path: "/",
-    element: <LoginSignUp />,
+    element: <StudentsTable/>,
   },
   {
-    path: "/EtudientDashboard",
+    path: "/EtudientMainPage",
    element: <EtudientMainPage />,
   },
   {
@@ -38,7 +41,7 @@ const routes = [
     path: "/DocumentRequest/RegistrationCertificate",
     element: <RegistrationCertificate />,
   },
-  {
+{
     path: "/DocumentRequest/GradeTranscript",
     element: <GradeTranscript />,
   },
@@ -53,6 +56,10 @@ const routes = [
   {
     path: "/DocumentRequest/ParkingPermit",
     element: <ParkingPermit />,
+  },
+  {
+    path: "/AdministrationMainPage",
+   element: <AdministrationMainPage />,
   },
 ];
 
@@ -77,4 +84,3 @@ export default function App() {
 */}
   return <RouterProvider router={router} />;
 }
-

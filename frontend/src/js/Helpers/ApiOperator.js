@@ -4,6 +4,8 @@ class ApiOperator{
     static rootUrl = settings.domain + "University-management/backend/roots/";
 
     static async request(apiUrl,method,data){
+        //alert(this.rootUrl+apiUrl);
+
         if(apiUrl != null && method != null){
             const options = {
                 method,
@@ -11,17 +13,19 @@ class ApiOperator{
                   'Content-Type': 'application/json',
                 },
               };
-
-              if (data && !(data instanceof FormData)) {
+              if (data ) {
                 options.body = JSON.stringify(data); // إرسال كـ JSON
-              } else if (data) {
-                options.body = data; // إرسال كـ FormData
-              }
+              } 
             const response = await fetch(this.rootUrl+apiUrl,options);
+
+           // alert(this.rootUrl+apiUrl);
+
+
             try{
                 if(!response.ok){
                     alert(`success: ${response.success} \n Message: ${response.message}`);
                 }
+                console.log(response.text());
                     return await response.json();
             } catch (error){
                 alert("cathch error : " + error);

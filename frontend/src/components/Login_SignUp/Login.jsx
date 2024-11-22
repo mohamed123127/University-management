@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState , useEffect,useRef} from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import ToggleButton from "../custom controls/ToggleButton"
@@ -8,15 +8,28 @@ import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1"
 import GoogleIcon from "resources/Icons/GoogleIcon.png"
 import Language from "components/Basics/Language";
 import Student from "js/models/Student";
+import Administration from "js/models/Administration";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
+import Swal from 'sweetalert2';
+import i18n from 'i18next';
 
-export default function Login({SignUpButtonHandled,ClassName}){
+
+
+export default function Login({SignUpButtonHandled,ClassName,currentLanguage,setCurrentLanguage}){
     const { t, i18n } = useTranslation();
+    const SignUpButton = useRef(null);
 
-    const [currentLanguage, setCurrentLanguage] = useState("");
     
     useEffect(()=>{
         i18n.changeLanguage(currentLanguage);
+        const html = document.documentElement;
+        html.setAttribute('lang', i18n.language);
+        html.setAttribute('dir', i18n.language === 'ar' ? 'rtl' : 'ltr');
     },[currentLanguage])
+
+    useEffect(()=>{
+        setCurrentLanguage(i18n.language);
+      },[i18n.language])
 
     const handleLanguageChange = (lang) => {
         setCurrentLanguage(lang);
@@ -38,12 +51,14 @@ export default function Login({SignUpButtonHandled,ClassName}){
     const LoginButtonHandled = async(e)=> {
         e.preventDefault();
         try{
-            const data =await Student.isExistEtudient(loginFormData.email,loginFormData.password);
+            let data ;
+            if(isStudent) data = await Student.isExistEtudient(loginFormData.email,loginFormData.password);
+            else data = {success:true,token:'asd123',id:1} //await Administration.isExistEtudient(loginFormData.email,loginFormData.password);
         if (data.success === true) {
             localStorage.setItem('jwt', data.token); // تخزين التوكن في Local Storage
             localStorage.setItem('id',data.id)
             // يمكنك توجيه المستخدم إلى صفحة أخرى هنا
-            navigate("/EtudientDashboard");
+            isStudent ? navigate("/EtudientMainPage") : navigate("/AdministrationMainPage");
         } else {
             alert(data.message);
         }
@@ -59,13 +74,41 @@ export default function Login({SignUpButtonHandled,ClassName}){
     }
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
+        async function Connect() {
+            const params = new URLSearchParams(window.location.search);
         const email = params.get('email');
+
         if (email) {
-            // احفظ البريد الإلكتروني في الحالة أو قم بعملية تسجيل الدخول
-            alert(`Logged in as: ${email}`);
-            navigate("/EtudientDashboard");
+                const result = await Student.GetByEmail(email);
+                if(result.success)
+                    {
+                        if(result.isRegistered){
+                            const data = result.Data;
+                            localStorage.setItem('id',data.Id)
+                            navigate("/EtudientMainPage");
+                    }
+                     else
+                    {
+                        Swal.fire({
+                            title: 'تنبيه!',
+                            text: t('CompleteYourDataToLoginMessage'),
+                            icon: 'info', // أنواع الأيقونات: success, error, warning, info, question
+                            confirmButtonText: 'حسناً',
+                            confirmButtonColor: '#3085d6',
+                            background: '#f7f7f7',
+                            customClass: {
+                              popup: 'my-custom-alert'
+                            }
+                          });
+                        SignUpButton.current.click();
+                    }
+                }else{
+
+                    console.log(result.success + " / " + result.message);
+                }
         }
+        }
+        Connect();
     }, []);
     return(
         <div className={`${ClassName} flex flex-col items-center relative`}>
@@ -73,7 +116,7 @@ export default function Login({SignUpButtonHandled,ClassName}){
                     {/* Student_adminstation switch and welcom part */}
                         <div className="flex justify-end w-full pb-20 ">
                             <LabelStyle1 labelText={t('Login')} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap"/>
-                            <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language}/>
+                            <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={currentLanguage}/>
                         </div>
                     {/* Login_SignUp form */}
                     <form className="bg-white flex flex-col w-[80%]">
@@ -87,14 +130,14 @@ export default function Login({SignUpButtonHandled,ClassName}){
                         <h5 className="absolute left-1/2 transform -translate-x-1/2 top-[-12px] bg-white px-2">{`${t('OR')}`}</h5>
                         <hr className="border border-gray-500" />
                     </div>
-                    <button onClick={LoginWithGoogleButtonHandled} className={`text-gray-500 rounded-[5px] p-2 text-[12px] font-Cairo bg-white shadow-md mt-5`}>
+                    <button disabled={!isStudent} onClick={LoginWithGoogleButtonHandled} className={`text-gray-500 rounded-[5px] p-2 text-[12px] font-Cairo bg-white shadow-md mt-5 disabled:bg-gray-400 disabled:cursor-not-allowed`}>
                         <div className="flex justify-center">
                             <img src={GoogleIcon} alt="Button Icon" className="w-4 h-4 mr-2 rtl:ml-2 mt-[1px]"/>
                             {`${t('SignWithGoogle')}`}
                         </div>
                     </button>
                     </form>
-                    <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'hidden' : 'visible'}`}>{`${t('DontHaveAccount')}`} <button onClick={SignUpButtonHandled} className="text-blue-400">{`${t('SignUp')}`}</button></p>
+                    <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'visible' : 'hidden'}`}>{`${t('DontHaveAccount')}`} <button ref={SignUpButton} onClick={SignUpButtonHandled} className="text-blue-400">{`${t('SignUp')}`}</button></p>
 
                     <ToggleButton toggleButtonClassName="absolute bottom-4" leftLabel={`${t('Administration')}`} rightLabel={`${t('Student')}`} onToggle={setIsStudent}/>
             </div>

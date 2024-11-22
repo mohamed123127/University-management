@@ -1,36 +1,36 @@
 import React, { useState } from "react";
 import Dropdown from "components/custom controls/buttons/Dropdown";
-import SideBatItemWithList from "components/Sidebar/SideBarItemWithList";
+import SideBarItemWithList from "components/Sidebar/SideBarItemWithList";
 import SideBatItem from "components/Sidebar/SideBarItem";
 import { DocumentIcon , PlusCircleIcon , EyeIcon , ExclamationCircleIcon , BellIcon , Cog8ToothIcon  , UserCircleIcon  } from "@heroicons/react/24/solid";
 import { RxDashboard } from "react-icons/rx";
-import Announcements from "pages/Announcements";
-import DocumentRequests from "pages/DocumentRequests";
-import ManageAccount from "pages/ManageAccount";
-import ReportProblem from "pages/ReportProblem";
-import Settings from "pages/Settings";
-import VisualRequests from "pages/VisualRequests";
-import EtudientDashboard from "pages/EtudientDashboard";
+import Announcements from "pages/AdministrationSide/Announcements";
+import DocumentRequests from "pages/StudentSide/DocumentRequests";
+import ManageAccount from "pages/StudentSide/ManageAccount";
+import ReportProblem from "pages/StudentSide/ReportProblem";
+import Settings from "pages/StudentSide/Settings";
+import VisualRequests from "pages/StudentSide/VisualRequests";
+import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { useTranslation } from "react-i18next";
 
-export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen}) {
+export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen,studentData}) {
   const [openedList, setOpenedList] = useState(""); // القائمة الفرعية المفتوحة
   const { t, i18n } = useTranslation();
 
   const DocumentRequestItemsList = [
     t('registration_certificate'),
-    t('transcript_request'),
+    t('grade_transcript'),
     t('parking_permit'),
     t('library_card'),
     t('internship_permit'),
-    t('student_id_card'),
+    t('studentCard'),
     t('block_academic_year'),
   ];
 
   const VisualRequestsItemsList = [
-    t('group_change_request'),
-    t('specialty_change_request'),
-    t('club_creation_request')
+    t('Group'),
+    t('Section'),
+    t('Speciality')
   ];
 
   const toggleStatSidebar = () => {
@@ -53,6 +53,13 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
     setOpenedList('');
   }
 
+  const VisualRequestsListItemClickHundled = (Page) => {
+    SetActualPageName('visual_requests');
+    SetActualPageIcon(<EyeIcon className="w-8 h-8" />);
+    SetActualPage(Page);
+    setOpenedList('');
+  }
+
   return (
     <div className={`${ClassName}`}>
       <div className={`relative flex flex-col h-screen ${isOpen ? "w-60" : "w-12"} bg-blue-600 p-1 text-white transition-all duration-500 ease-in-out`}>
@@ -61,13 +68,13 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
 
         <div className="flex flex-col space-y-4 mt-20 h-full relative">
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('dashboard', <RxDashboard className="w-8 h-8" />, <EtudientDashboard />)} 
+            OnClick={() => sidebarItemClickHundled('dashboard', <RxDashboard className="w-8 h-8" />, <EtudientDashboard studentName={studentData.FirstName}/>)} 
             itemIcon={<RxDashboard size='25'/>} 
             Title={t('dashboard')} 
             isOpen={isOpen} 
           />
-          <SideBatItemWithList 
-            OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <DocumentRequests />)} 
+          <SideBarItemWithList 
+            OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <DocumentRequests StudentData={studentData}/>)} 
             itemIcon={<DocumentIcon />} 
             Title={t('document_requests')} 
             isOpen={isOpen} 
@@ -76,17 +83,18 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             setOpenedList={setOpenedList}
             itemClickHandled={DocumentRequestListItemClickHundled}
           />
-          <SideBatItemWithList 
-            OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests />)} 
+          <SideBarItemWithList 
+            OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests studentData={studentData}/>)} 
             itemIcon={<EyeIcon />} 
             Title={t('visual_requests')} 
             isOpen={isOpen} 
             ItemsList={VisualRequestsItemsList} 
             OpenedList={openedList} 
             setOpenedList={setOpenedList}
+            itemClickHandled={VisualRequestsListItemClickHundled}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem />)} 
+            OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem StudentId={studentData.Id}/>)} 
             itemIcon={<ExclamationCircleIcon />} 
             Title={t('report_problem')} 
             isOpen={isOpen}

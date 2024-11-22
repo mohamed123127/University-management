@@ -11,7 +11,7 @@ export default function Dropdown({ isOpen, setIsOpen, Orientation, ClassName}) {
   const handleClick = () => setIsOpen(!isOpen);
 
   return (
-    <button
+    <div
       className={`focus:outline-none rounded ${ClassName}`}
       onClick={(event)=>{event.stopPropagation();handleClick()}}>
       {Orientation === "horizontal" ? (
@@ -35,6 +35,6 @@ export default function Dropdown({ isOpen, setIsOpen, Orientation, ClassName}) {
           <ChevronDownIcon className="h-5 w-5 text-white" />
         )
       ) : null}
-    </button>
+    </div>
   );
 }
