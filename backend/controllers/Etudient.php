@@ -63,6 +63,37 @@ class Etudient extends User {
         return null;
     }
 
+    public static function getByEducationYear($conn, $EducationYear) {
+        $sql = "SELECT Id FROM etudient WHERE EducationYear = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $EducationYear);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $studentsId = []; // مصفوفة فارغة لتخزين القيم
+            while ($row = $result->fetch_assoc()) {
+                $studentsId[] = $row['Id']; // جمع كل قيمة id
+            }
+            return $studentsId;
+        }
+        return null;
+    }
+
+    public static function getAllId($conn) {
+        $sql = "SELECT Id FROM etudient";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $studentsId = []; // مصفوفة فارغة لتخزين القيم
+            while ($row = $result->fetch_assoc()) {
+                $studentsId[] = $row['Id']; // جمع كل قيمة id
+            }
+            return $studentsId;
+        }
+        return null;
+    }
+
     public static function getByEmail($conn, $email) {
         $sql = "SELECT * FROM etudient WHERE email = ?";
         $stmt = $conn->prepare($sql);
@@ -74,7 +105,6 @@ class Etudient extends User {
         }
         return null;
     }
-
 
     public function addEtudient($conn) {
         
@@ -180,8 +210,4 @@ class Etudient extends User {
     
         
 }
-
-    
-
-
 ?>

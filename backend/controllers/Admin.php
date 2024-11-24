@@ -25,7 +25,7 @@ class Admin extends User{
         
 
         if (!$stmt) {
-            echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+           return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
         }
         
         
@@ -61,7 +61,7 @@ class Admin extends User{
 
     public static function getall($conn) {
         try {
-            $sql = "SELECT * Password FROM administration";
+            $sql = "SELECT * FROM administration";
             $stmt = $conn->prepare($sql);
     
             if (!$stmt) {

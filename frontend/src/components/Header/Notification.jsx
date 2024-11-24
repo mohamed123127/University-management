@@ -7,12 +7,12 @@ export default function Notification({notificationsList,setNotification,isOpen,s
     const clickButtonHandled = ()=>{
          setIsOpen(!isOpen);
          setNotification((prevNotifications) =>
-            prevNotifications.map((n) => ({ ...n, read: true }))
+            prevNotifications.map((n) => ({ ...n, IsRead: true }))
           );
         }
     const [notificationNumber,setNotificationNumber] = useState(5);
     useEffect(() => {
-        setNotificationNumber(notificationsList.filter((n) => !n.read).length);
+        setNotificationNumber(notificationsList.filter((n) => !n.IsRead).length);
       }, [notificationsList]);
     return (
         <div className={`${ClassName}`}>

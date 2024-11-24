@@ -26,11 +26,7 @@ export default function Students() {
     ];
 
     const handleAction = (student) => {
-        setStudents((prev) =>
-            prev.map((item) =>
-                item.id === student.id ? { ...item, active: !item.active } : item
-            )
-        );
+        
     };
 
     const [selectedOption, setSelectedOption] = useState("matricule");

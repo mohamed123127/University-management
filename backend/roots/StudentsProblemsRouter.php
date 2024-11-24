@@ -19,13 +19,13 @@ try {
             if($method == "POST") {
                 $data = json_decode(file_get_contents('php://input'), true);
                 
-                if (isset($data['studentId']) && isset($data['title']) && isset($data['content'])) {
-                    $studentId = $data['studentId'];
+                if (isset($data['email']) && isset($data['title']) && isset($data['content'])) {
+                    $email = $data['email'];
                     $Title = $data['title'];
                     $Content = $data['content'];
                     
-                    if ($studentId !== '' && $Title !== '' && $Content !== '') {
-                        $problem = new StudentsProblems($studentId, $Title, $Content);
+                    if ($email !== '' && $Title !== '' && $Content !== '') {
+                        $problem = new StudentsProblems($email, $Title, $Content);
                         $response = $problem->add($conn);
                     } else {
                         $response = ["success" => false, "message" => "Data are required"];
@@ -39,14 +39,8 @@ try {
             break;
 
         case 'getAll':
-            $Problems = StudentsProblems::gettall($conn);
-            if ($Problems != null) {
-                $response = ["success" => true, 'Data' => $Problems];
-            } else {
-                    $response = ["success" => false, "message" => "it's not exists"];
-                }
-                break;
-        
+            $response = StudentsProblems::gettall($conn);
+            break;
         default:
             $response = ["success" => false, "message" => "Invalid endpoint"];
             break;

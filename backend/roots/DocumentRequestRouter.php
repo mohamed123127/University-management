@@ -74,7 +74,34 @@ try{
             {
             $response = ["success" => false, "message" => "Method does not match"];
             }  
-            break;
+        break;
+        case 'getAll':
+            if ($method === 'GET') {
+                $response = DocumentRequest::getall($conn);
+                } else {
+                    $response = ["success" => false, "message" => "Invalid request method. Use POST."];
+                }
+        break;
+        case 'updateStatus':
+            if($method == "POST") {
+                $data = json_decode(file_get_contents('php://input'), true);
+                
+                if (isset($data['id']) && isset($data['status'])) {
+                    $id = $data['id'];
+                    $status = $data['status'];
+                    
+                    if ($id !== '' && $status !== '') {
+                        $response = DocumentRequest::UpdateStatus($conn,$id,$status);
+                    } else {
+                        $response = ["success" => false, "message" => "id and status are required"];
+                    }
+                } else {
+                    $response = ["success" => false, "message" => "All inputs are required"];
+                }
+            } else {
+                $response = ["success" => false, "message" => "Invalid method"];
+            }
+        break;
         default:
             $response = ['success' => false, 'message' => 'Endpoint not exsist'];
         break;

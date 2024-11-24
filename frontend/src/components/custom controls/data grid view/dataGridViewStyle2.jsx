@@ -48,7 +48,6 @@ function DataGridViewStyle2({ Columns, Data, onAction,ClassName }) {
                                         <button
                                             onClick={() => {
                                                 onAction(row);
-                                                alert("Action executed!");
                                             }}
                                             className={`px-3 py-1 rounded text-white transition duration-200 ${
                                                 row.active
