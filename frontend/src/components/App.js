@@ -20,7 +20,7 @@ import StudentsTable from "pages/AdministrationSide/Students";
 import Login_SignUp from "pages/Authentication/Login_SignUp";
 import DocumentRequests from "pages/StudentSide/DocumentRequests";
 import Student from "js/models/Student";
-import Cb1 from "components/Tests/Cb1"
+
 const routes = [
   {
     path: "/",

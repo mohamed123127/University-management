@@ -38,7 +38,7 @@ class VRequest{
             $stmt->get_result();
             return true;
         }catch(Exception $e) {
-            echo json_encode(["success" => false, "message" => "هناك خطأ"]);
+            return(["success" => false, "message" => "هناك خطأ"]);
         }
     }
 
@@ -75,12 +75,12 @@ class VRequest{
 
     public static function getall($conn) {
         try {
-            $sql = "SELECT * FROM virtualrequest";
+            $sql = "SELECT * FROM changerequests";
             $stmt = $conn->prepare($sql);
     
             if (!$stmt) {
-                echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
-                return;
+                return(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+                
             }
     
             $stmt->execute();
@@ -91,11 +91,38 @@ class VRequest{
                 $requests[] = $row;
             }
     
-            echo json_encode(["success" => true, "students" => $requests]);
+            return(["success" => true, "data" => $requests]);
     
             $stmt->close();
         } catch (Exception $ex) {
-            echo json_encode(["success" => false, "message" => "An error occurred: " . $ex]);
+            return(["success" => false, "message" => "An error occurred: " . $ex]);
+        }
+    }
+
+    public static function getById($conn , $id) {
+        try {
+            $sql = "SELECT * FROM changerequests WHERE StudentId =? ";
+           
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            if (!$stmt) {
+                return(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+                
+            }
+    
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            $requests = [];
+            while ($row = $result->fetch_assoc()) {
+                $requests[] = $row;
+            }
+    
+            return(["success" => true, "data" => $requests]);
+    
+            $stmt->close();
+        } catch (Exception $ex) {
+            return(["success" => false, "message" => "An error occurred: " . $ex]);
         }
     }
 }
