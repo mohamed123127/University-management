@@ -12,11 +12,11 @@ class StudentsProblems {
     private $Id;
     private $Title;
     private $Content;
-    private $StudentId;
+    private $Email;
 
 
-    public function __construct($StudentId,$Title,$Content){
-        $this->StudentId = $StudentId;
+    public function __construct($Email,$Title,$Content){
+        $this->Email = $Email;
         $this->Title = $Title;
         $this->Content = $Content;
     }
@@ -24,7 +24,7 @@ class StudentsProblems {
 
 public function add($conn) {
     try {
-        $sql = "INSERT INTO ReportProblem (StudentId, Title, Content, Date) 
+        $sql = "INSERT INTO ReportProblem (Email, Title, Content, Date) 
                 VALUES (?, ?, ?, CURRENT_TIME())";
 
         $stmt = $conn->prepare($sql);
@@ -34,7 +34,7 @@ public function add($conn) {
         }
 
         // Bind parameters
-        $stmt->bind_param("iss", $this->StudentId, $this->Title, $this->Content);
+        $stmt->bind_param("sss", $this->Email, $this->Title, $this->Content);
 
         if ($stmt->execute()) {
             return ["success" => true, "message" => "Problem added successfully."];
@@ -49,12 +49,11 @@ public function add($conn) {
 
 public static function gettall($conn){
     try {
-        $sql = "SELECT * Password FROM studyverse";
+        $sql = "SELECT * FROM ReportProblem";
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
-            return;
+            return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
         }
 
         $stmt->execute();
@@ -64,12 +63,10 @@ public static function gettall($conn){
         while ($row = $result->fetch_assoc()) {
             $Problems[] = $row;
         }
-
-        echo json_encode(["success" => true, "problmes" => $Problems]);
-
         $stmt->close();
+        return ["success" => true, "problmes" => $Problems];
     } catch (Exception $ex) {
-        echo json_encode(["success" => false, "message" => "An error occurred: " . $ex]);
+        return ["success" => false, "message" => "An error occurred: " . $ex];
     }
 }
 }

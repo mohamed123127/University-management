@@ -1,32 +1,41 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faPrint, faImage } from "@fortawesome/free-solid-svg-icons";
 import ComboBoxStyle2 from "../combo box/ComboBoxStyle2";
+import DocumentRequest from "js/models/DocumentRequest";
+import TextBoxStyle2 from "../textBox/TextBoxStyle2";
 
-function DataGridViewStyle3({ Columns, Data, onAction }) {
+function DataGridViewStyle3({ Columns, Data, setData }) {
     const { t } = useTranslation();
-
-    const [combosState, setCombosState] = useState({}); // حالة منفصلة لكل ComboBox
-
     const options = [
-      { value: "EnAttent", label: "En Attent", bgColor: "red" },
-      { value: "EnCours", label: "En Cours", bgColor: "blue" },
-      { value: "Pret", label: "Pret", bgColor: "green" },
+        { label: 'Pending', className: "bg-blue-200" },
+        { label: 'InProgress', className: "bg-orange-200" },
+        { label: 'Completed', className: "bg-green-200" },
+        { label: 'Rejected', className: "bg-red-200" },
     ];
-  
-    // التعامل مع التغيير في كل ComboBox
-    const handleComboChange = (id, value) => {
-      const selectedOption = options.find((opt) => opt.value === value);
-      setCombosState((prevState) => ({
-        ...prevState,
-        [id]: {
-          value,
-          bgColor: selectedOption?.bgColor || "",
-        },
-      }));
+    //const [selectedValues, setSelectedValues] = useState(Array(5).fill("Pending"));
+    
+    const handleChange = async (row, value) => {
+        // تحديث البيانات محليًا
+        setData(prevData =>
+            prevData.map(Row =>
+                Row === row ? { ...Row, Status: value ,LastUpdatedDate:new Date().toLocaleDateString('en-CA')} : Row
+            )
+        );
+    
+        // محاولة تحديث الحالة على الخادم
+        try {
+            const response = await DocumentRequest.UpdateStatus(row.ID, value);
+            if(!response.success){
+                alert("error \n" + response.message);
+            }
+        } catch (error) {
+            console.error("Error updating status:", error);
+            alert("Error in updating status: " + error.message);
+        }
     };
-  
+    
 
     return (
         <div className="overflow-x-auto bg-white shadow-md rounded-md">
@@ -34,53 +43,38 @@ function DataGridViewStyle3({ Columns, Data, onAction }) {
                 <thead className="bg-gray-100">
                     <tr>
                         {Columns.map((column) => (
-                            <th
-                                key={column.name}
-                                className="px-4 py-2 border-b border-gray-300 text-left text-sm font-medium text-gray-700"
-                                style={{ width: column.width }}
-                            >
-                                {t(column.Header)}
-                            </th>
+                            <th key={column.name} className="px-4 py-2 border-b border-gray-300 text-center text-sm font-medium text-gray-700" style={{ width: column.width }}>{t(column.Header)}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
                     {Data.map((row, rowIndex) => (
-                        <tr
-                            key={rowIndex}
-                            className={`border-b transition duration-200 ${
-                                rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"
-                            } hover:bg-gray-200`}
-                        >
+                        <tr key={rowIndex} className={`border-b transition duration-200 ${rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-gray-200`}>
                             {Columns.map((column, colIndex) => (
-                                <td
-                                    key={colIndex}
-                                    className="px-4 py-2 text-sm text-gray-600"
-                                >
+                                <td key={colIndex} className="px-4 py-2 text-sm text-gray-600 text-center">
                                     {column.name === "Action" ? (
-                                        <button
-                                            onClick={() => {
-                                                onAction(row);
-                                                alert("Printing...");
-                                            }}
-                                            className="px-3 py-1 rounded text-white bg-blue-500 hover:bg-blue-600 transition duration-200 flex items-center justify-center"
-                                        >
-                                            <FontAwesomeIcon icon={faPrint} className="mr-2" />
-                                            {t("Imprimer")}
-                                        </button>
+                                        <div className="flex space-x-2 justify-center items-center">
+                                            <button onClick={() => { const url = row.DocumentUrl.replace("C:/xampp/htdocs", "http://localhost"); window.open(url, "_blank"); }} className="px-3 py-1 rounded text-white bg-blue-500 hover:bg-blue-600 transition duration-200 flex items-center justify-center">
+                                                <FontAwesomeIcon icon={faImage} className="ltr:mr-2 rtl:ml-2" /> {t("Review")}
+                                            </button>
+                                        </div>
                                     ) : column.name === "combobox" ? (
                                         <div>
-                                           <ComboBoxStyle2
-                                         Name={`combo-${rowIndex}`}
-                                          options={options}
-                                          value={combosState[rowIndex]?.value || ""}
-                                           comboBoxClassName="w-full text"
-                                            onChange={(e) => handleComboChange(rowIndex, e.target.value)}
-                                             disabled={false}
-                                           bgColor={combosState[rowIndex]?.bgColor || ""} />
+                                            <ComboBoxStyle2
+                                                    key={rowIndex}
+                                                    Name={`comboBox-${rowIndex}`}
+                                                    options={options}
+                                                    value={row.Status}
+                                                    onChange={(e) => handleChange(row, e.target.value)}
+                                                    comboBoxClassName="w-36 h-10"
+                                                    />        
+                                        </div>
+                                    ) : column.name === "textBox" ? (
+                                        <div>
+                                            <TextBoxStyle2 key={rowIndex} Name={`textBox-${rowIndex}`} value={row.Notes} placeholder="" textBoxClassName='h-7 bg-transparent border-none w-full text-center'/>
                                         </div>
                                     ) : (
-                                        row[column.name] // Display other column values
+                                        t(row[column.name])
                                     )}
                                 </td>
                             ))}

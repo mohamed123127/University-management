@@ -5,7 +5,7 @@ import VisualRequests from "pages/StudentSide/VisualRequests";
 import { useTranslation } from "react-i18next";
 
 
-export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled}) {
+export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled,StudentData}) {
   const handleListClick = (listName) => {
     setOpenedList((prevList) => (prevList === listName ? "" : listName));
   };
@@ -40,7 +40,7 @@ export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList
           <li
             onClick={(e) => {
               e.stopPropagation();
-              itemClickHandled(t('document_requests') === Title ? <DocumentRequests selectedRequest={item}/> : <VisualRequests selectedRequest={item}/>);
+              itemClickHandled(t('document_requests') === Title ? <DocumentRequests StudentData={StudentData} selectedRequest={item}/> : <VisualRequests studentData={StudentData} selectedRequest={item}/>);
             }}
             key={index}
             className="cursor-pointer bg-blue-500 hover:bg-blue-600 p-2 rounded"

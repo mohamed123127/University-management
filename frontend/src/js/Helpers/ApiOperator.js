@@ -25,10 +25,15 @@ class ApiOperator{
                 if(!response.ok){
                     alert(`success: ${response.success} \n Message: ${response.message}`);
                 }
-            //console.log(response.text());
+
+
+                //console.log(response.text());
+
                     return await response.json();
             } catch (error){
                 alert("cathch error : " + error);
+                alert(this.rootUrl+apiUrl);
+                console.log(response.text());
             }
         }else{
             alert('you must send url and method');

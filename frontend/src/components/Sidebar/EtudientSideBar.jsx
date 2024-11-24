@@ -19,12 +19,12 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
 
   const DocumentRequestItemsList = [
     t('registration_certificate'),
-    t('grade_transcript'),
-    t('parking_permit'),
-    t('library_card'),
-    t('internship_permit'),
-    t('studentCard'),
-    t('block_academic_year'),
+        t('grade_transcript'),
+        t('parking_permit'),
+        t('library_card'),
+        t('internship_permit'),
+        t('studentCard'),
+        t('block_academic_year')
   ];
 
   const VisualRequestsItemsList = [
@@ -82,6 +82,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             OpenedList={openedList} 
             setOpenedList={setOpenedList}
             itemClickHandled={DocumentRequestListItemClickHundled}
+            StudentData={studentData}
           />
           <SideBarItemWithList 
             OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests studentData={studentData}/>)} 
@@ -92,15 +93,16 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             OpenedList={openedList} 
             setOpenedList={setOpenedList}
             itemClickHandled={VisualRequestsListItemClickHundled}
+            StudentData={studentData}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem StudentId={studentData.Id}/>)} 
+            OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem Email={studentData.Email}/>)} 
             itemIcon={<ExclamationCircleIcon />} 
             Title={t('report_problem')} 
             isOpen={isOpen}
           />
           <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('manage_account', <UserCircleIcon className="w-8 h-8" />, <ManageAccount />)} 
+            OnClick={() => sidebarItemClickHundled('manage_account', <UserCircleIcon className="w-8 h-8" />, <ManageAccount StudentData={studentData}/>)} 
             itemIcon={<UserCircleIcon />} 
             Title={t('manage_account')} 
             isOpen={isOpen}

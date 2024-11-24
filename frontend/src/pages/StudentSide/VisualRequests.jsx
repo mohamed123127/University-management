@@ -6,7 +6,7 @@ import TextBoxStyle2 from 'components/custom controls/textBox/TextBoxStyle2';
 import DataGridView from 'components/custom controls/data grid view/dataGridViewStyle1';
 import Language from 'components/Basics/Language';
 import LabelStyle1 from 'components/custom controls/labels/LabelStyle1';
-
+import ChangeRequests from 'js/models/ChangeRequests';
 
 
 export default function VisualRequests({selectedRequest,studentData=[]}){
@@ -17,14 +17,14 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const [currentSection] = useState(studentData.section);
     const [currentSpeciality] = useState(studentData.speciality);
     const [newGroup, setNewGroup] = useState('');
-    const [selectedSection, setSelectedSection] = useState('');
-    const [selectedSpeciality, setSelectedSpeciality] = useState('');
+    const [newSection, setSelectedSection] = useState('');
+    const [newSpeciality, setSelectedSpeciality] = useState('');
     const [submittedRequests, setSubmittedRequests] = useState([]);
 
     const demandeOptions = [
-        t('Group'),
-        t('Section'),
-        t('Speciality')
+        'Group',
+        'Section',
+        'Speciality'
     ];
 
     const groupOptions = ['1', '2', '3', '4', '5'];
@@ -32,7 +32,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     //const [studentData,setStudentData] = useState(null);
     //useEffect(()=>{setStudentData(StudentData)},[])
     useEffect(()=>{
-        setSelectedDemande(t(selectedRequest));
+        setSelectedDemande(selectedRequest);
       },[selectedRequest])
     const specialityOptions = ['Isil', 'Si'];
 
@@ -58,6 +58,54 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         setCurrentLanguage(lang);
     };
 
+    const getOldValue = ()=>{
+        if(selectedDemande === t('Group'))
+        {
+            return studentData.Grp;
+        }
+        else if(selectedDemande === t('Section'))
+        {
+            return studentData.Section;
+        }
+        else if(selectedDemande === t('Speciality'))
+        {
+            return studentData.Speciality;
+        }
+    }
+
+    const getNewValue = ()=>{
+        if(selectedDemande === t('Group'))
+        {
+            return newGroup;
+        }
+        else if(selectedDemande === t('Section'))
+        {
+            return newSection;
+        }
+        else if(selectedDemande === t('Speciality'))
+        {
+            return newSpeciality;
+        }
+    }
+
+    const addButtonHandled = async ()=>{
+        try{
+            const result = await ChangeRequests.add({
+                "type":selectedDemande,
+                "oldValue":getOldValue(),
+                "newValue":getNewValue(),
+                "studentId":studentData.Id
+            })
+            if (result.success === true) {
+                alert("تم اضافة طلبك");
+            } else {
+                alert(result.success + " \n" + result.message);
+            }
+        }catch(error) {
+            alert("catch in addButtonHandled in visual request" + error);
+        }
+    }
+
     return (
     <div className="h-full bg-gray-100 rounded-lg shadow-lg w-full">
         <div className="flex justify-start items-center rounded-lg shadow-md space-x-1 bg-gray-100 border m-2 p-2 border-gray-300">
@@ -76,7 +124,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
                     <p className={`text-[#374151] font-semibold`}>{t('CurrentSection')}</p>
                     <TextBoxStyle2 Name="Current Section" value={studentData.Section} readOnly={true} textBoxClassName="p-2 border h-8 w-20 text-center border-gray-300 rounded-md bg-gray-200 shadow-sm ml-1 mr-1" />
                     <p className={`text-[#374151] font-semibold`}>{t('NewSection')}</p>
-                    <ComboBoxStyle1 Name="New Section" options={sectionOptions} value={selectedSection} onChange={(e) => setSelectedSection(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
+                    <ComboBoxStyle1 Name="New Section" options={sectionOptions} value={newSection} onChange={(e) => setSelectedSection(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
                 </div>
             )}
             {selectedDemande === t('Speciality') && (
@@ -84,10 +132,10 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
                     <p className={`text-[#374151] font-semibold`}>{t('CurrentSpeciality')}</p>
                     <TextBoxStyle2 Name="Current Speciality" value={studentData.Speciality} readOnly={true} textBoxClassName="p-2 border h-8 w-20 text-center border-gray-300 rounded-md bg-gray-200 shadow-sm ml-1 mr-1" />
                     <p className={`text-[#374151] font-semibold`}>{t('NewSpeciality')}</p>                   
-                    <ComboBoxStyle1 Name="New Speciality" options={specialityOptions} value={selectedSpeciality} onChange={(e) => setSelectedSpeciality(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
+                    <ComboBoxStyle1 Name="New Speciality" options={specialityOptions} value={newSpeciality} onChange={(e) => setSelectedSpeciality(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
                 </div>
             )} 
-            <ButtonStyle1 buttonText={t('Add')} buttonClassName="w-20 bg-blue-500 text-white rounded-md h-8 font-bold text-center hover:bg-blue-600" />
+            <ButtonStyle1 onClick={addButtonHandled} buttonText={t('Add')} buttonClassName="w-20 bg-blue-500 text-white rounded-md h-8 font-bold text-center hover:bg-blue-600" />
         </div>
         <DataGridView Columns={columns} Data={Data} ClassName="table-auto ltr:ml-2 rtl:mr-2" />        
     </div>

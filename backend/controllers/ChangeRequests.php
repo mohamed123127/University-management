@@ -1,11 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-
-// السماح بالهيدر Content-Type
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
-
 require_once '../config/database.php'; 
 
 class ChangeRequests{
@@ -28,14 +21,14 @@ class ChangeRequests{
 
     public function add($conn){
         try{
-            $sql = "INSERT INTO changerequests(Type, Status, OldValue, NewValue, SubmissionDate, LastUpdatedDate, StudentId) VALUES (?,?,?,?,DATE_FORMAT(NOW(), '%d/%m/%Y'),DATE_FORMAT(NOW(), '%d/%m/%Y'),?)";
+            $sql = "INSERT INTO changerequests(Type, Status, OldValue, NewValue, SubmissionDate, LastUpdatedDate, StudentId) VALUES (?,'en attend',?,?,NOW(),NOW(),?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssssi", $this->type, $this->status, $this->oldValue, $this->newValue, $this->studentId);
+            $stmt->bind_param("sssi", $this->type, $this->oldValue, $this->newValue, $this->studentId);
             $stmt->execute();
-            $stmt->get_result();
-            return true;
+            //$stmt->get_result();
+            return ["success" => true, "message" => "change request was added"];
         }catch(Exception $e) {
-            echo json_encode(["success" => false, "message" => "هناك خطأ"]);
+            return ["success" => false, "message" => "هناك خطأ","error: " => $e->getMessage()];
         }
     }
     

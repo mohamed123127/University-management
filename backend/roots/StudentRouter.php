@@ -20,7 +20,7 @@ try{
     switch($endpoint)
     {
         case 'addEtudient' :
-            if($method == "post"){
+            if($method == "POST"){
                 $data = json_decode(file_get_contents('php://input'), true);
                 if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['faculty']) && isset($data['educationYear']) && isset($data['specialty']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['password']) ) {
                     $matricule = $data['matricule'];
@@ -130,9 +130,6 @@ try{
                 $response = ["success" => false, "message" => "Method does not match"];
             }
         break;
-        default:
-            $response = ['success' => false, 'message' => 'Endpoint not exsist'];
-        break;
         case 'changeActivationStatus':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $data = json_decode(file_get_contents('php://input'), true);
@@ -168,15 +165,22 @@ try{
             } else {
                 echo json_encode(["success" => false, "message" => "Invalid request method. Use POST."]);
             }
+        break;
+        case 'getAll':
+            if ($method === 'GET') {
+            $Students = Etudient::getall($conn);
+            if ($Students != null) {
+                $response = ["success" => true, 'Data' => $Students];
+            } else {
+                $response = ["success" => false, "message" => "it's not exists"];
+            }
+            } else {
+                $response = ["success" => false, "message" => "Invalid request method. Use POST."];
+            }
             break;
-        
-            case 'getAll':
-                $Students = Etudient::getall($conn);
-                if ($Students != null) {
-                    $response = ["success" => true, 'Data' => $Students];
-                } else {
-                    $response = ["success" => false, "message" => "it's not exists"];
-                }
+        default:
+            $response = ["success" => false, "message" => "Invalid endpoint"];
+            break;
         
     }
 }catch (Exception $e) {

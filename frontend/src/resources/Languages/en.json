@@ -21,8 +21,11 @@
     "CurrentValue": "Current Value",
     "dashboard": "Dashboard",
     "studentCard": "Student Card",
- "reportTitle": "Title",
-  "reportContent": "Content",
+ "Title": "Title",
+  "Content": "Content",
+  "recipient" : "recipient",
+"AnnouncmentPlaceholderTitle": "Enter the Announcement title",
+  "AnnouncmentPlaceholderContent": "Write the Announcement content here",
   "reportPlaceholderTitle": "Enter the report title",
   "reportPlaceholderContent": "Write the report content here",
     "department_change": "Department Change",
@@ -91,6 +94,13 @@
     "NewSection": "New Section:",
     "CurrentSection": "Current Section:",
     "NewGroup": "New Group:",
-    "CurrentGroup": "Current Group:"
+    "CurrentGroup": "Current Group:",
+    "NewFirstName": "New First Name:",
+    "NewLastName": "New Last Name:",
+    "NewEmail": "New Email:",
+    "NewPassword": "New Password:",
+    "NewField": "New {{field}} :",
+    "SendAnnouncement": "Send Announcement"
+
   }
   

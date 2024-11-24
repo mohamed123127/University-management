@@ -32,6 +32,16 @@ class DocumentRequest
         const response = await ApiOperator.post(this.DocumentRequestRootUrl+"SaveDocumentRequestInDb",data)
         return response;
     }
+
+    static async GetAll(){
+        const response = await ApiOperator.get(this.DocumentRequestRootUrl+"getAll")
+        return response;
+    }
+
+    static async UpdateStatus(id,status){
+        const response = await ApiOperator.post(this.DocumentRequestRootUrl+"updateStatus",{"id":id,"status":status})
+        return response;
+    }
 }
 
 export default DocumentRequest;

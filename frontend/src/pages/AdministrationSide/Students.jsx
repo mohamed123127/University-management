@@ -4,8 +4,9 @@ import TextBoxStyle2 from "components/custom controls/textBox/TextBoxStyle2";
 import DataGridViewStyle2 from "components/custom controls/data grid view/dataGridViewStyle2";
 import { useTranslation } from "react-i18next";
 import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
+import LabelStyle1 from "components/custom controls/labels/LabelStyle1";
 
-export default function StudentsTable() {
+export default function Students() {
     const { t } = useTranslation();
     const [students, setStudents] = useState([
         { id: 1, matricule: "2023001", firstName: "Moh", lastName: "Ait Wnach", educationYear: "2", speciality: "ISIL", section: "Section 1", group: "Group A", email: "moh.aitwnach@example.com", active: false },
@@ -25,11 +26,7 @@ export default function StudentsTable() {
     ];
 
     const handleAction = (student) => {
-        setStudents((prev) =>
-            prev.map((item) =>
-                item.id === student.id ? { ...item, active: !item.active } : item
-            )
-        );
+        
     };
 
     const [selectedOption, setSelectedOption] = useState("matricule");
@@ -67,18 +64,22 @@ export default function StudentsTable() {
     });
 
     return (
-        <div className="p-6 bg-gray-100 min-h-screen rounded-lg shadow-md">
+        <div className="p-2 bg-gray-100 min-h-screen rounded-lg shadow-md">
            
-            <div className="mb-6 flex justify-between items-center bg-white p-4 rounded-lg shadow-sm">
+            <div className="mb-2 flex justify-between items-center bg-white pl-2 rounded-lg shadow-sm h-20">
                 
-                <div className="w-[60%]">
+                <div className="w-full">
+                    <div className="flex">
+                    <LabelStyle1 labelText="Search:" labelClassName="text-lg ltr:mr-2 rtl:mr-2"/>
                     <TextBoxStyle2
                         type="search"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         placeholder="Search..."
-                        textBoxClassName="w-[500px] h-12 pr-3 py-2 mb-[20px] border rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        textBoxClassName="w-96 h-8 border mb-2 rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
+                    </div>
+                    
                     <div>
                         <RadioButton
                             options={options1}
@@ -91,7 +92,7 @@ export default function StudentsTable() {
                 </div>
 
                 {/* Filter ComboBox */}
-                <div className="mb-6 ">
+                <div className="">
                     <ComboBoxStyle1
                         options={options2}
                         name="statusFilter"
@@ -103,11 +104,12 @@ export default function StudentsTable() {
             </div>
 
             {/* Data Grid View */}
-            <div className="shadow-lg rounded-lg p-4 bg-white">
+            <div className="">
                 <DataGridViewStyle2
                     Columns={columns}
                     Data={filteredStudents1}
                     onAction={handleAction}
+                    ClassName="table-auto ltr:ml-2 rtl:mr-2"
                 />
             </div>
         </div>

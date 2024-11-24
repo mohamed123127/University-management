@@ -1,58 +1,53 @@
-import React from "react";
-
-const problemsData = [
-    {
-        title: "issue with the library system",
-        email: "nazmbenalia@example.com",
-       content: "There is an issue with the library system. I can't borrow books.",
-        date: "2024-11-18",
-    },
-    {
-       title: "issue with the The parking area ",
-        email: "mohAitwnach@example.com",
-       content: "The parking area is always full and causes problems,The parking area is always full and causes problems,The parking area is always full and causes problems,.",
-        date: "2024-11-17",
-    },
-    {
-      title: "issue with the...",
-        email: "moTarikat@example.com",
-       content: "I cannot access the university portal with my credentials.",
-        date: "2024-11-16",
-    },
-];
-
+import React, { useEffect ,useState} from "react";
+import ReportProblem from "js/models/ReportProblem";
 export default function Problems() {
+    
+    const [problemsData, setProblemsData] = useState(null);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const result = await ReportProblem.getAll();
+            console.log(result.success);
+          if (result.success) {
+            console.log(result.problmes);
+            setProblemsData(result.problmes); // Update state
+          } else {
+            alert(result.success + " \n" + result.message);
+          }
+        } catch (error) {
+          alert("catch in button handled : \n" + error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
     return (
         <div className="min-h-screen bg-gray-100">
-            {/* Header */}
-            <div className="flex justify-center m-4">
-                <h1 className="text-blue-800 p-4 text-3xl font-bold">Studentscontents</h1>
-            </div>
-
-           
-            <div className="container mx-auto p-4 space-y-6">
-                {problemsData.map((problem, index) => (
+            <div className="container mx-auto p-2 space-y-2">
+                {problemsData && problemsData.map((problem, index) => (
                     <div
                         key={index}
-                        className="bg-white hover:bg-gray-100 shadow-lg rounded-lg p-6 border border-gray-300"
+                        className="bg-white hover:bg-gray-100 shadow-lg rounded-lg p-4 border border-gray-300"
                     >
                       
                         <div className="flex justify-between items-center">
                             <div>
                                 <h2 className="text-lg font-semibold text-gray-800">
-                                    {problem.title}
+                                    {problem.Title}
                                 </h2>
-                                <p className="text-sm text-gray-500">{problem.email}</p>
+                                <p className="text-sm text-gray-500">{problem.Email}</p>
                             </div>
                         </div>
 
-                        <div className="mt-4 max-h-40 overflow-y-auto text-gray-700 text-sm border-t pt-2">
-                            {problem.report}
+                        <div className="mt-2 overflow-y-auto text-gray-700 text-sm border-t pt-2">
+                            {problem.Content}
                         </div>
 
                       
                         <div className="text-right text-gray-400 text-xs mt-4">
-                            {problem.date}
+                            {problem.Date}
                         </div>
                     </div>
                 ))}
