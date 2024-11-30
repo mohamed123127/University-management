@@ -4,6 +4,17 @@ class Student
 {
   static StudentRootUrl = "StudentRouter.php?endpoint="
 
+  static async addEtudient(data) 
+  {
+    try 
+    {
+        const result = await ApiOperator.post(this.StudentRootUrl + "addEtudient", data);
+        return result; 
+    } catch (error) {
+        alert("catch in addEtudient: " + error);
+    }
+  }
+
   static async isExistEtudient(Email, Password) 
   {
     try 
@@ -36,6 +47,30 @@ class Student
     } catch(error)
     {
       alert("catch in GetByEmail: " + error);
+    }
+  }
+
+  static async changeActivate(data)
+  {
+    try
+    {
+      const result = await ApiOperator.post(this.StudentRootUrl + "changeActivationStatus",data);
+      return result;
+    } catch(error)
+    {
+      alert("catch in changeActivationStatus: " + error);
+    }
+  }
+
+  static async getAll()
+  {
+    try
+    {
+      const result = await ApiOperator.get(this.StudentRootUrl + "getAll");
+      return result;
+    } catch(error)
+    {
+      alert("catch in getAll: " + error);
     }
   }
 }

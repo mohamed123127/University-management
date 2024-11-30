@@ -22,11 +22,10 @@ try{
         case 'addEtudient' :
             if($method == "POST"){
                 $data = json_decode(file_get_contents('php://input'), true);
-                if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['faculty']) && isset($data['educationYear']) && isset($data['specialty']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['password']) ) {
+                if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['educationYear']) && isset($data['specialty']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['password']) ) {
                     $matricule = $data['matricule'];
                     $firstName = $data['firstName'];
                     $lastName = $data['lastName'];
-                    $faculty = $data['faculty'];
                     $educationYear = $data['educationYear'];
                     $specialty = $data['specialty'];
                     $section = $data['section'];
@@ -38,11 +37,11 @@ try{
                     exit();
                 }
                 
-                if ($matricule !== '' && $firstName !== '' && $lastName !== '' && $faculty !== '' && $educationYear !== '' && $section !== '' && $group !== '' &&  $email !== '' && $password !== '') {
-                    $etudient = new Etudient($firstName, $lastName, $email, $password,false, $matricule, $faculty, $educationYear, $specialty, $section, $group);
-                    $etudient->addEtudient($conn);
+                if ($matricule !== '' && $firstName !== '' && $lastName !== '' &&  $educationYear !== '' && $section !== '' && $group !== '' &&  $email !== '' && $password !== '') {
+                    $etudient = new Etudient($firstName, $lastName, $email, $password,false, $matricule, $educationYear, $specialty, $section, $group);
+                    $response=$etudient->addEtudient($conn);
                 } else {
-                    $response =["success" => false, "message" => "Email and password are required"];
+                    $response =["success" => false, "message" => "input cant be ampty"];
                 }
                 
             }
@@ -154,16 +153,16 @@ try{
             
                     if ($stmt_check->num_rows > 0) {
                         // Proceed with update
-                        Etudient::changeActivate($conn, $id, $status);
+                        $response=Etudient::changeActivate($conn, $id, $status);
                     } else {
-                        echo json_encode(["success" => false, "message" => "The provided ID does not exist."]);
+                        $response=(["success" => false, "message" => "The provided ID does not exist."]);
                     }
                     $stmt_check->close();
                 } else {
-                    echo json_encode(["success" => false, "message" => "Invalid ID or status value."]);
+                    $response=(["success" => false, "message" => "Invalid ID or status value."]);
                 }
             } else {
-                echo json_encode(["success" => false, "message" => "Invalid request method. Use POST."]);
+                $response=(["success" => false, "message" => "Invalid request method. Use POST."]);
             }
         break;
         case 'getAll':

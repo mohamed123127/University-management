@@ -2,27 +2,28 @@
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-
-// السماح بالهيدر Content-Type
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
-require_once '../config/database.php'; // الاتصال بقاعدة البيانات
-require_once '../controllers/User.php'; // تأكد من تضمين User.php بشكل صحيح
+require_once '../config/database.php';
 
-class Admin extends User{
-    public function __construct($email, $password) {
-        parent::__construct($email, $password);
+class Admin {
+    private $firstName;
+    private $lastName;
+    private $email;
+    private $password;
+
+    public function __construct($firstName, $lastName, $email, $password) {
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->email = $email;
+        $this->password = $password;
     }
 
     public function addAdmin($conn) {
-        
-        try{
-            $sql = "INSERT INTO  administration (  Email, password) 
-                VALUES ( ?,?)";
-    
-        $stmt = $conn->prepare($sql);
-        
+        try {
+            $sql = "INSERT INTO administration (firstName, lastName, Email, password) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
            return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
@@ -39,10 +40,18 @@ class Admin extends User{
             echo json_encode(["success" => false, "message" => "Failed to add admin."]);
         }
 
-        }catch(Exception $ex){
-            echo json_encode(["success" => false, "message" => $ex]);
+            $stmt->bind_param("ssss", $this->firstName, $this->lastName, $this->email, $this->password);
+
+            if ($stmt->execute()) {
+                $stmt->close();
+                return (["success" => true, "message" => "Admin added successfully."]);
+            } else {
+                $stmt->close();
+                return (["success" => false, "message" => "Failed to add admin."]);
+            }
+        } catch (Exception $ex) {
+            return (["success" => false, "message" => $ex->getMessage()]);
         }
-        
     }
 
     public static function isExistAdmin($conn, $email, $password) {
@@ -51,6 +60,8 @@ class Admin extends User{
         $stmt->bind_param("ss", $email, $password);
         $stmt->execute();
         $result = $stmt->get_result();
+        $stmt->close();
+
         if ($result->num_rows > 0) {
             $admin = $result->fetch_assoc();
             return $admin['Id'];
@@ -58,34 +69,30 @@ class Admin extends User{
         return null;
     }
 
-
-    public static function getall($conn) {
+    public static function getAll($conn) {
         try {
             $sql = "SELECT * FROM administration";
             $stmt = $conn->prepare($sql);
-    
+
             if (!$stmt) {
-                echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
-                return;
+                return (["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
             }
-    
+
             $stmt->execute();
             $result = $stmt->get_result();
-    
+
             $Admins = [];
             while ($row = $result->fetch_assoc()) {
                 $Admins[] = $row;
             }
-    
-            echo json_encode(["success" => true, "students" => $Admins]);
-    
+
             $stmt->close();
+            $conn->close();
+
+            return (["success" => true, "Administrations" => $Admins]);
         } catch (Exception $ex) {
-            echo json_encode(["success" => false, "message" => "An error occurred: " . $ex]);
+            return (["success" => false, "message" => "An error occurred: " . $ex->getMessage()]);
         }
     }
 }
-
-
-
 ?>

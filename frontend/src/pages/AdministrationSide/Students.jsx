@@ -1,28 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RadioButton from "components/custom controls/buttons/RadioButton";
 import TextBoxStyle2 from "components/custom controls/textBox/TextBoxStyle2";
 import DataGridViewStyle2 from "components/custom controls/data grid view/dataGridViewStyle2";
 import { useTranslation } from "react-i18next";
 import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
 import LabelStyle1 from "components/custom controls/labels/LabelStyle1";
+import Student from "js/models/Student";
 
 export default function Students() {
     const { t } = useTranslation();
-    const [students, setStudents] = useState([
-        { id: 1, matricule: "2023001", firstName: "Moh", lastName: "Ait Wnach", educationYear: "2", speciality: "ISIL", section: "Section 1", group: "Group A", email: "moh.aitwnach@example.com", active: false },
-        { id: 2, matricule: "2023002", firstName: "Nazim", lastName: "Ben", educationYear: "3", speciality: "SI", section: "Section 2", group: "Group B", email: "nazim.ben@example.com", active: false },
-    ]);
+    const [students, setStudents] = useState([]);
+    const [result,setResult]=useState([]);
+
+    useEffect(()=>{
+        const fetchData=async()=>{
+            try {
+                const result = await Student.getAll();
+                if (result.success === true) {
+                  setStudents(result.Data.students);
+                  console.log(result.Data.students);
+              } else {
+                  alert(result.success+'\n ' + result.message);
+              }
+            } catch (error) {
+                  console.error("Fetch error:", error);
+                  alert("An error occurred while getting all students. Please try again later.");
+              }
+        }
+        fetchData();
+    },[])
+
 
     const columns = [
-        { name: "matricule", Header: "Matricule", width: "15%", className: "text-center" },
-        { name: "firstName", Header: "FirstName", width: "15%", className: "text-center" },
-        { name: "lastName", Header: "LastName", width: "15%", className: "text-center" },
-        { name: "educationYear", Header: "Year", width: "10%", className: "text-center" },
-        { name: "speciality", Header: "Specialty", width: "10%", className: "text-center" },
-        { name: "section", Header: "Section", width: "10%", className: "text-center" },
-        { name: "group", Header: "Group", width: "10%", className: "text-center" },
-        { name: "email", Header: "Email", width: "20%", className: "text-center" },
-        { name: "Action", Header: "Status", width: "10%", className: "text-center" },
+        { name: "Matricule", Header: "Matricule", width: "15%", className: "text-center" },
+        { name: "FirstName", Header: "FirstName", width: "15%", className: "text-center" },
+        { name: "LastName", Header: "LastName", width: "15%", className: "text-center" },
+        { name: "EducationYear", Header: "Year", width: "10%", className: "text-center" },
+        { name: "Specialty", Header: "Speciality", width: "10%", className: "text-center" },
+        { name: "Section", Header: "Section", width: "10%", className: "text-center" },
+        { name: "Grp", Header: "Group", width: "10%", className: "text-center" },
+        { name: "Email", Header: "Email", width: "20%", className: "text-center" },
+        { name: "Action", Header: "Active", width: "10%", className: "text-center" },
     ];
 
     const handleAction = (student) => {
@@ -32,6 +50,22 @@ export default function Students() {
     const [selectedOption, setSelectedOption] = useState("matricule");
     const [selectedOption2, setSelectedOption2] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
+   
+    const handleAction = async(row) => {
+        try {
+            const result = await Student.changeActivate({"id":row.Id,"status":row.Active});
+            if (result.success) {
+                alert("the change has been done");
+            }else{
+                alert(result.success+"\n"+result.message);
+            }
+        
+    } catch (error) {
+        console.error("Error in handleRadioChange2:", error);
+    }
+    };
+
+   
 
     const handleRadioChange = (e) => {
         setSelectedOption(e.target.value);
@@ -39,6 +73,7 @@ export default function Students() {
 
     const handleRadioChange2 = (e) => {
         setSelectedOption2(e.target.value);
+        
     };
 
     const handleSearchChange = (e) => {
@@ -48,7 +83,7 @@ export default function Students() {
     const options1 = ["matricule" ,"educationYear","full name", "speciality", "email"];
     const options2 = ["all", "active", "desactive"];
 
-    const filteredStudents = students.filter((student) => {
+    /*const filteredStudents = students.filter((student) => {
         if (searchTerm === "") return true;
         else if (selectedOption === "full name") {
             const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
@@ -61,7 +96,7 @@ export default function Students() {
         if (selectedOption2 === "all") return true;
         if (selectedOption2 === "active") return student.active === true;
         if (selectedOption2 === "desactive") return student.active === false;
-    });
+    });*/
 
     return (
         <div className="p-2 bg-gray-100 min-h-screen rounded-lg shadow-md">
@@ -107,7 +142,8 @@ export default function Students() {
             <div className="">
                 <DataGridViewStyle2
                     Columns={columns}
-                    Data={filteredStudents1}
+                    Data={students}
+                    setData={setStudents}
                     onAction={handleAction}
                     ClassName="table-auto ltr:ml-2 rtl:mr-2"
                 />

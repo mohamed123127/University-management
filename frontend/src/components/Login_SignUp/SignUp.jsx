@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import LabelStyle1 from "../custom controls/labels/LabelStyle1";
 import TextBoxStyle2 from "../custom controls/textBox/TextBoxStyle2";
 import ButtonStyle1 from "../custom controls/buttons/ButtonStyle1";
-import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle2";
+import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle1";
 import Language from "components/Basics/Language";
 import i18n from 'i18next';
+import Student from "js/models/Student";
 
 
 export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,setCurrentLanguage}) {
@@ -31,17 +32,19 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         setCurrentLanguage(lang);
     };
 
-    const facultyOptions = ['Informatique', 'Math', 'Physique'];
+    const GroupOptions = ['1', '2', '3' , '4' , '5'];
+    const SectionOptions = ['1', '2'];
     const specialityOptions = ['Isil', 'Si'];
     const academicYearOptions = ['Licence 1', 'Licence 2', 'Licence 3', 'Master 1', 'Master 2'];
 
     const [SignUpFormData, setSignUpFormData] = useState({
+        matricule: '',
         firstName: '',
         lastName: '',
-        matricule: '',
-        faculty: '',
-        EducationYear: '',
-        Specialty: '',
+        section: '',
+        group: '',
+        educationYear: '',
+        specialty: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -58,7 +61,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
     };
 
     useEffect(() => {
-        if (SignUpFormData.EducationYear === 'Licence 1' || SignUpFormData.EducationYear === 'Licence 2') {
+        if (SignUpFormData.educationYear === 'Licence 1' || SignUpFormData.educationYear === 'Licence 2') {
             setSpecialityComboBoxDisabled(true);
             setSignUpFormData((prevData) => ({
                 ...prevData,
@@ -71,7 +74,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                 Specialty: ''
             }));
         }
-    }, [SignUpFormData.EducationYear]);
+    }, [SignUpFormData.educationYear]);
 
     const SignUpButtonHandled = async () => {
         if (SignUpFormData.password !== SignUpFormData.confirmPassword) {
@@ -80,27 +83,12 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         }
 
         try {
-          const response = await fetch("http://localhost/university-management/backend/your-backend-file.php?endpoint=addEtudient", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(SignUpFormData),
-          });
-  
-          if (!response.ok) {
-              const errorText = await response.text(); // Get response as plain text for debugging
-              console.error("Error response:", errorText);
-              alert(`Server error: ${response.status} - ${response.statusText}`);
-              return;
-          }
-  
-          const result = await response.json();
-          console.log("API response:", result);
-  
-          if (result.success) {
-              alert("Sign-up successful!");
-          } else {
-              alert(`Error: ${result.message}`);
-          }
+          const data = await Student.addEtudient(JSON.stringify(SignUpFormData));
+          if (data.success === true) {
+            alert(data.message);
+        } else {
+            alert(data.success+'\n ' + data.message);
+        }
       } catch (error) {
             console.error("Fetch error:", error);
             alert("An error occurred while signing up. Please try again later.");
@@ -153,9 +141,9 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
           <div className="flex space-x-1 items-center w-[90%]">
             <LabelStyle1 labelText={`${t('AcademicYear')}:`} labelClassName="text-sm ml-1 text-nowrap" />
             <ComboBoxStyle1
-              Name="EducationYear"
+              Name="educationYear"
               options={academicYearOptions}
-              value={SignUpFormData.EducationYear}
+              value={SignUpFormData.educationYear}
               onChange={handleChange}
               comboBoxClassName={`w-full`}
             />
@@ -169,16 +157,24 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
               comboBoxClassName={`${specialityComboBoxDisabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white'} w-full`}
             />
           </div>
-                    <div className="flex space-x-1 items-center">
-                        <LabelStyle1 labelText={`${t('Faculty')}:`} labelClassName="text-sm ml-1" />
-                        <ComboBoxStyle1
-                            Name="faculty"
-                            options={facultyOptions}
-                            value={SignUpFormData.faculty}
-                            onChange={handleChange}
-                            comboBoxClassName="w-full border rounded-md shadow-sm"
-                        />
-                    </div>
+          <div className="flex space-x-1 items-center w-[90%]">
+            <LabelStyle1 labelText={`${t('Section')}:`} labelClassName="text-sm ml-1 text-nowrap" />
+            <ComboBoxStyle1
+              Name="section"
+              options={SectionOptions}
+              value={SignUpFormData.section}
+              onChange={handleChange}
+              comboBoxClassName={`w-full`}
+            />
+            <LabelStyle1 labelText={`${t('Group')}:`} labelClassName="text-sm ml-1" />
+            <ComboBoxStyle1
+              Name="group"
+              options={GroupOptions}
+              value={SignUpFormData.group}
+              onChange={handleChange}
+              comboBoxClassName={` w-full`}
+            />
+          </div>
 
                    
 

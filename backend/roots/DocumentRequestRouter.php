@@ -82,6 +82,26 @@ try{
                     $response = ["success" => false, "message" => "Invalid request method. Use POST."];
                 }
         break;
+        case 'getById':
+            if ($method == "GET") {
+                if(isset($_GET["id"])){
+                    $id=$_GET["id"];
+                }else{
+                    echo json_encode (["success" => false, "message" => "id dont sended"]);
+                    exit();
+                }
+                if($id!=""){
+                   
+                    $response= DocumentRequest::getById($conn,$id);
+
+                }else{
+                    $response = ["success" => false, "message" => "id is empty"];
+                }
+            
+            }else {
+                $response = ["success" => false, "message" => "طريقة غير صالحة"];
+            }
+        break;
         case 'updateStatus':
             if($method == "POST") {
                 

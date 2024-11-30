@@ -2,13 +2,24 @@ import ApiOperator from '../Helpers/ApiOperator'
 
 class Administration 
 {
-  static AdminRootUrl = "AdministrationRouter.php?endpoint="
+  static AdministrationRootUrl = "AdministrationRouter.php?endpoint="
+
+  static async addAdmin(data) 
+  {
+    try 
+    {
+        const result = await ApiOperator.post(this.AdministrationRootUrl + "addAdmin", data);
+        return result; 
+    } catch (error) {
+        alert("catch in addAdmin: " + error);
+    }
+  }
 
   static async isExistAdmin(Email, Password) 
   {
     try 
     {
-        const data = await ApiOperator.post(this.AdminRootUrl + "isExistAdmin", {email: Email,password: Password});
+        const data = await ApiOperator.post(this.AdministrationRootUrl + "isExistAdmin", {email: Email,password: Password});
         return data; 
     } catch (error) {
         alert("catch in isExistAdmin: " + error);
@@ -19,11 +30,24 @@ class Administration
   {
     try
     {
-      const data = await ApiOperator.get(this.AdminRootUrl + "getAdminById",{id:Id});
+      const data = await ApiOperator.get(this.AdministrationRootUrl + "getAdminById",{id:Id});
       return data;
     } catch(error)
     {
       alert("catch in GetById: " + error);
+    }
+  }
+
+
+  static async getAll()
+  {
+    try
+    {
+      const data = await ApiOperator.get(this.AdministrationRootUrl + "getAll");
+      return data;
+    } catch(error)
+    {
+      alert("catch in getAll: " + error);
     }
   }
 }
