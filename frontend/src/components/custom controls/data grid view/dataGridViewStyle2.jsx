@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next"; 
 
-function DataGridViewStyle2({ Columns, Data, onAction,ClassName }) {
+function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
     const { t } = useTranslation();
-    
-    const [selectedOptions, setSelectedOptions] = useState({}); // State for selected option per row
 
-    const handleSelectChange = (e, rowId) => {
-        const value = e.target.value;
-        setSelectedOptions(prevState => ({
-            ...prevState,
-            [rowId]: value, // Store the selected value for each row
-        }));
-        alert(`Selected value: ${value}`);
+    if (!Columns || !Data) {
+        return <div>Loading...</div>;
+    }
+
+    const toggleActive = (rowIndex) => {
+        setData((prevStudents) => {
+            const updatedStudents = [...prevStudents];
+            updatedStudents[rowIndex].Active = !updatedStudents[rowIndex].Active;
+            return updatedStudents;
+        });
     };
 
     return (
@@ -20,7 +21,7 @@ function DataGridViewStyle2({ Columns, Data, onAction,ClassName }) {
             <table className="min-w-full">
                 <thead className="bg-gray-100">
                     <tr>
-                        {Columns.map((column) => (
+                        {(Columns || []).map((column) => (
                             <th
                                 key={column.name}
                                 className="px-4 py-2 border-b border-gray-300 text-left text-sm font-medium text-gray-700"
@@ -32,14 +33,14 @@ function DataGridViewStyle2({ Columns, Data, onAction,ClassName }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {Data.map((row, rowIndex) => (
+                    {(Data || []).map((row, rowIndex) => (
                         <tr
                             key={rowIndex}
                             className={`border-b transition duration-200 ${
                                 rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"
                             } hover:bg-gray-200`}
                         >
-                            {Columns.map((column, colIndex) => (
+                            {(Columns || []).map((column, colIndex) => (
                                 <td
                                     key={colIndex}
                                     className="px-4 py-2 text-sm text-gray-600"
@@ -47,18 +48,18 @@ function DataGridViewStyle2({ Columns, Data, onAction,ClassName }) {
                                     {column.name === "Action" ? (
                                         <button
                                             onClick={() => {
+                                                toggleActive(rowIndex);
                                                 onAction(row);
-                                                alert("Action executed!");
                                             }}
                                             className={`px-3 py-1 rounded text-white transition duration-200 ${
-                                                row.active
+                                                row.Active
                                                     ? "bg-green-500 w-[80px] hover:bg-green-600"
                                                     : "bg-red-500 w-[80px] hover:bg-red-600"
                                             }`}
                                         >
-                                            {row.active ? "Active" : "Inactive"}
+                                            {row.Active ? "Active" : "Inactive"}
                                         </button>
-                                    ) :   (
+                                    ) : (
                                         row[column.name]
                                     )}
                                 </td>
