@@ -16,7 +16,6 @@ class Etudient extends User {
     private $matricule;
     private $firstName;
     private $lastName;
-    private $faculty;
     private $educationYear;
     private $specialty;
     private $section;
@@ -24,12 +23,11 @@ class Etudient extends User {
 
     const TABLE_NAME = "etudient";
 
-    public function __construct($firstName, $lastName, $email, $password, $isActive, $matricule, $faculty, $educationYear, $specialty, $section, $group) {
+    public function __construct($firstName, $lastName, $email, $password, $isActive, $matricule, $educationYear, $specialty, $section, $group) {
         parent::__construct($email, $password, $isActive);
         $this->matricule = $matricule;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-        $this->faculty = $faculty;
         $this->educationYear = $educationYear;
         $this->specialty = $specialty;
         $this->section = $section;
@@ -109,29 +107,29 @@ class Etudient extends User {
     public function addEtudient($conn) {
         
         try{
-            $sql = "INSERT INTO  etudient ( matricule , firstName , lastName ,faculty , educationYear, specialty, section, grp , email, password, Active,date) 
-                VALUES ( ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIME())";
+            $sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, specialty, section, grp , email, password, Active,date) 
+                VALUES ( ?,?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIME())";
     
         $stmt = $conn->prepare($sql);
         
 
         if (!$stmt) {
-            echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+            return(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
         }
         
         
         // Bind parameters for 10 values (update type of parameters to match input data)
-        $stmt->bind_param("ssssssssssi",$this->matricule, $this->firstName, $this->lastName, $this->faculty, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password, $this->isActive);
+        $stmt->bind_param("sssssssssi",$this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password, $this->isActive);
        
         if ($stmt->execute()) {
            
-            echo json_encode(["success" => true, "message" => "Student added successfully."]);
+            return(["success" => true, "message" => "Student added successfully."]);
         } else {
-            echo json_encode(["success" => false, "message" => "Failed to add student."]);
+            return(["success" => false, "message" => "Failed to add student."]);
         }
 
         }catch(Exception $ex){
-            echo json_encode(["success" => false, "message" => $ex]);
+            return(["success" => false, "message" => $ex]);
         }
         
     }
@@ -142,7 +140,7 @@ class Etudient extends User {
             $stmt = $conn->prepare($sql);
     
             if (!$stmt) {
-                echo json_encode([
+                return([
                     "success" => false,
                     "message" => "Database statement preparation failed: " . $conn->error
                 ]);
@@ -153,18 +151,18 @@ class Etudient extends User {
     
             if ($stmt->execute()) {
                 if ($stmt->affected_rows > 0) {
-                    echo json_encode([
+                    return([
                         "success" => true,
                         "message" => "Student activation status updated successfully."
                     ]);
                 } else {
-                    echo json_encode([
+                    return([
                         "success" => false,
                         "message" => "No records were updated. Please check the provided ID."
                     ]);
                 }
             } else {
-                echo json_encode([
+                return([
                     "success" => false,
                     "message" => "Failed to execute the query: " . $stmt->error
                 ]);
@@ -173,7 +171,7 @@ class Etudient extends User {
             $stmt->close();
     
         } catch (Exception $ex) {
-            echo json_encode([
+            return([
                 "success" => false,
                 "message" => "An unexpected error occurred: " . $ex->getMessage()
             ]);
@@ -187,7 +185,7 @@ class Etudient extends User {
             $stmt = $conn->prepare($sql);
     
             if (!$stmt) {
-                echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+                return(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
                 return;
             }
     
@@ -199,11 +197,11 @@ class Etudient extends User {
                 $students[] = $row;
             }
     
-            echo json_encode(["success" => true, "students" => $students]);
+            return(["success" => true, "students" => $students]);
     
             $stmt->close();
         } catch (Exception $ex) {
-            echo json_encode(["success" => false, "message" => "An error occurred: " . $ex]);
+            return(["success" => false, "message" => "An error occurred: " . $ex]);
         }
     }
     
