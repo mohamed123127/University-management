@@ -3,13 +3,12 @@ import LabelStyle1 from "components/custom controls/labels/LabelStyle1";
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
 import { useTranslation } from 'react-i18next';
 import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
-
+import AnnouncementJs from "js/models/Announcement";
 
 export default function Announcement() {
     const [recipient,setRecipient] = useState("");
   const [announcementData, setAnnouncementData] = useState({
-    recipient: '', 
-    subject: '',
+    title: '',
     content: ''
   });
   const [error, setError] = useState('');
@@ -25,47 +24,41 @@ export default function Announcement() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { recipient, subject, content } = announcementData;
-  
+    e.preventDefault();  
     // Input validation
-    if (!recipient && !subject && !content) {
-      setError("All fields (recipient, Subject, and Content) are required.");
+    if (!recipient && !announcementData.title && !announcementData.content) {
+      setError("All fields (recipient, Title, and Content) are required.");
+      setSuccessMessage("");
       return;
     }
   
     
 
     try {
-      const response = await fetch('http://localhost/University-management/backend/roots/announcementPage.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ recipient, title: subject, content }),
-      });
-  
-      const result = await response.json();
+      const result = await AnnouncementJs.Add({"title":announcementData.title,"content":announcementData.content,"recipient":recipient});
   
       if (result.success) {
+        setError('');
         setSuccessMessage("Announcement sent successfully.");
-        setAnnouncementData({ recipient: '', subject: '', content: '' }); // Reset fields after submission
+        setAnnouncementData({ title: '', content: '' }); // Reset fields after submission
+        setRecipient('');
       } else {
+        setSuccessMessage('');
         setError(result.message || "An error occurred while sending the announcement.");
       }
     } catch (error) {
-      setSuccessMessage("Announcement sent successfully.");
+      alert("catch in button handled : \n" + error)
     }
   };
   
   const { t, i18n } = useTranslation();
   const options = [
+    "All",
     "Licence 1",
     "Licence 2",
-    "isil",
-    "si",
-    "master 1",
-    "master 2",
+    "Licence 3",
+    "Master 1",
+    "Master 2",
   ];
 
   const ComboBoxhandleChange = (e) => {
@@ -87,9 +80,9 @@ export default function Announcement() {
           <LabelStyle1 labelText={t('Title')} labelClassName="text-lg font-semibold mb-2" />
           <input
             type="text"
-            name="subject"
+            name="title"
             placeholder={t('AnnouncmentPlaceholderTitle')}
-            value={announcementData.subject}
+            value={announcementData.title}
             onChange={handleChange}
             className="w-full border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 p-3 text-blue-900 placeholder-gray-400 mb-2"
           />
@@ -107,8 +100,8 @@ export default function Announcement() {
         </div>
 
         {/* Display error or success message */}
-        {error && <p className="text-red-500">{error}</p>}
-        {successMessage && <p className="text-green-500">{successMessage}</p>}
+        {error && <p className="text-red-500 mt-2 mb-2">{error}</p>}
+        {successMessage && <p className="text-green-500 mt-2 mb-2">{successMessage}</p>}
 
         <ButtonStyle1 
           buttonText= {t('SendAnnouncement')} 

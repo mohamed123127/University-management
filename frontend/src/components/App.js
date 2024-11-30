@@ -11,7 +11,7 @@ import AdministrationMainPage from "pages/AdministrationSide/AdministrationMainP
 import { createBrowserRouter } from "react-router-dom";
 import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { RouterProvider } from "react-router-dom";
-import GroupChangeRequest from "groupchange";
+import GroupChangeRequest from "pages/StudentSide/groupchange";
 import EtudientMainPage from "pages/StudentSide/EtudientMainPage";
 import dataGridViewStyle3 from "./custom controls/data grid view/dataGridViewStyle3";
 import DocumentRequestsAdmin from "pages/AdministrationSide/DocumentRequestsAdmin";
@@ -20,10 +20,13 @@ import StudentsTable from "pages/AdministrationSide/Students";
 import Login_SignUp from "pages/Authentication/Login_SignUp";
 import DocumentRequests from "pages/StudentSide/DocumentRequests";
 import Student from "js/models/Student";
+
 const routes = [
   {
     path: "/",
+
     element: <Login_SignUp/>,
+
   },
   {
     path: "/EtudientMainPage",

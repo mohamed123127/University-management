@@ -7,7 +7,7 @@ import DataGridView from 'components/custom controls/data grid view/dataGridView
 import Language from 'components/Basics/Language';
 import LabelStyle1 from 'components/custom controls/labels/LabelStyle1';
 import ChangeRequests from 'js/models/ChangeRequests';
-
+import { VirtualRequests } from 'js/models/VirtualRequest';
 
 export default function VisualRequests({selectedRequest,studentData=[]}){
     const { t, i18n } = useTranslation(); 
@@ -27,28 +27,37 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         'Speciality'
     ];
 
+
+
     const groupOptions = ['1', '2', '3', '4', '5'];
     const sectionOptions = ['1','2'];
     //const [studentData,setStudentData] = useState(null);
     //useEffect(()=>{setStudentData(StudentData)},[])
+
+    useEffect(()=>{
+        const loadData =async()=>{
+            setData(await VirtualRequests.getById(studentData.Id));
+        }
+         loadData();
+
+    
+    },[])
     useEffect(()=>{
         setSelectedDemande(selectedRequest);
       },[selectedRequest])
     const specialityOptions = ['Isil', 'Si'];
 
     const columns = [
-        { name: "ID", Header: t('ID'), width: "80px" },
-        { name: "RequestType", Header: t('RequestType'), width: "20%" },
+       
+        { name: "Type", Header: t('RequestType'), width: "20%" },
         { name: "Status", Header: t('Status'), width: "15%" },
-        { name: "CurrentValue", Header: t('CurrentValue'), width: '20%' },
+        { name: "OldValue", Header: t('CurrentValue'), width: '20%' },
         { name: "NewValue", Header: t('NewValue'), width: '20%' },
-        { name: "Submission_Date", Header: t('SubmissionDate'), width: "12%" },
-        { name: "Last_Updated_Date", Header: t('LastUpdatedDate'), width: "13%" }
+        { name: "SubmissionDate", Header: t('SubmissionDate'), width: "12%" },
+        { name: "LastUpdatedDate", Header: t('LastUpdatedDate'), width: "13%" }
     ];
     
-    const Data = [
-        
-    ];
+    const [data , setData]=useState([]);
 
     useEffect(() => {
         i18n.changeLanguage(currentLanguage);
@@ -95,11 +104,26 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
                 "oldValue":getOldValue(),
                 "newValue":getNewValue(),
                 "studentId":studentData.Id
+
             })
             if (result.success === true) {
-                alert("تم اضافة طلبك");
+    
+              const newData = {
+              Type: selectedDemande, // Assume selectedDemande is defined elsewhere
+              OldValue: getOldValue(),
+               NewValue: getNewValue(),
+                Status : "Pending",
+               SubmissionDate : new Date().toLocaleDateString('en-CA'),
+                LastUpdatedDate: new Date().toLocaleDateString('en-CA')
+
+    };
+
+    // Add the new data to the state
+    setData((prevData) => [...prevData, newData]);
+                      
+
             } else {
-                alert(result.success + " \n" + result.message);
+                alert(result.success + "  \n" + result.message);
             }
         }catch(error) {
             alert("catch in addButtonHandled in visual request" + error);
@@ -137,7 +161,8 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             )} 
             <ButtonStyle1 onClick={addButtonHandled} buttonText={t('Add')} buttonClassName="w-20 bg-blue-500 text-white rounded-md h-8 font-bold text-center hover:bg-blue-600" />
         </div>
-        <DataGridView Columns={columns} Data={Data} ClassName="table-auto ltr:ml-2 rtl:mr-2" />        
+        <DataGridView Columns={columns} Data={data} ClassName="table-auto ltr:ml-2 rtl:mr-2" />        
     </div>
     );
+    
 }

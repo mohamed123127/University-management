@@ -25,9 +25,20 @@ class Admin {
             $sql = "INSERT INTO administration (firstName, lastName, Email, password) VALUES (?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
 
-            if (!$stmt) {
-                return (["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
-            }
+        if (!$stmt) {
+           return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
+        }
+        
+        
+        // Bind parameters for 10 values (update type of parameters to match input data)
+        $stmt->bind_param("ss",$this->email, $this->password);
+       
+        if ($stmt->execute()) {
+           
+            echo json_encode(["success" => true, "message" => "Admin added successfully."]);
+        } else {
+            echo json_encode(["success" => false, "message" => "Failed to add admin."]);
+        }
 
             $stmt->bind_param("ssss", $this->firstName, $this->lastName, $this->email, $this->password);
 

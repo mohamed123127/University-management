@@ -35,6 +35,7 @@ export default function GradeTranscript() {
                 "name" : name,
                 "type" : type
             }
+            console.log(dataToSavePdf);
             const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf,dataToSavePdf);
             if (result.success) {
                 // الحصول على رابط الملف المحفوظ
@@ -48,9 +49,14 @@ export default function GradeTranscript() {
                 
                 // إرسال رابط الملف إلى قاعدة البيانات
                 
-                if (result2.success) alert(result2.message);
+                if (result2.success) {     
+                    localStorage.setItem("reload",true);              
+                    alert(result2.message);
+                  
+                }
                 else alert("لم يتم حفظ في قاعدة البيانات");
             } else {
+                alert(result.path);
                 alert('لم يتم حفظ الملف. تأكد من الخادم.\n'+result.message);
             }
         } catch (error) {

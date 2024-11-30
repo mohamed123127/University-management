@@ -16,6 +16,19 @@ class ReportProblem
       console.log(error);
     }
   }
+
+  static async getAll()
+  {
+    try
+    {
+      const result = await ApiOperator.get(this.ReportProblemRootUrl + "getAll");
+      return result;
+    } catch(error)
+    {
+      alert("catch in get all Report Problem: " + error);
+      console.log(error);
+    }
+  }
 }
 
 export default ReportProblem;

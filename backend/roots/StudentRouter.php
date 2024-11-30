@@ -164,14 +164,17 @@ try{
             } else {
                 $response=(["success" => false, "message" => "Invalid request method. Use POST."]);
             }
-            break;
-        
+        break;
         case 'getAll':
+            if ($method === 'GET') {
             $Students = Etudient::getall($conn);
             if ($Students != null) {
                 $response = ["success" => true, 'Data' => $Students];
             } else {
                 $response = ["success" => false, "message" => "it's not exists"];
+            }
+            } else {
+                $response = ["success" => false, "message" => "Invalid request method. Use POST."];
             }
             break;
         default:
