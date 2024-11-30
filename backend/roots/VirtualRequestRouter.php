@@ -63,13 +63,32 @@ try {
                
 
         case 'getAll':
-            $vreques = VRequest::getall($conn);
-            if ($vreques != null) {
-                $response = ["success" => true, 'Data' => $vreques];
-            } else {
-                $response = ["success" => false, "message" => "it's not exists"];
+            if ($method == "GET") {
+            $response= VRequest::getall($conn);
+            }else {
+                $response = ["success" => false, "message" => "طريقة غير صالحة"];
             }
             break;
+        case 'getById':
+                if ($method == "GET") {
+                    if(isset($_GET["id"])){
+                        $id=$_GET["id"];
+                    }else{
+                        echo json_encode (["success" => false, "message" => "id dont sended"]);
+                        exit();
+                    }
+                    if($id!=""){
+                       
+                        $response= VRequest::getById($conn,$id);
+
+                    }else{
+                        $response = ["success" => false, "message" => "id is empty"];
+                    }
+                
+                }else {
+                    $response = ["success" => false, "message" => "طريقة غير صالحة"];
+                }
+         break;
 
         default:
             $response = ["success" => false, "message" => "Invalid endpoint"];
@@ -78,3 +97,5 @@ try {
 } catch (Exception $e) {
     $response = ['success' => false, 'message' => $e->getMessage()];
 }
+echo json_encode($response);
+?>
