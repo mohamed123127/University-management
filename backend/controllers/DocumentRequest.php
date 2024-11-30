@@ -37,7 +37,10 @@ class DocumentRequest
     public static function getall($conn)
     {
         try {
-            $sql = "SELECT * FROM documentrequest";
+            $sql = "SELECT documentrequest.*, etudient.EducationYear
+                    FROM documentrequest
+                    INNER JOIN etudient
+                    ON documentrequest.studentId = etudient.Id;";
             $stmt = $conn->prepare($sql);
 
             if (!$stmt) {
@@ -52,7 +55,9 @@ class DocumentRequest
             while ($row = $result->fetch_assoc()) {
                 $Documents[] = $row;
             }
+            //echo (json_encode($Documents));
             if ($Documents != []) {
+                
                 return ["success" => true, "data" => $Documents];
             } else {
                 return ["success" => false, "message" => "No DAta"];
@@ -77,6 +82,26 @@ class DocumentRequest
                 return (["success" => true, "message" => "Status updated successfully"]);
             } else {
                 return (["success" => false, "message" => "No record found with that ID"]);
+            }
+
+            $stmt->close();
+        } catch (Exception $e) {
+            return (["success" => false, "message" => "An error occurred: " . $e->getMessage()]);
+        }
+    }
+
+    public static function addNote($conn, $id, $note){
+        try {
+            $sql = "UPDATE DocumentRequest SET Notes = ?, LastUpdatedDate = NOW() WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $note, $id);
+
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                return (["success" => true, "message" => "notes updated successfully"]);
+            } else {
+                return (["success" => true, "message" => "No rows has affected"]);
             }
 
             $stmt->close();

@@ -14,17 +14,14 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
         { label: 'Completed', className: "bg-green-200" },
         { label: 'Rejected', className: "bg-red-200" },
     ];
-    //const [selectedValues, setSelectedValues] = useState(Array(5).fill("Pending"));
     
     const handleChange = async (row, value) => {
-        // تحديث البيانات محليًا
         setData(prevData =>
             prevData.map(Row =>
                 Row === row ? { ...Row, Status: value ,LastUpdatedDate:new Date().toLocaleDateString('en-CA')} : Row
             )
         );
     
-        // محاولة تحديث الحالة على الخادم
         try {
             const response = await DocumentRequest.UpdateStatus(row.ID, value);
             if(!response.success){
@@ -36,7 +33,24 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
         }
     };
     
+    const handleTextboxChange = (row, value) => {
+        setData(prevData =>
+            prevData.map(Row =>
+                Row === row ? { ...Row, Notes: value } : Row
+            )
+        );
+    };
+    
 
+    const handleTextboxSubmit = (row, value) => {
+        if(value !== "" && row && row.ID ){
+            console.log(row.ID);
+            DocumentRequest.AddNote(row.ID,value);
+            console.log("g");
+        }else{
+            console.log('b');
+        }
+    };
     return (
         <div className="overflow-x-auto bg-white shadow-md rounded-md">
             <table className="min-w-full border border-gray-300">
@@ -71,7 +85,15 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
                                         </div>
                                     ) : column.name === "textBox" ? (
                                         <div>
-                                            <TextBoxStyle2 key={rowIndex} Name={`textBox-${rowIndex}`} value={row.Notes} placeholder="" textBoxClassName='h-7 bg-transparent border-none w-full text-center'/>
+                                            <TextBoxStyle2 key={rowIndex} Name={`textBox-${rowIndex}`} value={row.Notes} onChange={(e) => handleTextboxChange(row, e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Enter") {
+                                                    e.preventDefault(); // منع السلوك الافتراضي (مثل الانتقال للسطر التالي)
+                                                    handleTextboxSubmit(row, e.target.value); // استدعاء المعالجة عند الضغط على Enter
+                                                }
+                                            }}
+                                            onBlur={(e) => handleTextboxSubmit(row, e.target.value)} // استدعاء المعالجة عند فقدان التركيز
+                                            placeholder="" textBoxClassName='h-7 bg-transparent border-none w-full text-center'/>
                                         </div>
                                     ) : (
                                         t(row[column.name])

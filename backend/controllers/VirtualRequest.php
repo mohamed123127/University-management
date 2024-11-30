@@ -79,8 +79,7 @@ class VRequest{
             $stmt = $conn->prepare($sql);
     
             if (!$stmt) {
-                echo json_encode(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
-                return;
+                return (["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
             }
     
             $stmt->execute();

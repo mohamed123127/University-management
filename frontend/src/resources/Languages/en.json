@@ -33,6 +33,8 @@
     "document_requests": "Document requests",
     "DontHaveAccount": "Don't have an account?",
     "Email": "Email",
+    "allRequests": "All Requests",
+      "allYears": "All Years",
     "enable_email_notifications": "Enable Email Notifications for Requests",
     "Faculty": "Faculty",
     "FirstName": "First Name",

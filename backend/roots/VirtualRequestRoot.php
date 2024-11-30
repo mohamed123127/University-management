@@ -63,7 +63,7 @@ try {
                
 
         case 'getAll':
-            $vreques = VRequest::getall($conn);
+            $response = VRequest::getall($conn);
             if ($vreques != null) {
                 $response = ["success" => true, 'Data' => $vreques];
             } else {
@@ -75,6 +75,8 @@ try {
             $response = ["success" => false, "message" => "Invalid endpoint"];
             break;
     }
+
+    
 } catch (Exception $e) {
     $response = ['success' => false, 'message' => $e->getMessage()];
 }

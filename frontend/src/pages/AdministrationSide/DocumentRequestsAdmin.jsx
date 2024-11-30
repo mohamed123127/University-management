@@ -10,37 +10,39 @@ export default function DocumentRequestsAdmin() {
 
 
     const searchOptionsTexts = [
-        "All Requests",
-        "Registration certificate",
-        "Grade transcript",
-        "Parking Permit",
-        "Library Card",
-        "Internship Permit",
-        "Student ID Card",
-        "Block Academic Year"
+        t('allRequests'),
+        t('registration_certificate'),
+        t("grade_transcript"),
+        t('parking_permit'),
+        t('library_card'),
+        t("internship_permit"),
+        t("studentCard"),
+        t("block_academic_year")
     ];
     const yearOptionsTexts = [
-        "All Years",
-        "Licence1",
-        "Licence2",
-        "Licence3",
-        "master1",
-        "master2"
+        t("allYears"),
+        "Licence 1",
+        "Licence 2",
+        "Licence 3",
+        "Master 1",
+        "Master 2"
     ];
-    const [selectedType, setSelectedType] = useState("All Requests");
-    const [selectedYear, setSelectedYear] = useState("All Requests");
+    const [selectedType, setSelectedType] = useState(t("allRequests"));
+    const [selectedYear, setSelectedYear] = useState(t("allYears"));
     const [data,setData] = useState([]);
     const filteredData = data.filter((row) => {
-        //alert(row.Type);
-        const typeMatch = selectedType === "All Requests" || t(row.Type) === selectedType;
-        //const yearMatch = selectedYear === "All" || row.year === selectedYear;
-        return typeMatch ;
+        //alert(row.EducationYear + " / " + selectedYear);
+        //console.log(t(row.EducationYear) + " ] " +  selectedYear);
+        const typeMatch = selectedType === t("allRequests") || t(row.Type) === selectedType;
+        const yearMatch = selectedYear === t("allYears") || row.EducationYear === selectedYear;
+        return typeMatch && yearMatch ;
     });
 
     const columns = [
         { name: "Type", Header: "Request Type", width: "20%", className: "text-center" },
         { name: "textBox", Header: "Notes" , width: "30%", className: "text-center" },
         { name: "combobox", Header: "Status" , width: "12%", className: "text-center" },
+        { name: "EducationYear", Header: "EducationYear" , width: "12%", className: "text-center" },
         { name: "SubmissionDate", Header: "Submission Date", width: "10%", className: "text-center" },
         { name: "LastUpdatedDate", Header: "LastUpdated Date", width: "10%", className: "text-center" },
         {name: "Action",Header: "Actions",width: "15%"}
@@ -52,7 +54,7 @@ export default function DocumentRequestsAdmin() {
                 const resulte = await DocumentRequest.GetAll();
                 if(resulte.success){
                     setData(resulte.data);
-                    console.log(resulte.data); 
+                    //console.log(resulte.data); 
                 }else{
                     alert(resulte.success + "\n" + resulte.message);
                 }

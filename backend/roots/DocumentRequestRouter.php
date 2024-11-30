@@ -84,7 +84,6 @@ try{
         break;
         case 'updateStatus':
             if($method == "POST") {
-                $data = json_decode(file_get_contents('php://input'), true);
                 
                 if (isset($data['id']) && isset($data['status'])) {
                     $id = $data['id'];
@@ -94,6 +93,24 @@ try{
                         $response = DocumentRequest::UpdateStatus($conn,$id,$status);
                     } else {
                         $response = ["success" => false, "message" => "id and status are required"];
+                    }
+                } else {
+                    $response = ["success" => false, "message" => "All inputs are required"];
+                }
+            } else {
+                $response = ["success" => false, "message" => "Invalid method"];
+            }
+        break;
+        case "addNote":
+            if($method == "POST") {                
+                if (isset($data['id']) && isset($data['note'])) {
+                    $id = $data['id'];
+                    $note = $data['note'];
+                    
+                    if ($id !== '' && $note !== '') {
+                        $response = DocumentRequest::addNote($conn,$id,$note);
+                    } else {
+                        $response = ["success" => false, "message" => "id and note are required"];
                     }
                 } else {
                     $response = ["success" => false, "message" => "All inputs are required"];

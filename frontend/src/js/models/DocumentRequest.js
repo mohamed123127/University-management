@@ -42,6 +42,20 @@ class DocumentRequest
         const response = await ApiOperator.post(this.DocumentRequestRootUrl+"updateStatus",{"id":id,"status":status})
         return response;
     }
+
+    static async AddNote(id,note){
+        const response = await ApiOperator.post(this.DocumentRequestRootUrl+"addNote",{"id":id,"note":note})
+        try{
+        if(response.success){
+            return true;
+        }else{
+            alert(response.success + "\n" + response.message);
+        }
+        }catch(error){
+            alert("error in add note : \n" + error);
+        }
+        return response;
+    }
 }
 
 export default DocumentRequest;
