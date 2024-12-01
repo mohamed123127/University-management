@@ -21,13 +21,13 @@ try{
     {
         case 'addEtudient' :
             if($method == "POST"){
-                $data = json_decode(file_get_contents('php://input'), true);
-                if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['educationYear']) && isset($data['specialty']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['password']) ) {
+                if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['educationYear']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['password']) ) {
                     $matricule = $data['matricule'];
                     $firstName = $data['firstName'];
                     $lastName = $data['lastName'];
                     $educationYear = $data['educationYear'];
-                    $specialty = $data['specialty'];
+                    $speciality = "";
+                    if(isset($data['speciality'])) $speciality = $data['speciality'];
                     $section = $data['section'];
                     $group = $data['group'];
                     $email = $data['email'];
@@ -38,12 +38,13 @@ try{
                 }
                 
                 if ($matricule !== '' && $firstName !== '' && $lastName !== '' &&  $educationYear !== '' && $section !== '' && $group !== '' &&  $email !== '' && $password !== '') {
-                    $etudient = new Etudient($firstName, $lastName, $email, $password,false, $matricule, $educationYear, $specialty, $section, $group);
+                    $etudient = new Etudient($firstName, $lastName, $email, $password,false, $matricule, $educationYear, $speciality, $section, $group);
                     $response=$etudient->addEtudient($conn);
                 } else {
-                    $response =["success" => false, "message" => "input cant be ampty"];
+                    $response =["success" => false, "message" => "input cant be empty"];
                 }
-                
+            }else{
+                $response = ["success" => false, "message" => "Method does not match"];
             }
         break;
         case 'isExistEtudient':

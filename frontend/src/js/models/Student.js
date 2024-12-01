@@ -9,7 +9,11 @@ class Student
     try 
     {
         const result = await ApiOperator.post(this.StudentRootUrl + "addEtudient", data);
-        return result; 
+        if(result.success === true){
+          alert("You have been successfully added. Please wait for your account to be activated by the university. \nAn email will be sent to you once your account is activated.")
+        }else{
+          alert(result.message);
+        }
     } catch (error) {
         alert("catch in addEtudient: " + error);
     }

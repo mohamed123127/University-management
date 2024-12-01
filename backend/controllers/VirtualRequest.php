@@ -90,11 +90,11 @@ class VRequest{
                 $requests[] = $row;
             }
     
-            return(["success" => true, "data" => $requests]);
+            return (["success" => true, "data" => $requests]);
     
             $stmt->close();
         } catch (Exception $ex) {
-            return(["success" => false, "message" => "An error occurred: " . $ex]);
+            return (["success" => false, "message" => "An error occurred: " . $ex]);
         }
     }
 

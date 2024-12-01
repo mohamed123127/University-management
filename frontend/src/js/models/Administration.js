@@ -19,8 +19,12 @@ class Administration
   {
     try 
     {
-        const data = await ApiOperator.post(this.AdministrationRootUrl + "isExistAdmin", {email: Email,password: Password});
-        return data; 
+        const result = await ApiOperator.post(this.AdministrationRootUrl + "isExistAdmin", {email: Email,password: Password});
+        if(result.success === true){
+          return result.IsGeneralAdmin;
+        }else{
+          alert("the email and password are incorrect");
+        }
     } catch (error) {
         alert("catch in isExistAdmin: " + error);
     }

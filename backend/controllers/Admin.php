@@ -31,31 +31,21 @@ class Admin {
         
         
         // Bind parameters for 10 values (update type of parameters to match input data)
-        $stmt->bind_param("ss",$this->email, $this->password);
+        $stmt->bind_param("ssss",$this->firstName,$this->lastName,$this->email, $this->password);
        
         if ($stmt->execute()) {
            
-            echo json_encode(["success" => true, "message" => "Admin added successfully."]);
+           return (["success" => true, "message" => "Admin added successfully."]);
         } else {
-            echo json_encode(["success" => false, "message" => "Failed to add admin."]);
+            return (["success" => false, "message" => "Failed to add admin."]);
         }
-
-            $stmt->bind_param("ssss", $this->firstName, $this->lastName, $this->email, $this->password);
-
-            if ($stmt->execute()) {
-                $stmt->close();
-                return (["success" => true, "message" => "Admin added successfully."]);
-            } else {
-                $stmt->close();
-                return (["success" => false, "message" => "Failed to add admin."]);
-            }
         } catch (Exception $ex) {
             return (["success" => false, "message" => $ex->getMessage()]);
         }
     }
 
     public static function isExistAdmin($conn, $email, $password) {
-        $sql = "SELECT `Id` FROM administration WHERE email = ? AND password = ?";
+        $sql = "SELECT `id` FROM administration WHERE email = ? AND password = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $email, $password);
         $stmt->execute();
@@ -64,7 +54,7 @@ class Admin {
 
         if ($result->num_rows > 0) {
             $admin = $result->fetch_assoc();
-            return $admin['Id'];
+            return $admin['id'];
         }
         return null;
     }

@@ -11,6 +11,8 @@ require_once '../utils/JwtLogin.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? null;
+if($method == "POST") $data = json_decode(file_get_contents('php://input'), true);
+
 
 
 $response = ['success' => false, 'message' => 'Invalid request'];
@@ -43,7 +45,6 @@ try{
         break;
         case 'isExistAdmin':
             if($method == "POST"){
-                $data = json_decode(file_get_contents('php://input'), true);
                 if (isset($data['email']) && isset($data['password'])) {
                     $email = $data['email'];
                     $password = $data['password'];
@@ -55,14 +56,18 @@ try{
 
                 if ($email !== '' && $password !== '') {
                     $AdminId = Admin::isExistAdmin($conn, $email, $password);
-                    if ($StudentId != null) {
+                    if ($AdminId != null) {
                         $jwt = JwtLogin::generateJWT($AdminId); // إنشاء التوكن إذا كانت بيانات المستخدم صحيحة
-                        $response = ["success" => true, "message" => "User exists", "token" => $jwt,'id' => $AdminId];
+                        if($AdminId == 1){
+                            $response = ["success" => true, "message" => "Admin exists","IsGeneralAdmin" => true, "token" => $jwt,'id' => $AdminId];
+                        }else{
+                            $response = ["success" => true, "message" => "Admin exists","IsGeneralAdmin" => false, "token" => $jwt,'id' => $AdminId];
+                        }
                     } else {
                         $response = ["success" => false, "message" => "Invalid email or password"];
                     }
                 } else {
-                    $response = ["success" => false, "message" => "Email and password are required"];
+                    $response = ["success" => false, "message" => "Email and password are empty!!"];
                 }
             }else
             {

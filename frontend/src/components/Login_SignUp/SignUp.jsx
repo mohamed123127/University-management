@@ -28,6 +28,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
       if(email) SignUpFormData.email = email;
     },[])
 
+   
     const handleLanguageChange = (lang) => {
         setCurrentLanguage(lang);
     };
@@ -50,6 +51,19 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         confirmPassword: ''
     });
 
+    useEffect(() => {
+      if (SignUpFormData.educationYear === 'Licence 3') {
+        setSpecialityComboBoxDisabled(false);
+      } else {
+        setSpecialityComboBoxDisabled(true);
+        setSignUpFormData((prevData) => ({
+            ...prevData,
+            Specialty: '-'
+        }));
+      }
+  }, [SignUpFormData.educationYear]);
+
+
     const [specialityComboBoxDisabled, setSpecialityComboBoxDisabled] = useState(true);
 
     const handleChange = (e) => {
@@ -60,39 +74,26 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         }));
     };
 
-    useEffect(() => {
-        if (SignUpFormData.educationYear === 'Licence 1' || SignUpFormData.educationYear === 'Licence 2') {
-            setSpecialityComboBoxDisabled(true);
-            setSignUpFormData((prevData) => ({
-                ...prevData,
-                Specialty: '-'
-            }));
-        } else {
-            setSpecialityComboBoxDisabled(false);
-            setSignUpFormData((prevData) => ({
-                ...prevData,
-                Specialty: ''
-            }));
-        }
-    }, [SignUpFormData.educationYear]);
+    
 
     const SignUpButtonHandled = async () => {
         if (SignUpFormData.password !== SignUpFormData.confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
-
-        try {
-          const data = await Student.addEtudient(JSON.stringify(SignUpFormData));
-          if (data.success === true) {
-            alert(data.message);
-        } else {
-            alert(data.success+'\n ' + data.message);
-        }
-      } catch (error) {
-            console.error("Fetch error:", error);
-            alert("An error occurred while signing up. Please try again later.");
-        }
+        //alert(SignUpFormData.specialty);
+        Student.addEtudient({
+          matricule: SignUpFormData.matricule,
+          firstName: SignUpFormData.firstName,
+          lastName: SignUpFormData.lastName,
+          educationYear: SignUpFormData.educationYear,
+          speciality: SignUpFormData.specialty,
+          section: SignUpFormData.section,
+          group: SignUpFormData.group,
+          email: SignUpFormData.email,
+          password: SignUpFormData.password
+      });
+              
     };
 
     return (
@@ -102,7 +103,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                 <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language} />
             </div>
 
-            <form className="flex flex-col w-[90%]">
+            <div className="flex flex-col w-[90%]">
                 <div className="space-y-4">
                     <div className="flex">
                         <div className="flex flex-col ml-1 mr-1 w-full">
@@ -149,9 +150,9 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
             />
             <LabelStyle1 labelText={`${t('Speciality')}:`} labelClassName="text-sm ml-1" />
             <ComboBoxStyle1
-              Name="Specialty"
+              Name="specialty"
               options={specialityOptions}
-              value={SignUpFormData.Specialty}
+              value={SignUpFormData.specialty}
               onChange={handleChange}
               disabled={specialityComboBoxDisabled}
               comboBoxClassName={`${specialityComboBoxDisabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white'} w-full`}
@@ -222,7 +223,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
           buttonClassName="items-center w-full mt-8"
           onClick={SignUpButtonHandled}
         />
-      </form>
+      </div>
 
       <p className="text-gray-400 text-xs mt-2 ltr:mr-auto rtl:ml-auto rtl:mr-6 ltr:ml-6">
       {`${t('AlreadyHaveAnAccount')}`}

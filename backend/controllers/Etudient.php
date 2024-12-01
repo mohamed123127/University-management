@@ -107,8 +107,8 @@ class Etudient extends User {
     public function addEtudient($conn) {
         
         try{
-            $sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, specialty, section, grp , email, password, Active,date) 
-                VALUES ( ?,?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIME())";
+            $sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, Speciality, section, grp , email, password, Active) 
+                VALUES ( ?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
         $stmt = $conn->prepare($sql);
         
@@ -129,7 +129,7 @@ class Etudient extends User {
         }
 
         }catch(Exception $ex){
-            return(["success" => false, "message" => $ex]);
+            return(["success" => false, "message" => $ex->getMessage()]);
         }
         
     }

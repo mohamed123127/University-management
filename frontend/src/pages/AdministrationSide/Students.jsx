@@ -43,10 +43,6 @@ export default function Students() {
         { name: "Action", Header: "Active", width: "10%", className: "text-center" },
     ];
 
-    const handleAction = (student) => {
-        
-    };
-
     const [selectedOption, setSelectedOption] = useState("matricule");
     const [selectedOption2, setSelectedOption2] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
