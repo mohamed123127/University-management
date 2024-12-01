@@ -1,15 +1,15 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-// السماح بالطرق المستخدمة (POST, GET, وغيرها)
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-
-// السماح بالهيدر Content-Type
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
-require_once '../config/database.php'; // الاتصال بقاعدة البيانات
-require_once '../controllers/User.php'; // تأكد من تضمين User.php بشكل صحيح
-require_once '../controllers/Etudient.php'; // تضمين ملف Etudient
+require_once '../config/database.php'; 
+require_once '../controllers/User.php'; 
+require_once '../controllers/Etudient.php'; 
+require_once '../utils/WebServices/EmailServices.php'; 
+require_once '../utils/JwtLogin.php';
+
 
 
 class Etudient extends User {
@@ -33,7 +33,6 @@ class Etudient extends User {
         $this->section = $section;
         $this->group = $group;
     }
-
     public static function isExistEtudient($conn, $email, $password) {
         $sql = "SELECT `Id`, `Active` FROM etudient WHERE email = ? AND password = ?";
         $stmt = $conn->prepare($sql);
@@ -42,13 +41,19 @@ class Etudient extends User {
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $etudient = $result->fetch_assoc();
-            if ($etudient['Active']) {
-                return $etudient['Id'];
+            $isActive = $etudient['Active'];
+            $StudentId = $etudient['Id'];
+            if ($isActive) {
+                $jwt = JwtLogin::generateJWT($StudentId); // إنشاء التوكن إذا كانت بيانات المستخدم صحيحة
+                return ["success" => true, "message" => "User exists", "token" => $jwt,'id' => $StudentId];
+            }else{
+                return ["success" => false, "message" => "your account is not active"];
             }
+        }else{
+            return ["success" => false, "message" => "Invalid email or password"];
         }
         return null;
     }
-
     public static function getById($conn, $id) {
         $sql = "SELECT * FROM etudient WHERE id = ?";
         $stmt = $conn->prepare($sql);
@@ -60,7 +65,6 @@ class Etudient extends User {
         }
         return null;
     }
-
     public static function getByEducationYear($conn, $EducationYear) {
         $sql = "SELECT Id FROM etudient WHERE EducationYear = ?";
         $stmt = $conn->prepare($sql);
@@ -76,7 +80,6 @@ class Etudient extends User {
         }
         return null;
     }
-
     public static function getAllId($conn) {
         $sql = "SELECT Id FROM etudient";
         $stmt = $conn->prepare($sql);
@@ -91,7 +94,6 @@ class Etudient extends User {
         }
         return null;
     }
-
     public static function getByEmail($conn, $email) {
         $sql = "SELECT * FROM etudient WHERE email = ?";
         $stmt = $conn->prepare($sql);
@@ -103,10 +105,11 @@ class Etudient extends User {
         }
         return null;
     }
-
     public function addEtudient($conn) {
         
         try{
+            $student = $this->getByEmail($conn,$this->email);
+            if($student == null){
             $sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, Speciality, section, grp , email, password, Active) 
                 VALUES ( ?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
@@ -127,13 +130,14 @@ class Etudient extends User {
         } else {
             return(["success" => false, "message" => "Failed to add student."]);
         }
-
+        }else{
+            return ["success"=> false, "message" => "this email has aleardy used"];
+        }
         }catch(Exception $ex){
             return(["success" => false, "message" => $ex->getMessage()]);
         }
         
     }
-
     public static function changeActivate($conn, $id, $status) {
         try {
             $sql = "UPDATE etudient SET Active = ? WHERE Id = ?";
@@ -144,22 +148,19 @@ class Etudient extends User {
                     "success" => false,
                     "message" => "Database statement preparation failed: " . $conn->error
                 ]);
-                return;
             }
     
             $stmt->bind_param("ii", $status, $id);
     
             if ($stmt->execute()) {
                 if ($stmt->affected_rows > 0) {
-                    return([
-                        "success" => true,
-                        "message" => "Student activation status updated successfully."
-                    ]);
+                    $studentData = Etudient::getById($conn,$id);
+                    if ($studentData) {
+                    EmailServises::SendEmail($studentData['Email'],"Compte Activated","Your account has been activated ,know you can login to you account in univ boumerdess portal");
+                    } 
+                    return(["success" => true,"message" => "Student activation status updated successfully."]);
                 } else {
-                    return([
-                        "success" => false,
-                        "message" => "No records were updated. Please check the provided ID."
-                    ]);
+                    return(["success" => false,"message" => "No records was updated. Please check the provided ID."]);
                 }
             } else {
                 return([
@@ -177,8 +178,6 @@ class Etudient extends User {
             ]);
         }
     }
-    
-
     public static function getall($conn) {
         try {
             $sql = "SELECT * FROM etudient";
@@ -203,9 +202,6 @@ class Etudient extends User {
         } catch (Exception $ex) {
             return(["success" => false, "message" => "An error occurred: " . $ex]);
         }
-    }
-    
-    
-        
+    }  
 }
 ?>

@@ -59,9 +59,9 @@ try{
                     if ($AdminId != null) {
                         $jwt = JwtLogin::generateJWT($AdminId); // إنشاء التوكن إذا كانت بيانات المستخدم صحيحة
                         if($AdminId == 1){
-                            $response = ["success" => true, "message" => "Admin exists","IsGeneralAdmin" => true, "token" => $jwt,'id' => $AdminId];
+                            $response = ["success" => true, "message" => "Admin exists", "token" => $jwt,'id' => $AdminId];
                         }else{
-                            $response = ["success" => true, "message" => "Admin exists","IsGeneralAdmin" => false, "token" => $jwt,'id' => $AdminId];
+                            $response = ["success" => true, "message" => "Admin exists", "token" => $jwt,'id' => $AdminId];
                         }
                     } else {
                         $response = ["success" => false, "message" => "Invalid email or password"];
@@ -81,6 +81,34 @@ try{
             } else {
                 $response = ["success" => false, "message" => "it's not exists"];
             }
+            break;
+        case 'getById':
+                if($method =="GET")
+                {
+                    if (isset($_GET['id'])) 
+                    {
+                        $id = $_GET['id'];
+                    } else 
+                    {
+                        $response = ["success" => false, "message" => "Id is required"];
+                        echo json_encode($response);
+                        exit();
+                    }
+    
+                    if ($id !== '') {
+                        $StudentData = Admin::getById($conn, $id);
+                        if ($StudentData != null) {
+                            $response = ["success" => true, 'Data' => $StudentData];
+                        } else {
+                            $response = ["success" => false, "message" => "it's not exists data by this id"];
+                        }
+                    } else {
+                        $response = ["success" => false, "message" => "Id is required"];
+                    }
+                }else
+                {
+                    $response = ["success" => false, "message" => "Method does not match"];
+                }
             break;
         default:
             $response = ['success' => false, 'message' => 'Endpoint not exsist'];

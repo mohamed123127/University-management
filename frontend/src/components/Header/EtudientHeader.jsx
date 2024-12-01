@@ -4,14 +4,24 @@ import Account from "./Account";
 import { FaUser } from "react-icons/fa"; 
 import Language from "components/Basics/Language"; 
 import { useTranslation } from "react-i18next";
+import NotificationJs from "js/models/Notification";
 
-export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentName="" }) {
+export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentName="",studentId='' }) {
   const [notifications, setNotifications] = useState([
     { id: 1, message: "Your account has been activated", date_time: "04/11/2024 16:32", IsRead: true },
     { id: 2, message: "Your demand to change group was accepted", date_time: "06/11/2024 09:20", IsRead: false },
     { id: 3, message: "Your student card has been finished", date_time: "07/11/2024 11:58", IsRead: false },
     { id: 4, message: "لقد تم تفعيل حسابك", date_time: "07/11/2024 11:58", IsRead: false },
     ]);
+
+    useEffect(()=>{
+      async function loadNotification() {
+        const data = await NotificationJs.getByStudentId(studentId);
+      console.log(data);
+      setNotifications(data);
+      }
+      loadNotification();
+    },[])
   const [openedPanel, setOpenedPanel] = useState(""); const handleOpenPanelClick = (listName) => { setOpenedPanel((prevList) => (prevList === listName ? "" : listName)); };
   const { t, i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language); 

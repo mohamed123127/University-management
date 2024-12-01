@@ -21,7 +21,7 @@ export default function RegistrationCertificate  ()  {
         const speciality = params.get('Speciality');
 
     const documentRef = useRef();
-
+    
     const ValiderButtonClickHandled = async()=> {
         try {
             // انتظر توليد ملف PDF
@@ -45,7 +45,10 @@ export default function RegistrationCertificate  ()  {
                 
                 // إرسال رابط الملف إلى قاعدة البيانات
                 
-                if (result2.success) alert(result2.message);
+                if (result2.success){
+                    localStorage.setItem("reload","true");
+                    alert(result2.message);
+                } 
                 else alert("لم يتم حفظ في قاعدة البيانات");
             } else {
                 alert('لم يتم حفظ الملف. تأكد من الخادم.\n'+result.message);

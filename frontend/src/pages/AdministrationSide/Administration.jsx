@@ -45,7 +45,6 @@ export default function Administrations() {
    
 
     const columns = [
-        { name: "id", Header: "ID", width: "10%", className: "text-center" },
         { name: "FirstName", Header: t("FirstName"), width: "20%", className: "text-center" },
         { name: "LastName", Header: t("LastName"), width: "20%", className: "text-center" },
         { name: "Email", Header: t("Email"), width: "30%", className: "text-center" },
@@ -56,9 +55,19 @@ export default function Administrations() {
         try {
             const response = await Administration.addAdmin(formData); // استخدام دالة addAdmin
             if (response.success) {
-                alert('تم إضافة المسؤول بنجاح');
-                setAdministrations(prev => [...prev, response.Data]); // تحديث قائمة المسؤولين
-                setFormData({ firstName: "", lastName: "", email: "", password: "" }); // مسح النموذج
+                //console.log(response.Data);
+                //alert('تم إضافة المسؤول بنجاح');
+                
+                // إضافة بيانات النموذج إلى القائمة مع الصف الجديد
+                const newAdministrator = {
+                    FirstName:formData.firstName,LastName:formData.lastName,Email:formData.email,Password:formData.password
+                };
+                
+                // تحديث قائمة المسؤولين
+                setAdministrations(prev => [...prev, newAdministrator]); 
+                
+                // مسح النموذج
+                setFormData({ firstName: "", lastName: "", email: "", password: "" });
             } else {
                 alert(`خطأ: ${response.message}`);
             }
@@ -67,6 +76,7 @@ export default function Administrations() {
             alert("حدث خطأ أثناء إضافة المسؤول. يرجى المحاولة مرة أخرى.");
         }
     };
+    
     
     
     

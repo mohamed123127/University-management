@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next"; 
+import Student from "js/models/Student";
 
 function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
     const { t } = useTranslation();
@@ -8,13 +9,27 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
         return <div>Loading...</div>;
     }
 
-    const toggleActive = (rowIndex) => {
+    const toggleActive = async (rowIndex,row) => {
+        await Student.changeStatus({"id":row.Id,"status":!row.Active});
+    
         setData((prevStudents) => {
+            // نسخ الحالة الحالية للحفاظ على immutability
             const updatedStudents = [...prevStudents];
-            updatedStudents[rowIndex].Active = !updatedStudents[rowIndex].Active;
+            
+            // التحقق من وجود العنصر في الموقع المحدد
+            if (updatedStudents[rowIndex]) {
+                updatedStudents[rowIndex] = {
+                    ...updatedStudents[rowIndex], // نسخ البيانات الحالية للصف
+                    Active: !updatedStudents[rowIndex].Active // عكس حالة Active
+                };
+            } else {
+                console.error("Row index out of bounds");
+            }
+    
             return updatedStudents;
         });
     };
+    
 
     return (
         <div className={`${ClassName} min-w-full border border-gray-300 bg-white shadow-lg rounded-md`}>
@@ -48,8 +63,8 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
                                     {column.name === "Action" ? (
                                         <button
                                             onClick={() => {
-                                                toggleActive(rowIndex);
-                                                onAction(row);
+                                                toggleActive(rowIndex,row);
+                                                //onAction(row);
                                             }}
                                             className={`px-3 py-1 rounded text-white transition duration-200 ${
                                                 row.Active

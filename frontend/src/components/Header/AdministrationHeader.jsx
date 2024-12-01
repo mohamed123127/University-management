@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import Language from "components/Basics/Language"; 
 import { useTranslation } from "react-i18next";
 
-export default function AdministrationHeader({ ClassName, PageName, PageIcon }) {
+export default function AdministrationHeader({ ClassName, PageName, PageIcon,AdminName }) {
   
   const [openedPanel, setOpenedPanel] = useState(""); const handleOpenPanelClick = (listName) => { setOpenedPanel((prevList) => (prevList === listName ? "" : listName)); };
   const { t, i18n } = useTranslation();
@@ -22,7 +22,7 @@ export default function AdministrationHeader({ ClassName, PageName, PageIcon }) 
       </div>
       <div className="flex items-center">
         <Language onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language} ClassName="ltr:mr-2 rtl:ml-2" PrimaryButtonColor="red" />
-        <Account AccountImage={FaUser} AccountName="Mohamed Louahchi" isOpen={openedPanel === "Account"} setIsOpen={() => handleOpenPanelClick("Account")} ClassName="ltr:mr-4 rtl:ml-4" />
+        <Account AccountImage={FaUser} AccountName={AdminName} isOpen={openedPanel === "Account"} setIsOpen={() => handleOpenPanelClick("Account")} ClassName="ltr:mr-4 rtl:ml-4" />
       </div>
     </div>
   );

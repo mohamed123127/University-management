@@ -53,7 +53,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
         try{
             let data ;
             if(isStudent) data = await Student.isExistEtudient(loginFormData.email,loginFormData.password);
-            else data = {success:true,token:'asd123',id:1} //await Administration.isExistEtudient(loginFormData.email,loginFormData.password);
+            else data = await Administration.isExistAdmin(loginFormData.email,loginFormData.password); //await Administration.isExistEtudient(loginFormData.email,loginFormData.password);
         if (data.success === true) {
             localStorage.setItem('jwt', data.token); // تخزين التوكن في Local Storage
             localStorage.setItem('id',data.id)
@@ -84,8 +84,12 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                     {
                         if(result.isRegistered){
                             const data = result.Data;
-                            localStorage.setItem('id',data.Id)
-                            navigate("/EtudientMainPage");
+                            if(data.Active){
+                                localStorage.setItem('id',data.Id)
+                                navigate("/EtudientMainPage");
+                            }else{
+                                alert("your account is not active")
+                            }
                     }
                      else
                     {

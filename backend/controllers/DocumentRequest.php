@@ -40,7 +40,8 @@ class DocumentRequest
             $sql = "SELECT documentrequest.*, etudient.EducationYear
                     FROM documentrequest
                     INNER JOIN etudient
-                    ON documentrequest.studentId = etudient.Id;";
+                    ON documentrequest.studentId = etudient.Id
+                    ORDER BY `SubmissionDate` DESC";
             $stmt = $conn->prepare($sql);
 
             if (!$stmt) {
@@ -70,7 +71,7 @@ class DocumentRequest
     }
     public static function getById($conn , $id) {
         try {
-            $sql = "SELECT * FROM documentrequest WHERE StudentId =? ";
+            $sql = "SELECT * FROM documentrequest WHERE StudentId =? ORDER BY `LastUpdatedDate` DESC";
            
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);

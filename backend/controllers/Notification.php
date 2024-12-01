@@ -26,6 +26,26 @@ class Notification {
         }
     }
 
+    public static function getByStudentId($conn,$studentId){
+        $query = "SELECT n.Id , a.Content , n.IsRead , a.date_time FROM notification n
+                  JOIN announcement a ON n.AnnouncementId = a.Id
+                  WHERE n.StudentId = ?;";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i",$studentId);
+        if (!$stmt) {
+            return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $Notifications = [];
+        while ($row = $result->fetch_assoc()) {
+            $Notifications[] = $row;
+        }
+        $stmt->close();
+        return ["success" => true, "data" => $Notifications];
+    }
 }
 
 ?>

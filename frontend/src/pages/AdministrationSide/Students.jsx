@@ -18,7 +18,6 @@ export default function Students() {
                 const result = await Student.getAll();
                 if (result.success === true) {
                   setStudents(result.Data.students);
-                  console.log(result.Data.students);
               } else {
                   alert(result.success+'\n ' + result.message);
               }
@@ -48,17 +47,7 @@ export default function Students() {
     const [searchTerm, setSearchTerm] = useState("");
    
     const handleAction = async(row) => {
-        try {
-            const result = await Student.changeActivate({"id":row.Id,"status":row.Active});
-            if (result.success) {
-                alert("the change has been done");
-            }else{
-                alert(result.success+"\n"+result.message);
-            }
         
-    } catch (error) {
-        console.error("Error in handleRadioChange2:", error);
-    }
     };
 
    

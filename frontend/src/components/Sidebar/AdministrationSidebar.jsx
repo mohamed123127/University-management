@@ -10,7 +10,7 @@ import Students from "pages/AdministrationSide/Students";
 import VisualRequestsAdmin from "pages/AdministrationSide/VisualRequestsAdmin";
 import Announcement from "pages/AdministrationSide/Announcements";
 
-export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen}) {
+export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen,isGeneraleAdmin}) {
   const [openedList, setOpenedList] = useState(""); // القائمة الفرعية المفتوحة
   const { t, i18n } = useTranslation();
 
@@ -69,6 +69,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             itemIcon={<UserCircleIcon />} 
             Title={t('Administration')} 
             isOpen={isOpen}
+            ClassName={`${isGeneraleAdmin ? 'visible' : 'hidden'}`}
           />
           
 

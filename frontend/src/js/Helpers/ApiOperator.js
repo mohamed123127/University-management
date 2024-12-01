@@ -33,7 +33,6 @@ class ApiOperator{
             } catch (error){
                 alert("cathch error : " + error);
                 alert(this.rootUrl+apiUrl);
-                console.log(response.text());
             }
         }else{
             alert('you must send url and method');

@@ -1,6 +1,6 @@
-export default function SideBarItem({itemIcon, Title, isOpen, OnClick}) { 
+export default function SideBarItem({itemIcon, Title, isOpen, OnClick,ClassName}) { 
   return( 
-    <button onClick={OnClick} className={`flex flex-col items-center space-y-2 ${!isOpen }`}> 
+    <button onClick={OnClick} className={`flex flex-col items-center space-y-2 ${!isOpen } ${ClassName}`}> 
       {isOpen ? 
         <div className={` ${!isOpen && "hidden"} flex items-center justify-between cursor-pointer w-full hover:bg-blue-500 rounded relative`}>
           <div className="flex items-center font-semibold">

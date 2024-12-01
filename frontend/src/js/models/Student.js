@@ -23,8 +23,8 @@ class Student
   {
     try 
     {
-        const data = await ApiOperator.post(this.StudentRootUrl + "isExistEtudient", {email: Email,password: Password});
-        return data; 
+        const result = await ApiOperator.post(this.StudentRootUrl + "isExistEtudient", {email: Email,password: Password});
+        return result; 
     } catch (error) {
         alert("catch in isExistEtudient: " + error);
     }
@@ -54,12 +54,14 @@ class Student
     }
   }
 
-  static async changeActivate(data)
+  static async changeStatus(data)
   {
     try
     {
-      const result = await ApiOperator.post(this.StudentRootUrl + "changeActivationStatus",data);
-      return result;
+      const result = await ApiOperator.post(this.StudentRootUrl + "changeStatus",data);
+      if(result.success == false){
+        alert(result.message);
+      }
     } catch(error)
     {
       alert("catch in changeActivationStatus: " + error);

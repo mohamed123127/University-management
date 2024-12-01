@@ -20,11 +20,7 @@ class Administration
     try 
     {
         const result = await ApiOperator.post(this.AdministrationRootUrl + "isExistAdmin", {email: Email,password: Password});
-        if(result.success === true){
-          return result.IsGeneralAdmin;
-        }else{
-          alert("the email and password are incorrect");
-        }
+        return result;
     } catch (error) {
         alert("catch in isExistAdmin: " + error);
     }
@@ -34,8 +30,12 @@ class Administration
   {
     try
     {
-      const data = await ApiOperator.get(this.AdministrationRootUrl + "getAdminById",{id:Id});
-      return data;
+      const result = await ApiOperator.get(this.AdministrationRootUrl + "getById",{id:Id});
+      if(result.success){
+        return result.Data;
+      }else{
+        alert(result.message);
+      }
     } catch(error)
     {
       alert("catch in GetById: " + error);

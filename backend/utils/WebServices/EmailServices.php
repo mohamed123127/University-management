@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 require_once __DIR__ . '/../../config/database.php';
-require 'vendor/autoload.php';
+require '../../backend/packages/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -38,7 +38,7 @@ class EmailServises {
 
 
 
-    public static function SendEmail($EmailSender, $EmailPassword, $EmailReceiver, $Title, $Content) {
+    public static function SendEmail($EmailReceiver, $Title, $Content) {
         $mail = new PHPMailer(true);
     
         try {
@@ -46,13 +46,13 @@ class EmailServises {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = $EmailSender;
-            $mail->Password = $EmailPassword;
+            $mail->Username = "aboumerdas3@gmail.com";
+            $mail->Password = "iwiv bnel sxpr vvfq";
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use TLS encryption
             $mail->Port = 465; // Port for SSL
     
             // Set email metadata
-            $mail->setFrom($EmailSender, 'Sender Name');
+            $mail->setFrom("aboumerdas3@gmail.com", 'Boumerdess-Univ');
             $mail->addAddress($EmailReceiver);
             $mail->isHTML(true);
     

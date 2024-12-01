@@ -37,7 +37,7 @@ export default function MainPage({openedPage}){
 
     return(
         <div className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] h-screen">
-            <Header ClassName="col-start-2 row-start-1 justify-self-end" StudentName={studentData ? studentData.LastName + " " + studentData.FirstName : ''} PageIcon={actualPageIcon} PageName={actualPageName}/>
+            <Header ClassName="col-start-2 row-start-1 justify-self-end" StudentName={studentData ? studentData.LastName + " " + studentData.FirstName : ''} PageIcon={actualPageIcon} PageName={actualPageName} studentId={localStorage.getItem('id')}/>
             <div className={`col-start-1 row-start-1 row-span-2 ${isOpenedSidebar ? 'w-60' : 'w-12'} `}>
             <SideBar ClassName='fixed top-0 ltr:left-0 rtl:right-0' SetActualPageName={setActualPageName} SetActualPageIcon={setActualPageIcon} SetActualPage={setActualPage} isOpen={isOpenedSidebar} setIsOpen={setIsOpenedSidebar} studentData={studentData}/>
             </div>

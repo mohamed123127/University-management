@@ -29,13 +29,22 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
 
     ];
 
-      useEffect(()=>{
-        setdocunentType(t(selectedRequest));
-      },[selectedRequest])
-
-
-      const [data , setData]=useState([]);
     
+    
+
+    
+    const [data , setData]=useState([]);
+    useEffect(()=>{
+      setdocunentType(t(selectedRequest));
+    },[selectedRequest])
+    
+      useEffect(() => {
+       
+        window.addEventListener("storage", () => {
+            window.location.reload(true);
+        });
+    
+    }, []);    
     
     const demandeOptions = [
         t('registration_certificate'),
@@ -53,15 +62,11 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
     };
 
     useEffect(()=>{
-      const loadData =async()=>{
-    
-          setData(await DocumentRequest.getById(StudentData.Id));
-      }
+        const loadData =async()=>{
+            setData(await DocumentRequest.getById(StudentData.Id));
+        }
        loadData();
-      
-      
-  
-  },[localStorage.getItem("reload")])
+  },[])
     const AddButtonClickHandled = () => {
       switch(docunentType){
           case t('registration_certificate'):

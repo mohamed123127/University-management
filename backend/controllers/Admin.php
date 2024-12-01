@@ -44,6 +44,18 @@ class Admin {
         }
     }
 
+    public static function getById($conn, $id) {
+        $sql = "SELECT * FROM administration WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+        return null;
+    }
+
     public static function isExistAdmin($conn, $email, $password) {
         $sql = "SELECT `id` FROM administration WHERE email = ? AND password = ?";
         $stmt = $conn->prepare($sql);

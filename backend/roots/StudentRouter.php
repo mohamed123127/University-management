@@ -59,13 +59,7 @@ try{
                 }
 
                 if ($email !== '' && $password !== '') {
-                    $StudentId = Etudient::isExistEtudient($conn, $email, $password);
-                    if ($StudentId != null) {
-                        $jwt = JwtLogin::generateJWT($StudentId); // إنشاء التوكن إذا كانت بيانات المستخدم صحيحة
-                        $response = ["success" => true, "message" => "User exists", "token" => $jwt,'id' => $StudentId];
-                    } else {
-                        $response = ["success" => false, "message" => "Invalid email or password"];
-                    }
+                    $response = Etudient::isExistEtudient($conn, $email, $password);
                 } else {
                     $response = ["success" => false, "message" => "Email and password are required"];
                 }
@@ -120,7 +114,7 @@ try{
                     if ($StudentData != null) {
                         $response = ["success" => true, "isRegistered" => true,'Data' => $StudentData];
                     } else {
-                        $response = ["success" => true, "isRegistered" => false];
+                        $response = ["success" => false, "isRegistered" => false];
                     }
                 } else {
                     $response = ["success" => false, "message" => "email is required"];
@@ -130,9 +124,8 @@ try{
                 $response = ["success" => false, "message" => "Method does not match"];
             }
         break;
-        case 'changeActivationStatus':
+        case 'changeStatus':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $data = json_decode(file_get_contents('php://input'), true);
             
                 // Validate and assign variables
                 if (isset($data['id']) && isset($data['status'])) {
@@ -143,22 +136,8 @@ try{
                     exit;
                 }
             
-                // Check for valid ID and status values
-                if ($id > 0 && ($status === 0 || $status === 1)) {
-                    // Check if the ID exists in the database
-                    $sql_check = "SELECT Id FROM etudient WHERE Id = ?";
-                    $stmt_check = $conn->prepare($sql_check);
-                    $stmt_check->bind_param("i", $id);
-                    $stmt_check->execute();
-                    $stmt_check->store_result();
-            
-                    if ($stmt_check->num_rows > 0) {
-                        // Proceed with update
-                        $response=Etudient::changeActivate($conn, $id, $status);
-                    } else {
-                        $response=(["success" => false, "message" => "The provided ID does not exist."]);
-                    }
-                    $stmt_check->close();
+                if ($id > 0 ) {
+                    $response=Etudient::changeActivate($conn, $id, $status);
                 } else {
                     $response=(["success" => false, "message" => "Invalid ID or status value."]);
                 }
