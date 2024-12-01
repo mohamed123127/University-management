@@ -103,7 +103,8 @@
     "NewEmail": "Nouvel email :",
     "NewPassword": "Nouveau mot de passe :",
     "NewField": "Nouveau {{field}} :",
-    "SendAnnouncement": "Envoyer une annonce"
+    "SendAnnouncement": "Envoyer une annonce",
+    "allStatus": "Tous les statuts"
 
   }
   

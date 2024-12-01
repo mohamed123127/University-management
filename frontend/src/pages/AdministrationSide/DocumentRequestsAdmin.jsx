@@ -27,15 +27,25 @@ export default function DocumentRequestsAdmin() {
         "Master 1",
         "Master 2"
     ];
+    const statsOptionsTexts = [
+        t("all status"),
+         "Pending",   
+         "Completed",
+       t("InProgress"),
+        "Rejected"
+        
+    ];
     const [selectedType, setSelectedType] = useState(t("allRequests"));
     const [selectedYear, setSelectedYear] = useState(t("allYears"));
+    const [selectedStatus, setSelectedStatus] = useState(t("all status"));
     const [data,setData] = useState([]);
     const filteredData = data.filter((row) => {
         //alert(row.EducationYear + " / " + selectedYear);
         //console.log(t(row.EducationYear) + " ] " +  selectedYear);
         const typeMatch = selectedType === t("allRequests") || t(row.Type) === selectedType;
         const yearMatch = selectedYear === t("allYears") || row.EducationYear === selectedYear;
-        return typeMatch && yearMatch ;
+        const statusMatch = selectedStatus === t("all status") || row.Status === selectedStatus;
+        return typeMatch && yearMatch && statusMatch;
     });
 
     const columns = [
@@ -81,6 +91,13 @@ export default function DocumentRequestsAdmin() {
                     options={yearOptionsTexts}
                     value={selectedYear}
                     onChange={(e) => setSelectedYear(e.target.value)}
+                    comboBoxClassName="rounded-md shadow-sm h-10"
+                />
+                  <ComboBoxStyle1
+                    Name="status"
+                    options={statsOptionsTexts}
+                    value={selectedStatus}
+                    onChange={(e) => setSelectedStatus(e.target.value)}
                     comboBoxClassName="rounded-md shadow-sm h-10"
                 />
             </div>

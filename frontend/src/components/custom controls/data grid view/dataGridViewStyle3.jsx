@@ -10,7 +10,7 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
     const { t } = useTranslation();
     const options = [
         { label: 'Pending', className: "bg-blue-200" },
-        { label: 'InProgress', className: "bg-orange-200" },
+        { label: t("InProgress"), className: "bg-orange-200" },
         { label: 'Completed', className: "bg-green-200" },
         { label: 'Rejected', className: "bg-red-200" },
     ];

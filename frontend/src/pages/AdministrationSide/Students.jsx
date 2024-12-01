@@ -12,6 +12,9 @@ export default function Students() {
     const [students, setStudents] = useState([]);
     const [result,setResult]=useState([]);
 
+
+
+
     useEffect(()=>{
         const fetchData=async()=>{
             try {
@@ -76,23 +79,28 @@ export default function Students() {
         setSearchTerm(e.target.value);
     };
 
-    const options1 = ["matricule" ,"educationYear","full name", "speciality", "email"];
+    const options1 = ["Matricule", "EducationYear", "full name", "Specialty", "Email"];
+
     const options2 = ["all", "active", "desactive"];
 
-    /*const filteredStudents = students.filter((student) => {
+    const filteredStudents = students.filter((student) => {
         if (searchTerm === "") return true;
         else if (selectedOption === "full name") {
-            const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
+            const fullName = `${student.FirstName} ${student.LastName}`.toLowerCase();
             return fullName.includes(searchTerm.toLowerCase());
+        }
+        else if (selectedOption ==="Matricule"){
+            return student.Matricule.startsWith(searchTerm.toLowerCase());
+
         }
         return student[selectedOption]?.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
     const filteredStudents1 = filteredStudents.filter((student) => {
         if (selectedOption2 === "all") return true;
-        if (selectedOption2 === "active") return student.active === true;
-        if (selectedOption2 === "desactive") return student.active === false;
-    });*/
+        if (selectedOption2 === "active")  return student.Active === true;
+        if (selectedOption2 === "desactive") return student.Active === false;
+    });
 
     return (
         <div className="p-2 bg-gray-100 min-h-screen rounded-lg shadow-md">
@@ -138,7 +146,7 @@ export default function Students() {
             <div className="">
                 <DataGridViewStyle2
                     Columns={columns}
-                    Data={students}
+                    Data={filteredStudents1}
                     setData={setStudents}
                     onAction={handleAction}
                     ClassName="table-auto ltr:ml-2 rtl:mr-2"
