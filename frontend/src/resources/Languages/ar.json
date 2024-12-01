@@ -103,7 +103,8 @@
     "NewEmail": "البريد الإلكتروني الجديد:",
     "NewPassword": "كلمة المرور الجديدة:",
     "NewField": "{{field}} الجديد :",
-    "SendAnnouncement": "إرسال الإعلان"
+    "SendAnnouncement": "إرسال الإعلان",
+    "allStatus": "جميع الحالات"
 
   }
   

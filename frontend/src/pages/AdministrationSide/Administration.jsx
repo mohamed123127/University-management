@@ -1,9 +1,10 @@
-import React, { useEffect ,useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextBoxStyle2 from "components/custom controls/textBox/TextBoxStyle2";
 import DataGridViewStyle2 from "components/custom controls/data grid view/dataGridViewStyle2";
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import Administration from "js/models/Administration";
+import LabelStyle1 from "components/custom controls/labels/LabelStyle1";
 
 export default function Administrations() {
     const { t } = useTranslation();
@@ -15,34 +16,29 @@ export default function Administrations() {
     });
 
     const [Administrations, setAdministrations] = useState([]);
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await Administration.getAll();
-                console.log("Response from getAll:", data); // طباعة البيانات القادمة
+                console.log("Response from getAll:", data);
                 if (data.success === true) {
                     setAdministrations(data.Data.Administrations || []);
                 } else {
                     alert(`Error: ${data.message}`);
                 }
             } catch (error) {
-                console.error("Fetch error:", error); // طباعة الخطأ
+                console.error("Fetch error:", error);
                 alert("An error occurred while getting all admins. Please try again later.");
             }
         };
         fetchData();
     }, []);
-    
-    
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
-
-   
 
     const columns = [
         { name: "FirstName", Header: t("FirstName"), width: "20%", className: "text-center" },
@@ -53,7 +49,7 @@ export default function Administrations() {
 
     const addAdministrator = async () => {
         try {
-            const response = await Administration.addAdmin(formData); // استخدام دالة addAdmin
+            const response = await Administration.addAdmin(formData);
             if (response.success) {
                 //console.log(response.Data);
                 //alert('تم إضافة المسؤول بنجاح');
@@ -83,54 +79,70 @@ export default function Administrations() {
     
     
     return (
-        <div className="p-6 bg-gradient-to-r from-blue-50 via-blue-100 to-blue-200 min-h-screen rounded-lg shadow-xl">
-            {/* Title */}
-            <div className="flex justify-center m-4">
-                <h1 className="text-blue-800 p-4 text-3xl">Administration</h1>
-            </div>
-
+        <div className="p-2 bg-gray-100 min-h-screen rounded-lg shadow-md">
             {/* Input Form */}
-            <div className="mb-6 flex flex-wrap items-center space-x-4 shadow-md p-6 bg-white rounded-lg">
-                <TextBoxStyle2
-                    Name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    placeholder="First Name"
-                    textBoxClassName="w-1/5"
-                />
-                <TextBoxStyle2
-                    Name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    placeholder="Last Name"
-                    textBoxClassName="w-1/5"
-                />
-                <TextBoxStyle2
-                    Name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Email"
-                    textBoxClassName="w-1/5"
-                />
-                <TextBoxStyle2
-                    Name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Password"
-                    textBoxClassName="w-1/5"
-                    type="password"
-                />
-              <ButtonStyle1  buttonClassName="w-[50px]" buttonText="add" onClick={addAdministrator}/>
-               
+            <div className="mb-6 bg-white p-4 rounded-lg shadow-sm flex items-end space-x-4">
+                {/* First Name */}
+                <div className="flex flex-col w-[15%]">
+                    <LabelStyle1 labelText="First Name :" labelClassName="mb-1 text-sm text-gray-700" />
+                    <TextBoxStyle2
+                        Name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        placeholder="First Name"
+                        textBoxClassName="w-full"
+                    />
+                </div>
+
+                {/* Last Name */}
+                <div className="flex flex-col w-[15%]">
+                    <LabelStyle1 labelText="Last Name :" labelClassName="mb-1 text-sm text-gray-700" />
+                    <TextBoxStyle2
+                        Name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        placeholder="Last Name"
+                        textBoxClassName="w-full"
+                    />
+                </div>
+
+                {/* Email */}
+                <div className="flex flex-col w-[20%]">
+                    <LabelStyle1 labelText="Email :" labelClassName="mb-1 text-sm text-gray-700" />
+                    <TextBoxStyle2
+                        Name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        textBoxClassName="w-full"
+                    />
+                </div>
+
+                {/* Password */}
+                <div className="flex flex-col w-[18%]">
+                    <LabelStyle1 labelText="Password :" labelClassName="mb-1 text-sm text-gray-700" />
+                    <TextBoxStyle2
+                        Name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                        textBoxClassName="w-full"
+                        type="password"
+                    />
+                </div>
+
+              
+                
+                    <ButtonStyle1 buttonClassName="w-[10%]" buttonText="Add" onClick={addAdministrator} />
+              
             </div>
 
             {/* Data Grid View */}
             <div className="mt-6">
-                <h2 className="text-2xl font-semibold text-gray-700 mb-4">User List:</h2>
                 <DataGridViewStyle2
                     Columns={columns}
                     Data={Administrations}
-                    setData={setAdministrations}                    
+                    setData={setAdministrations}
                     className="bg-white shadow-md rounded-lg"
                 />
             </div>
