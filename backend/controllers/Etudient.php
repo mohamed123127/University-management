@@ -154,10 +154,13 @@ class Etudient extends User {
     
             if ($stmt->execute()) {
                 if ($stmt->affected_rows > 0) {
-                    $studentData = Etudient::getById($conn,$id);
-                    if ($studentData) {
-                    EmailServises::SendEmail($studentData['Email'],"Compte Activated","Your account has been activated ,know you can login to you account in univ boumerdess portal");
-                    } 
+                    if($status == 1){
+                        $studentData = Etudient::getById($conn,$id);
+                        if ($studentData) {
+                        EmailServises::SendEmail($studentData['Email'],"Compte Activated","Your account has been activated ,know you can login to your account in univ boumerdess portal");
+                        } 
+                    }
+                    
                     return(["success" => true,"message" => "Student activation status updated successfully."]);
                 } else {
                     return(["success" => false,"message" => "No records was updated. Please check the provided ID."]);

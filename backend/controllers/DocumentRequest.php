@@ -1,4 +1,8 @@
 <?php
+require_once '../utils/WebServices/EmailServices.php';
+require_once '../controllers/Etudient.php'; 
+
+
 class DocumentRequest
 {
     private $type;
@@ -96,7 +100,7 @@ class DocumentRequest
         }
     }
 
-    public static function UpdateStatus($conn, $id, $newStatus)
+    public static function UpdateStatus($conn, $id, $newStatus,$studentId)
     {
         try {
             $sql = "UPDATE DocumentRequest SET Status = ?, LastUpdatedDate = NOW() WHERE id = ?";
@@ -106,6 +110,14 @@ class DocumentRequest
             $stmt->execute();
 
             if ($stmt->affected_rows > 0) {
+                if($newStatus == "Completed"){
+                    //echo($id);
+                    $studentData = Etudient::getById($conn,$studentId);
+                    //echo $studentData;
+                    if ($studentData) {
+                    EmailServises::SendEmail($studentData['Email'], "Request ready","your request has been ready to take");
+                    }
+                }
                 return (["success" => true, "message" => "Status updated successfully"]);
             } else {
                 return (["success" => false, "message" => "No record found with that ID"]);

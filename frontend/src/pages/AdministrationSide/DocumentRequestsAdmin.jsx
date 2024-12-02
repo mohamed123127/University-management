@@ -4,6 +4,8 @@ import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1"
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
 import { useTranslation } from "react-i18next";
 import DocumentRequest from "js/models/DocumentRequest";
+import ExcelService from "js/Helpers/ExcelServices";
+import Student from "js/models/Student";
 
 export default function DocumentRequestsAdmin() {
     const { t } = useTranslation();
@@ -58,6 +60,23 @@ export default function DocumentRequestsAdmin() {
         {name: "Action",Header: "Actions",width: "15%"}
     ];
 
+    const ExportRequests =async ()=>{
+        const StudentsId = filteredData.map((data) => data.studentId);
+        const RequestTypes = filteredData.map((data) => data.Type);
+        const studentDataFromRequests = await Student.GetStudentsById(StudentsId);
+        const filtredStutendtData = studentDataFromRequests.map(({ Matricule,LastName,FirstName,EducationYear }) => ({
+            Matricule,
+            LastName,
+            FirstName,
+            EducationYear,
+          }))
+          const mergedData = filtredStutendtData.map((item1, index) => {
+            return { ...item1, Type: t(RequestTypes[index]) };  
+          });
+          //console.log(mergedData);
+        ExcelService.exportToExcel(mergedData,"Requests");
+    }
+
     useEffect(()=>{
         const LoadData =async () => {
             try{
@@ -78,7 +97,8 @@ export default function DocumentRequestsAdmin() {
     return (
         <div className="p-2 min-h-screen">
             {/* Filter bar */}
-            <div className="flex flex-wrap justify-start items-center gap-4 bg-white rounded-lg shadow-lg p-4 border border-gray-300 mb-6">
+            <div className="flex flex-wrap justify-between items-center gap-4 bg-white rounded-lg shadow-lg p-4 border border-gray-300 mb-6">
+                <div className="flex flex-wrap justify-start items-center gap-4 ">
                 <ComboBoxStyle1
                     Name="TypeOfRequest"
                     options={searchOptionsTexts}
@@ -100,6 +120,8 @@ export default function DocumentRequestsAdmin() {
                     onChange={(e) => setSelectedStatus(e.target.value)}
                     comboBoxClassName="rounded-md shadow-sm h-10"
                 />
+                </div>
+                <ButtonStyle1 buttonClassName="h-10 w-36 font-bold " buttonText="Export Requests" onClick={ExportRequests}/>
             </div>
 
             {/* Table display */}

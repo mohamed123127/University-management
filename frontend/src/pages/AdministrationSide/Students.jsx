@@ -38,19 +38,29 @@ export default function Students() {
         { name: "FirstName", Header: "FirstName", width: "15%", className: "text-center" },
         { name: "LastName", Header: "LastName", width: "15%", className: "text-center" },
         { name: "EducationYear", Header: "Year", width: "10%", className: "text-center" },
-        { name: "Specialty", Header: "Speciality", width: "10%", className: "text-center" },
+        { name: "Speciality", Header: "Speciality", width: "10%", className: "text-center" },
         { name: "Section", Header: "Section", width: "10%", className: "text-center" },
         { name: "Grp", Header: "Group", width: "10%", className: "text-center" },
         { name: "Email", Header: "Email", width: "20%", className: "text-center" },
         { name: "Action", Header: "Active", width: "10%", className: "text-center" },
     ];
 
-    const [selectedOption, setSelectedOption] = useState("matricule");
+    const [selectedOption, setSelectedOption] = useState("Matricule");
     const [selectedOption2, setSelectedOption2] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
    
     const handleAction = async(row) => {
-        
+        try {
+            const result = await Student.changeActivate({"id":row.Id,"status":row.Active});
+           /* if (result.success) {
+                alert("the change has been done");
+            }else{
+                alert(result.success+"\n"+result.message);
+            }*/
+
+    } catch (error) {
+        console.error("Error in handleRadioChange2:", error);
+    }
     };
 
    
@@ -59,18 +69,19 @@ export default function Students() {
         setSelectedOption(e.target.value);
     };
 
-    const handleRadioChange2 = (e) => {
+    const handleComboBoxChange = (e) => {
         setSelectedOption2(e.target.value);
-        
+        console.log(students);
+
     };
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
 
-    const options1 = ["Matricule", "EducationYear", "full name", "Specialty", "Email"];
+    const options1 = ["Matricule", "EducationYear", "full name", "Email"];
 
-    const options2 = ["all", "active", "desactive"];
+    const options2 = ["all", "Active", "desactive"];
 
     const filteredStudents = students.filter((student) => {
         if (searchTerm === "") return true;
@@ -87,8 +98,8 @@ export default function Students() {
 
     const filteredStudents1 = filteredStudents.filter((student) => {
         if (selectedOption2 === "all") return true;
-        if (selectedOption2 === "active")  return student.Active === true;
-        if (selectedOption2 === "desactive") return student.Active === false;
+        if (selectedOption2 === "Active")  return student.Active === 1;
+        if (selectedOption2 === "desactive") return student.Active === 0;
     });
 
     return (
@@ -125,7 +136,7 @@ export default function Students() {
                         options={options2}
                         name="statusFilter"
                         value={selectedOption2}
-                        onChange={handleRadioChange2}
+                        onChange={handleComboBoxChange}
                         comboBoxClassName="p-3 mb-9  rounded-md h-12  border-gray-300"
                     />
                 </div>

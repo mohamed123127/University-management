@@ -42,6 +42,23 @@ class Student
     }
   }
 
+  static async GetStudentsById(listId)
+  {
+    try
+    {
+      let studentsData = []; // مصفوفة لتخزين البيانات
+  for (const id of listId) {
+    const studentData = await this.GetById(id);
+    studentsData.push(studentData.Data); // أضف البيانات إلى المصفوفة
+  }
+  //console.log(studentsData);
+  return studentsData; // أعد النتيجة
+    } catch(error)
+    {
+      alert("catch in GetById: " + error);
+    }
+  }
+
   static async GetByEmail(Email)
   {
     try

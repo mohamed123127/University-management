@@ -105,12 +105,12 @@ try{
         case 'updateStatus':
             if($method == "POST") {
                 
-                if (isset($data['id']) && isset($data['status'])) {
+                if (isset($data['id']) && isset($data['status']) && isset($data['studentId'])) {
                     $id = $data['id'];
                     $status = $data['status'];
-                    
-                    if ($id !== '' && $status !== '') {
-                        $response = DocumentRequest::UpdateStatus($conn,$id,$status);
+                    $studentId = $data['studentId'];
+                    if ($id !== '' && $status !== '' && $studentId !== '') {
+                        $response = DocumentRequest::UpdateStatus($conn,$id,$status,$studentId);
                     } else {
                         $response = ["success" => false, "message" => "id and status are required"];
                     }

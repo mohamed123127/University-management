@@ -13,14 +13,12 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
         await Student.changeStatus({"id":row.Id,"status":!row.Active});
     
         setData((prevStudents) => {
-            // نسخ الحالة الحالية للحفاظ على immutability
             const updatedStudents = [...prevStudents];
             
-            // التحقق من وجود العنصر في الموقع المحدد
             if (updatedStudents[rowIndex]) {
                 updatedStudents[rowIndex] = {
-                    ...updatedStudents[rowIndex], // نسخ البيانات الحالية للصف
-                    Active: !updatedStudents[rowIndex].Active // عكس حالة Active
+                    ...updatedStudents[rowIndex], 
+                    Active: updatedStudents[rowIndex].Active === 1 ? 0 : 1
                 };
             } else {
                 console.error("Row index out of bounds");
