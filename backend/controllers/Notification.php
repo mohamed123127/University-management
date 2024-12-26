@@ -46,6 +46,18 @@ class Notification {
         $stmt->close();
         return ["success" => true, "data" => $Notifications];
     }
+
+    public static function setNotificationAsRead($conn,$studentId){
+        $query = "update notification set isRead = true where StudentId = ?" ;
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $studentId);
+
+        if ($stmt->execute()) {
+            return ["success" => true, "message" => "notification are marked as read"];
+        } else {
+            return ["success" => false, "message" => "notification are not read"];
+        }
+    }
 }
 
 ?>

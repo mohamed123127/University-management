@@ -42,8 +42,36 @@ try{
                 $response = ["success" => false, "message" => "Invalid method"];
             }
         break;
+        case 'getAll':
+            if($method == "GET"){
+                $response = ChangeRequests::getAll($conn);
+            } else {
+                $response = ["success" => false, "message" => "Invalid method"];
+            }
+            break;
         default:
             $response = ['success' => false, 'message' => 'Endpoint not exsist'];
+        break;
+        case 'updateRequest':
+            if($method == "POST"){
+                if (isset($data['requestId']) && isset($data['requestType']) && isset($data['newValue']) && isset($data['studentId']) ) {
+                    $requestId = $data['requestId'];
+                    $type = $data['requestType'];
+                    $newValue = $data['newValue'];
+                    $studentId = $data['studentId'];
+                } else {
+                    echo json_encode(["success" => false, "message" => "all inputs  are required"]);
+                    exit();
+                }
+                
+                if ($type !== '' && $requestId !== '' && $newValue !== '' && $studentId !== '') {
+                    $response = ChangeRequests::updateRequest($conn,$requestId,$type,$newValue,$studentId);
+                } else {
+                    $response = ["success" => false, "message" => "inputs  are vide"];
+                }
+            }else{
+                $response = ["success" => false, "message" => "Invalid method"];
+            }
         break;
     }
 }catch (Exception $e) {

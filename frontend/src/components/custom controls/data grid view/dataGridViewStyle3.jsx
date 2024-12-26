@@ -16,6 +16,7 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
     ];
     
     const handleChange = async (row, value) => {
+        console.log(Data);
         setData(prevData =>
             prevData.map(Row =>
                 Row === row ? { ...Row, Status: value ,LastUpdatedDate:new Date().toLocaleDateString('en-CA')} : Row
@@ -23,9 +24,9 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
         );
     
         try {
-            const response = await DocumentRequest.UpdateStatus(row.ID, value);
+            const response = await DocumentRequest.UpdateStatus(row.ID, value,row.studentId);
             if(!response.success){
-                alert("error \n" + response.message);
+                alert("errdor \n" + response.message);
             }
         } catch (error) {
             console.error("Error updating status:", error);

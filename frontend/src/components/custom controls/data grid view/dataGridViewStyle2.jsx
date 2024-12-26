@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next"; 
 import Student from "js/models/Student";
+import { FaCheck  } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import { IoCloseSharp } from "react-icons/io5";
+
+
+
 
 function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
     const { t } = useTranslation();
@@ -72,7 +78,28 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
                                         >
                                             {row.Active ? "Active" : "Inactive"}
                                         </button>
-                                    ) : (
+                                    ) : column.name === "YesNoButtons" ? (
+                                        <div className="flex gap-2">
+                                            <button
+                                            className="flex items-center bg-green-500 text-white py-1 px-1 rounded hover:bg-green-600"
+                                            //onClick={() => handleAccept(params.row.id)}
+                                            >
+                                                <FaCheck  className="w-5 h-5" />
+                                            </button>
+                                            <button
+  className="flex items-center bg-red-500 text-white py-1 px-1 rounded hover:bg-red-600"
+  // onClick={() => handleReject(params.row.id)}
+>
+  <IoCloseSharp
+    className="w-5 h-5 text-3xl font-extrabold" // زيادة الوزن إلى "extrabold"
+    style={{ strokeWidth: 40 }} // زيادة سمك الأيقونة (في حال كانت الأيقونة تحتوي على خطوط خارجية)
+  />
+</button>
+
+                                        </div>
+                                    )
+                                    
+                                    : (
                                         row[column.name]
                                     )}
                                 </td>

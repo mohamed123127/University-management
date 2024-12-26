@@ -1,14 +1,16 @@
 import React, { useState , useEffect }  from "react";
 import NotificationIcon from "resources/Icons/Notification.png";
 import { IoNotifications } from "react-icons/io5";
+import Notifications from "js/models/Notification";
 
 
-export default function Notification({notificationsList,setNotification,isOpen,setIsOpen,ClassName}){
+export default function Notification({notificationsList,setNotification,isOpen,setIsOpen,ClassName,studentId}){
     const clickButtonHandled = ()=>{
          setIsOpen(!isOpen);
          setNotification((prevNotifications) =>
             prevNotifications.map((n) => ({ ...n, IsRead: true }))
           );
+          Notifications.setNotificationAsRead(studentId);
         }
     const [notificationNumber,setNotificationNumber] = useState(5);
     useEffect(() => {

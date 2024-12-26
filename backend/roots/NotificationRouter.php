@@ -41,6 +41,29 @@ try{
                 $response = ["success" => false, "message" => "Method does not match"];
             }
         break;
+        case 'setNotificationAsRead':
+            if($method =="GET")
+            {
+                if (isset($_GET['studentId'])) 
+                {
+                    $studentId = $_GET['studentId'];
+                } else 
+                {
+                    $response = ["success" => false, "message" => "student id is required"];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                if ($studentId !== '') {
+                    $response = Notification::setNotificationAsRead($conn, $studentId);
+                } else {
+                    $response = ["success" => false, "message" => "student id is required"];
+                }
+            }else
+            {
+                $response = ["success" => false, "message" => "Method does not match"];
+            }
+        break;
         default:
             $response = ["success" => false, "message" => "Invalid endpoint"];
             break;

@@ -17,7 +17,7 @@ export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentNa
     useEffect(()=>{
       async function loadNotification() {
         const data = await NotificationJs.getByStudentId(studentId);
-      console.log(data);
+      //console.log(data);
       setNotifications(data);
       }
       loadNotification();
@@ -37,7 +37,7 @@ export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentNa
       </div>
       <div className="flex items-center">
         <Language onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language} ClassName="ltr:mr-2 rtl:ml-2" PrimaryButtonColor="red" />
-        <Notification notificationsList={notifications} setNotification={setNotifications} isOpen={openedPanel === "Notifications"} setIsOpen={() => handleOpenPanelClick("Notifications")} ClassName="ltr:mr-2 rtl:ml-2" />
+        <Notification studentId={studentId} notificationsList={notifications} setNotification={setNotifications} isOpen={openedPanel === "Notifications"} setIsOpen={() => handleOpenPanelClick("Notifications")} ClassName="ltr:mr-2 rtl:ml-2" />
         <Account AccountImage={FaUser} AccountName={StudentName} isOpen={openedPanel === "Account"} setIsOpen={() => handleOpenPanelClick("Account")} ClassName="ltr:mr-4 rtl:ml-4" />
       </div>
     </div>

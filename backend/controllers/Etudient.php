@@ -181,6 +181,22 @@ class Etudient extends User {
             ]);
         }
     }
+
+    public static function changeGroup($conn, $id, $group) {
+        try {
+            $sql = "UPDATE etudient SET Grp = ? WHERE Id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $group,$id);
+            $stmt->execute();
+            return ["success" => true, "message" => "The group has been changed successfully."];
+        } catch (Exception $ex) {
+            return([
+                "success" => false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+
     public static function getall($conn) {
         try {
             $sql = "SELECT * FROM etudient";

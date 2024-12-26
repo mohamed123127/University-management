@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import DataGridViewStyle3 from "components/custom controls/data grid view/dataGridViewStyle3";
+import React, { useEffect, useState } from "react";
+import DataGridViewStyle2 from "components/custom controls/data grid view/dataGridViewStyle2";
 import ComboBoxStyle2 from "components/custom controls/combo box/ComboBoxStyle2";
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
 import { useTranslation } from "react-i18next";
+import ChangeRequests from "js/models/ChangeRequests";
 
 export default function VisualRequestsAdmin() {
     const { t } = useTranslation();
@@ -27,7 +28,7 @@ export default function VisualRequestsAdmin() {
     const [selectedType, setSelectedType] = useState("all");
     const [selectedYear, setSelectedYear] = useState("all");
 
-    const [data] = useState([
+    const [data,setData] = useState([
         { matricule: "12345", firstName: "Ahmed", lastName: "Ben Ali", requestTyp: "changeGroup", year: "licence_3", email: "ahmed.benali@example.com", dacumentRequestDate: "2024-10-01", combobox: "Pending" },
         { matricule: "67890", firstName: "Sarah", lastName: "Mehdi", requestTyp: "transcript_request", year: "licence_2", email: "sarah.mehdi@example.com", dacumentRequestDate: "2024-09-15", combobox: "Approved" },
         { matricule: "11223", firstName: "Mohamed", lastName: "Ait Wnach", requestTyp: "library_card", year: "licence_3", email: "mohamed.ait@example.com", dacumentRequestDate: "2024-08-22", combobox: "Rejected" },
@@ -43,15 +44,34 @@ export default function VisualRequestsAdmin() {
         return typeMatch && yearMatch;
     });
 
+    useEffect(()=>{
+        const LoadData =async () => {
+            try{
+                const resulte = await ChangeRequests.getAll();
+                if(resulte.success){
+                    setData(resulte.data);
+                    console.log(resulte.data); 
+                }else{
+                    alert(resulte.success + "\n" + resulte.message);
+                }
+            }catch(error){
+                alert("error in load data : \n" + error);
+            }
+        }
+        LoadData();
+    },[])
+
     const columns = [
-        { name: "matricule", Header: "Matricule", width: "10%", className: "text-center" },
-        { name: "firstName", Header: "First Name", width: "15%", className: "text-center" },
-        { name: "lastName", Header: "Last Name", width: "15%", className: "text-center" },
-        { name: "requestTyp", Header: "Request Type", width: "20%", className: "text-center" },
-        { name: "year", Header: "Year (Niveau)", width: "10%", className: "text-center" },
-        { name: "email", Header: "Email", width: "20%", className: "text-center" },
-        { name: "dacumentRequestDate", Header: "Request Date", width: "10%", className: "text-center" },
-        { name: "combobox", Header: "Status", width: "10%", className: "text-center" },
+        { name: "Matricule", Header: "Matricule", width: "10%", className: "text-center" },
+        { name: "FirstName", Header: "First Name", width: "15%", className: "text-center" },
+        { name: "LastName", Header: "Last Name", width: "15%", className: "text-center" },
+        { name: "EducationYear", Header: "Year", width: "10%", className: "text-center" },
+        { name: "Type", Header: "Type", width: "20%", className: "text-center" },
+        { name: "OldValue", Header: "Old value", width: "20%", className: "text-center" },
+        { name: "NewValue", Header: "New value", width: "10%", className: "text-center" },
+        { name: "SubmissionDate", Header: "Submission Date", width: "10%", className: "text-center" },
+        { name: "LastUpdatedDate", Header: "LastUpdated Date", width: "10%", className: "text-center" },
+        { name: "YesNoButtons", Header: "Action Date", width: "10%", className: "text-center" },
     ];
 
     return (
@@ -81,7 +101,7 @@ export default function VisualRequestsAdmin() {
 
             {/* Table display */}
             <div className="bg-white rounded-lg shadow-lg border border-gray-300 p-6">
-                <DataGridViewStyle3 Columns={columns} Data={filteredData} />
+                <DataGridViewStyle2 Columns={columns} Data={filteredData} />
             </div>
         </div>
     );

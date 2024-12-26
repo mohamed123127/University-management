@@ -52,8 +52,8 @@ class DocumentRequest
           alert("catch in getById: " + error);
       }
     }
-    static async UpdateStatus(id,status){
-        const response = await ApiOperator.post(this.DocumentRequestRootUrl+"updateStatus",{"id":id,"status":status})
+    static async UpdateStatus(id,status,studentId){
+        const response = await ApiOperator.post(this.DocumentRequestRootUrl+"updateStatus",{"id":id,"status":status,"studentId":studentId})
         return response;
     }
 

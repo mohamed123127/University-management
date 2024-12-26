@@ -9,8 +9,6 @@ import Student from "js/models/Student";
 
 export default function DocumentRequestsAdmin() {
     const { t } = useTranslation();
-
-
     const searchOptionsTexts = [
         t('allRequests'),
         t('registration_certificate'),
@@ -42,8 +40,6 @@ export default function DocumentRequestsAdmin() {
     const [selectedStatus, setSelectedStatus] = useState(t("all status"));
     const [data,setData] = useState([]);
     const filteredData = data.filter((row) => {
-        //alert(row.EducationYear + " / " + selectedYear);
-        //console.log(t(row.EducationYear) + " ] " +  selectedYear);
         const typeMatch = selectedType === t("allRequests") || t(row.Type) === selectedType;
         const yearMatch = selectedYear === t("allYears") || row.EducationYear === selectedYear;
         const statusMatch = selectedStatus === t("all status") || row.Status === selectedStatus;
