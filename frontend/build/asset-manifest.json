@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.b8ce8e39.css",
-    "main.js": "/static/js/main.775b67e4.js",
-    "static/js/213.627943c0.chunk.js": "/static/js/213.627943c0.chunk.js",
-    "static/js/732.be0d18e9.chunk.js": "/static/js/732.be0d18e9.chunk.js",
+    "main.css": "/static/css/main.6ac3a678.css",
+    "main.js": "/static/js/main.9b84d1e0.js",
+    "static/js/213.7f77f7fe.chunk.js": "/static/js/213.7f77f7fe.chunk.js",
+    "static/js/732.9a305367.chunk.js": "/static/js/732.9a305367.chunk.js",
     "static/media/Login_Signup_image.jpg": "/static/media/Login_Signup_image.d9658527b7ec232c0173.jpg",
     "static/media/univ-logo.png": "/static/media/univ-logo.64b1fa48e2b5ede3b3e3.png",
     "static/media/GoogleIcon.png": "/static/media/GoogleIcon.cadee8cdb0c0afb1a713.png",
     "static/media/Login_SignUp_bg.png": "/static/media/Login_SignUp_bg.d55f7305ff3106ead708.png",
     "static/media/getFetch.cjs": "/static/media/getFetch.c4cca45e22bc1b2c7d0d.cjs",
     "index.html": "/index.html",
-    "main.b8ce8e39.css.map": "/static/css/main.b8ce8e39.css.map",
-    "main.775b67e4.js.map": "/static/js/main.775b67e4.js.map",
-    "213.627943c0.chunk.js.map": "/static/js/213.627943c0.chunk.js.map",
-    "732.be0d18e9.chunk.js.map": "/static/js/732.be0d18e9.chunk.js.map"
+    "main.6ac3a678.css.map": "/static/css/main.6ac3a678.css.map",
+    "main.9b84d1e0.js.map": "/static/js/main.9b84d1e0.js.map",
+    "213.7f77f7fe.chunk.js.map": "/static/js/213.7f77f7fe.chunk.js.map",
+    "732.9a305367.chunk.js.map": "/static/js/732.9a305367.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b8ce8e39.css",
-    "static/js/main.775b67e4.js"
+    "static/css/main.6ac3a678.css",
+    "static/js/main.9b84d1e0.js"
   ]
 }
