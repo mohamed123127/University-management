@@ -3,9 +3,9 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "university managment";
+$username = "mohamed";
+$password = "Mohamed-230";
+$dbname = "university_managment";
 
 try {
     $conn = new mysqli($servername, $username, $password, $dbname);

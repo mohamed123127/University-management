@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import DataGridViewStyle3 from "components/custom controls/data grid view/dataGridViewStyle3";
+import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
 import DataGridViewStyle2 from "components/custom controls/data grid view/dataGridViewStyle2";
 import ComboBoxStyle2 from "components/custom controls/combo box/ComboBoxStyle2";
 import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
@@ -27,7 +29,6 @@ export default function VisualRequestsAdmin() {
 
     const [selectedType, setSelectedType] = useState("all");
     const [selectedYear, setSelectedYear] = useState("all");
-
     const [data,setData] = useState([
         { matricule: "12345", firstName: "Ahmed", lastName: "Ben Ali", requestTyp: "changeGroup", year: "licence_3", email: "ahmed.benali@example.com", dacumentRequestDate: "2024-10-01", combobox: "Pending" },
         { matricule: "67890", firstName: "Sarah", lastName: "Mehdi", requestTyp: "transcript_request", year: "licence_2", email: "sarah.mehdi@example.com", dacumentRequestDate: "2024-09-15", combobox: "Approved" },
@@ -75,34 +76,32 @@ export default function VisualRequestsAdmin() {
     ];
 
     return (
-        <div className="p-6 bg-gradient-to-r from-gray-100 to-gray-200 min-h-screen">
+     
+
+ <div className="p-2 min-h-screen">
             {/* Filter bar */}
-            <div className="flex flex-wrap justify-start items-center gap-4 bg-white rounded-lg shadow-lg p-4 border border-gray-300 mb-6">
-                <ComboBoxStyle2
+            <div className="flex flex-wrap justify-between items-center gap-4 bg-white rounded-lg shadow-lg p-4 border border-gray-300 mb-6">
+                <div className="flex flex-wrap justify-start items-center gap-4 "> 
+                     <ComboBoxStyle1
                     Name="Type of Request"
-                    options={searchOptions}
+                    options={searchOptions.map(Option=> Option.label)}
                     value={selectedType}
                     onChange={(e) => setSelectedType(e.target.value)}
-                    comboBoxClassName="p-3 bg-gray-50 rounded-md shadow-sm border border-gray-300"
+                    comboBoxClassName="rounded-md shadow-sm h-10"
                 />
-                <ComboBoxStyle2
+                <ComboBoxStyle1
                     Name="Year (Niveau)"
-                    options={yearOptions}
+                    options={yearOptions.map(Option=> Option.label)}
                     value={selectedYear}
                     onChange={(e) => setSelectedYear(e.target.value)}
-                    comboBoxClassName="p-3 bg-gray-50 rounded-md shadow-sm border border-gray-300"
+                    comboBoxClassName="rounded-md shadow-sm h-10"
                 />
-                <ButtonStyle1
-                    buttonText={t("Add")}
-                    buttonClassName="bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-blue-700 transition-colors"
-                    onClick={() => console.log("Add button clicked")}
-                />
-            </div>
+             </div>
+             </div>
 
             {/* Table display */}
             <div className="bg-white rounded-lg shadow-lg border border-gray-300 p-6">
-                <DataGridViewStyle2 Columns={columns} Data={filteredData} />
+                <DataGridViewStyle2 Columns={columns} Data={filteredData} setData={setData} />
             </div>
         </div>
-    );
-}
+    );}

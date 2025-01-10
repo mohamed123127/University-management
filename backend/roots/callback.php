@@ -22,7 +22,7 @@ session_start();
 $client = new Google_Client();
 $client->setClientId(SecreteData::$clientId); // استبدلها بـ Client ID
 $client->setClientSecret(SecreteData::$clientSecrete); // استبدلها بـ Client Secret
-$client->setRedirectUri('http://localhost/University-management/backend/roots/callback.php');//الرابط العودة الذي تم تعيينه في Google People APi
+$client->setRedirectUri('https://www.university-management.website/roots/callback.php');//الرابط العودة الذي تم تعيينه في Google People APi
 
 if (isset($_GET['code'])) {
     $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
@@ -33,7 +33,7 @@ if (isset($_GET['code'])) {
     $userInfo = $google_oauth->userinfo->get();
 
     // إعادة التوجيه إلى React مع البيانات
-    $redirectUrl = 'http://localhost:3000?email=' . urlencode($userInfo->email) ;
+    $redirectUrl = 'https://www.university-management.website?email=' . urlencode($userInfo->email) ;
     header('Location: ' . $redirectUrl);
 } else {
     echo json_encode(["success" => false, "message" => "Authentication failed"]);

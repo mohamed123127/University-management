@@ -53,8 +53,10 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
         try{
             let data ;
             if(isStudent) data = await Student.isExistEtudient(loginFormData.email,loginFormData.password);
+          
             else data = await Administration.isExistAdmin(loginFormData.email,loginFormData.password); //await Administration.isExistEtudient(loginFormData.email,loginFormData.password);
-        if (data.success === true) {
+         
+            if (data.success === true) {
             localStorage.setItem('jwt', data.token); // تخزين التوكن في Local Storage
             localStorage.setItem('id',data.id)
             // يمكنك توجيه المستخدم إلى صفحة أخرى هنا
@@ -70,7 +72,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
 
     const LoginWithGoogleButtonHandled = (e)=>{
         e.preventDefault();
-        window.location.href = 'http://localhost/University-management/backend/roots/LoginWithGoogle.php';
+        window.location.href = 'https://www.university-management.website/roots/LoginWithGoogle.php';
     }
 
     useEffect(() => {
@@ -127,7 +129,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                     <LabelStyle1 labelText={`${t('Email')}:`} labelClassName="text-md"/>
                     <TextBoxStyle2 Name='email' placeholder="Example@gmail.com" value={loginFormData.email} onChange={handleChange} textBoxClassName="w-full pr-1"/>
                     <LabelStyle1 labelText={`${t('Password')}:`} labelClassName="text-md mt-5"/>
-                    <TextBoxStyle2 Name='password' placeholder="password" value={loginFormData.password} onChange={handleChange} textBoxClassName="w-full pr-1"/>
+                    <TextBoxStyle2 type="password" Name='password' placeholder="password" value={loginFormData.password} onChange={handleChange} textBoxClassName="w-full pr-1"/>
                     <a href="#" className="self-end text-sm text-blue-400 max-w-fit">{`${t('ForgotPassword')}`}</a>
                     <ButtonStyle1 buttonText={`${t('Login')}`} buttonClassName="mt-5" onClick={LoginButtonHandled}/>
                     <div className="relative mt-8">

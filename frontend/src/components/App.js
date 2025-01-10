@@ -7,7 +7,7 @@ import InternshipPermit from "pdfGenerator/InternshipPermit";
 import LibaryCard from "pdfGenerator/LibaryCard";
 import ParkingPermit from "pdfGenerator/ParkingPermit";
 import GradeTranscript from "pdfGenerator/GradeTranscript";
-import AdministrationMainPage from "pages/AdministrationSide/AdministrationMainPage"
+import AdministrationMainPage from "../pages/AdministrationSide/AdministrationMainPage"
 import { createBrowserRouter } from "react-router-dom";
 import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { RouterProvider } from "react-router-dom";
