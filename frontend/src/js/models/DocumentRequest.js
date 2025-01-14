@@ -1,8 +1,10 @@
 import ApiOperator from '../Helpers/ApiOperator'
+import settings from '../../resources/Settings'
 
 class DocumentRequest 
 {
     static DocumentRequestRootUrl = "DocumentRequestRouter.php?endpoint="
+    static rootUrl = settings.domain + "/roots/";
 
     static async SaveDocumentRequestAsPdf(pdf,data)
     {
@@ -17,7 +19,7 @@ class DocumentRequest
              pdfData.append('file', pdfBlob, fileName);
      
              // حفظ PDF في السرفر
-             const response = await fetch('http://localhost/University-management/backend/roots/SaveDocumentRequest.php', {
+             const response = await fetch(this.rootUrl + 'SaveDocumentRequest.php', {
                  method: 'POST',
                  body: pdfData,
              });
