@@ -88,7 +88,7 @@ export default function ManageAccount({StudentData}) {
  }
 
   return (
-    <div className="flex justify-center w-full h-screen bg-gradient-to-r from-blue-50 to-blue-100">
+    <div className="flex justify-center w-full h-screen bg-gradient-to-r bg-gray-100">
       <div className="bg-white rounded-lg shadow-lg w-[80%] h-96 mt-12 max-w-4xl p-8">
         <h1 className="text-2xl font-bold text-blue-600 text-center mb-12">{t('manage_account')}</h1>
         <div className="flex">

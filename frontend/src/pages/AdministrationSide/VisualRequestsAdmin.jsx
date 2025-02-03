@@ -11,37 +11,36 @@ export default function VisualRequestsAdmin() {
     const { t } = useTranslation();
 
     const searchOptions = [
-        { value: "all", label: t("All Requests") },
-        { value: "registration_certificate", label: t('changeGroup') },
-        { value: "transcript_request", label:t('changeSection'),},
-        { value: "parking_permit", label: t('changeSpeciality') },
+        
+        t('allRequests'),
+        'Group',
+        'Section',
+        'Speciality',
+        'First Name',
+        'Last name',
+        'Email',
+        'Password'
+        
         
     ];
 
-    const yearOptions = [
-        { value: "all", label: t("All Years") },
-        { value: "licence_1", label: t("Licence1") },
-        { value: "licence_2", label: t("Licence2") },
-        { value: "licence_3", label: t("Licence3") },
-        { value: "master_1", label: t("master1") },
-        { value: "master_2", label: t("master2") },
+    const yearOptionsTexts = [
+        t("allYears"),
+        "Licence 1",
+        "Licence 2",
+        "Licence 3",
+        "Master 1",
+        "Master 2"
     ];
 
-    const [selectedType, setSelectedType] = useState("all");
-    const [selectedYear, setSelectedYear] = useState("all");
+    const [selectedType, setSelectedType] = useState( t('allRequests'));
+    const [selectedYear, setSelectedYear] = useState(t("allYears"));
     const [data,setData] = useState([
-        { matricule: "12345", firstName: "Ahmed", lastName: "Ben Ali", requestTyp: "changeGroup", year: "licence_3", email: "ahmed.benali@example.com", dacumentRequestDate: "2024-10-01", combobox: "Pending" },
-        { matricule: "67890", firstName: "Sarah", lastName: "Mehdi", requestTyp: "transcript_request", year: "licence_2", email: "sarah.mehdi@example.com", dacumentRequestDate: "2024-09-15", combobox: "Approved" },
-        { matricule: "11223", firstName: "Mohamed", lastName: "Ait Wnach", requestTyp: "library_card", year: "licence_3", email: "mohamed.ait@example.com", dacumentRequestDate: "2024-08-22", combobox: "Rejected" },
-        { matricule: "44556", firstName: "Nora", lastName: "Saadi", requestTyp: "parking_permit", year: "licence_2", email: "nora.saadi@example.com", dacumentRequestDate: "2024-10-05", combobox: "Pending" },
-        { matricule: "44556", firstName: "Nora", lastName: "Saadi", requestTyp: "parking_permit", year: "master_2", email: "nora.saadi@example.com", dacumentRequestDate: "2024-10-05", combobox: "Pending" },
-        
-        { matricule: "77889", firstName: "Ali", lastName: "Hassan", requestTyp: "block_academic_year", year: "licence_1", email: "ali.hassan@example.com", dacumentRequestDate: "2024-09-20", combobox: "Approved" },
-    ]);
+ ]);
 
     const filteredData = data.filter((row) => {
-        const typeMatch = selectedType === "all" || row.requestTyp === selectedType;
-        const yearMatch = selectedYear === "all" || row.year === selectedYear;
+        const typeMatch = selectedType ===  t('allRequests') || row.Type === selectedType;
+        const yearMatch = selectedYear === t("allYears") || row.EducationYear === selectedYear;
         return typeMatch && yearMatch;
     });
 
@@ -66,32 +65,32 @@ export default function VisualRequestsAdmin() {
         { name: "Matricule", Header: "Matricule", width: "10%", className: "text-center" },
         { name: "FirstName", Header: "First Name", width: "15%", className: "text-center" },
         { name: "LastName", Header: "Last Name", width: "15%", className: "text-center" },
-        { name: "EducationYear", Header: "Year", width: "10%", className: "text-center" },
+        { name: "EducationYear", Header: "EducationYear", width: "10%", className: "text-center" },
         { name: "Type", Header: "Type", width: "20%", className: "text-center" },
         { name: "OldValue", Header: "Old value", width: "20%", className: "text-center" },
         { name: "NewValue", Header: "New value", width: "10%", className: "text-center" },
         { name: "SubmissionDate", Header: "Submission Date", width: "10%", className: "text-center" },
-        { name: "LastUpdatedDate", Header: "LastUpdated Date", width: "10%", className: "text-center" },
+        { name: "LastUpdatedDate", Header: "LastUpdated Date", width: "10%", className: "text-center " },
         { name: "YesNoButtons", Header: "Action Date", width: "10%", className: "text-center" },
     ];
 
     return (
      
 
- <div className="p-2 min-h-screen">
+ <div className="-2 bg-gray-100 min-h-screen rounded-lg shadow-md">
             {/* Filter bar */}
             <div className="flex flex-wrap justify-between items-center gap-4 bg-white rounded-lg shadow-lg p-4 border border-gray-300 mb-6">
                 <div className="flex flex-wrap justify-start items-center gap-4 "> 
                      <ComboBoxStyle1
                     Name="Type of Request"
-                    options={searchOptions.map(Option=> Option.label)}
+                    options={searchOptions}
                     value={selectedType}
                     onChange={(e) => setSelectedType(e.target.value)}
                     comboBoxClassName="rounded-md shadow-sm h-10"
                 />
                 <ComboBoxStyle1
                     Name="Year (Niveau)"
-                    options={yearOptions.map(Option=> Option.label)}
+                    options={yearOptionsTexts}
                     value={selectedYear}
                     onChange={(e) => setSelectedYear(e.target.value)}
                     comboBoxClassName="rounded-md shadow-sm h-10"
@@ -101,7 +100,8 @@ export default function VisualRequestsAdmin() {
 
             {/* Table display */}
             <div className="bg-white rounded-lg shadow-lg border border-gray-300 p-6">
-                <DataGridViewStyle2 Columns={columns} Data={filteredData} setData={setData} />
+                <DataGridViewStyle2 Columns={columns} Data={filteredData} setData={setData} 
+                className=""/>
             </div>
         </div>
     );}

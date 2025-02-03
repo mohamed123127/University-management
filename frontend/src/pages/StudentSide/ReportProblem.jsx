@@ -49,7 +49,7 @@ export default function Repport({Email}) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full p-2 bg-blue">    
+    <div className="flex flex-col items-center w-full h-full p-2 bg-gray-100">    
       <form 
         className="flex flex-col w-full max-w-xl bg-white p-6 rounded-lg shadow-lg space-y-6 h-full" 
         onSubmit={handleSubmit}
