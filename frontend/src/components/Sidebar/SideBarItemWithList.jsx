@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 
 export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled,StudentData}) {
+ 
   const handleListClick = (listName) => {
     setOpenedList((prevList) => (prevList === listName ? "" : listName));
   };
@@ -21,7 +22,7 @@ export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList
     >
       <div className="flex items-center font-semibold">
         <div className="icon h-6 w-6 m-1 text-white">{itemIcon}</div>
-        <span className="text-base whitespace-nowrap">{Title}</span>
+        <span className="text-base whitespace-nowrap">{t(Title)}</span>
       </div>
       <Dropdown
         isOpen={OpenedList === Title}
@@ -40,7 +41,7 @@ export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList
           <li
             onClick={(e) => {
               e.stopPropagation();
-              itemClickHandled(t('document_requests') === Title ? <DocumentRequests StudentData={StudentData} selectedRequest={item}/> : <VisualRequests studentData={StudentData} selectedRequest={item}/>);
+              itemClickHandled(t('document_requests') === t(Title) ? <DocumentRequests StudentData={StudentData} selectedRequest={item}/> : <VisualRequests studentData={StudentData} selectedRequest={item}/>);
             }}
             key={index}
             className="cursor-pointer bg-blue-500 hover:bg-blue-600 p-2 rounded"
