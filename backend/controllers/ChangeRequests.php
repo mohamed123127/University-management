@@ -35,7 +35,7 @@ class ChangeRequests{
 
     public static function getAll($conn){
         try{
-            $sql = "SELECT changerequests.Id, `Matricule`, `FirstName` , `LastName` , `EducationYear` , `Type`, `OldValue`, `NewValue`, `SubmissionDate`, `LastUpdatedDate` FROM `changerequests` 
+            $sql = "SELECT changerequests.Id, `Matricule`, `FirstName` , `LastName` , `EducationYear` , `Type`, `OldValue`, `NewValue`, `SubmissionDate`, `LastUpdatedDate`,`Status` FROM `Changerequests` 
                     INNER JOIN etudient ON changerequests.StudentId = etudient.Id";
             $stmt = $conn->prepare($sql);
 
@@ -60,36 +60,45 @@ class ChangeRequests{
         }
     }
     
-    public static function updateRequest($conn,$requestId,$requestType,$newValue,$studentId){
+    public static function accepteRequest($conn,$requestId,$requestType,$newValue,$studentId){
         try{
             switch($requestType){
                 case 'Group':
                     Etudient::changeGroup($conn,$studentId,$newValue);
                 break;
                 case 'Section':
-                    
+                    Etudient::changeSection($conn, $studentId, $newValue);
                 break;
                 case 'Speciality':
-                    
+                    Etudient::changeSpeciality($conn, $studentId, $newValue);
                 break;
                 case 'First Name':
-                    
+                    Etudient::changeFirstName($conn, $studentId, $newValue);
                 break;
                 case 'Last name':
-                    
+                    Etudient::changeLastName($conn, $studentId, $newValue);
                 break;
                 case 'Email':
-                    
+                    Etudient::changeEmail($conn, $studentId, $newValue);
                 break;
                 case 'Password':
-                    
+                    Etudient::changePassword($conn, $studentId, $newValue);
                 break;
                 default:
-                
+                return ["success" => true, "message" => "The request has been refused"];
                 break;
             }
             self::completeRequest($conn,$requestId);
             return ["success" => true, "message" => "The request has been completed successfully."];
+        }catch(Exception $e){
+            return ["success" => false, "message" => "هناك خطأ","error: " => $e->getMessage()];
+        }
+    }
+
+    public static function refusedRequest($conn,$requestId){
+        try{
+            self::completeRequest($conn,$requestId);
+            return ["success" => true, "message" => "The request has been refused successfully."];
         }catch(Exception $e){
             return ["success" => false, "message" => "هناك خطأ","error: " => $e->getMessage()];
         }

@@ -184,7 +184,7 @@ class Etudient extends User {
 
     public static function changeGroup($conn, $id, $group) {
         try {
-            $sql = "UPDATE etudient SET Grp = ? WHERE Id = ?";
+            $sql = "UPDATE Etudient SET Grp = ? WHERE Id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $group,$id);
             $stmt->execute();
@@ -192,6 +192,96 @@ class Etudient extends User {
         } catch (Exception $ex) {
             return([
                 "success" => false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public static function changeSection($conn, $id, $section){
+        try{
+            $sql = "UPDATE etudient set Section = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $section, $id);
+            $stmt->execute();
+            return(["success" => true ,"message" => "The section has been changed successfully."]);
+        } catch (Exception $ex){
+            return([
+                "seccuss"=> false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public static function changeSpeciality($conn, $id, $specialty){
+        try{
+            $sql = "UPDATE etudient set Specialty = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $specialty, $id);
+            $stmt->execute();
+            return(["seccess" => true , "message" => "The Specialty has been changed successfully."]);
+        } catch (Exception $ex){
+            return([
+                "seccess" => false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public static function changeFirstName($conn, $id, $firstName){
+        try{
+            $sql = "UPDATE etudient set FirstName = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $firstName, $id);
+            $stmt->execute();
+            return(["seccess" => true , "message" => "The First Name has been changed successfully."]);
+        } catch (Exception $ex){
+            return([
+                "seccess" => false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public static function changeLastName($conn, $id, $lastName){
+        try{
+            $sql = "UPDATE etudient set LastName = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $lastName, $id);
+            $stmt->execute();
+            return(["seccess" => true , "message" => "The Last Name has been changed successfully."]);
+        } catch (Exception $ex){
+            return([
+                "seccess" => false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public static function changeEmail($conn, $id, $email){
+        try{
+            $sql = "UPDATE etudient set Email = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $email, $id);
+            $stmt->execute();
+            return(["seccess" => true , "message" => "The Email has been changed successfully."]);
+        } catch (Exception $ex){
+            return([
+                "seccess" => false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public static function changePassword($conn, $id, $password){
+        try{
+            $sql = "UPDATE etudient set Password = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $password, $id);
+            $stmt->execute();
+            return(["seccess" => true , "message" => "The PassWord has been changed successfully."]);
+        } catch (Exception $ex){
+            return([
+                "seccess" => false,
                 "message" => "An unexpected error occurred: " . $ex->getMessage()
             ]);
         }

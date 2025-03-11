@@ -4,7 +4,8 @@ import Student from "js/models/Student";
 import { FaCheck  } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { IoCloseSharp } from "react-icons/io5";
-
+import ChangeRequests from "js/models/ChangeRequests";
+import { VirtualRequests } from "js/models/VirtualRequest";
 
 
 
@@ -34,6 +35,17 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
         });
     };
     
+    const AcceptButtonClick = async (row)=>{
+        const request = await VirtualRequests.getByRequestId(row.Id);
+        const studentId = request[0].StudentId;
+        ChangeRequests.accepteRequest(row.Id,row.Type,row.NewValue,studentId);
+        setData(Data.filter((r) => r.Id !== row.Id ));
+    }
+
+    const RefusedButtonClick = async (row)=>{
+        ChangeRequests.refusedRequest(row.Id);
+        setData(Data.filter((r) => r.Id !== row.Id ));
+    }
 
     return (
         <div className={`${ClassName} min-w-full border border-gray-300 bg-white shadow-lg rounded-md`}>
@@ -76,19 +88,19 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
                                                     : "bg-red-500 w-[80px] hover:bg-red-600"
                                             }`}
                                         >
-                                            {row.Active ? "Active" : "Inactive"}
+                                            {row.Active ? t("Active") : t("desactive")}
                                         </button>
                                     ) : column.name === "YesNoButtons" ? (
                                         <div className="flex gap-2">
                                             <button
                                             className="flex items-center bg-green-500 text-white py-1 px-1 rounded hover:bg-green-600"
-                                            //onClick={() => handleAccept(params.row.id)}
+                                            onClick={() => AcceptButtonClick(row)}
                                             >
                                                 <FaCheck  className="w-5 h-5" />
                                             </button>
                                             <button
   className="flex items-center bg-red-500 text-white py-1 px-1 rounded hover:bg-red-600"
-  // onClick={() => handleReject(params.row.id)}
+   onClick={() => RefusedButtonClick(row)}
 >
   <IoCloseSharp
     className="w-5 h-5 text-3xl font-extrabold" // زيادة الوزن إلى "extrabold"

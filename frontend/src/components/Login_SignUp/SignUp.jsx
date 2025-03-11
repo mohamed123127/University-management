@@ -99,7 +99,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
     return (
         <div className={`${ClassName} flex flex-col items-center relative`}>
             <div className="flex justify-end w-full pb-16">
-                <LabelStyle1 labelText={t('SignUp')} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap" />
+                <LabelStyle1 labelText={'SignUp'} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap" />
                 <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language} />
             </div>
 
@@ -107,20 +107,20 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                 <div className="space-y-4">
                     <div className="flex">
                         <div className="flex flex-col ml-1 mr-1 w-full">
-                            <LabelStyle1 labelText={`${t('FirstName')}:`} labelClassName="text-sm ml-1 mr-1" />
+                            <LabelStyle1 labelText={`${'FirstName'}:`} labelClassName="text-sm ml-1 mr-1" />
                             <TextBoxStyle2
                                 Name='firstName'
-                                placeholder={`${t('FirstName')}`}
+                                placeholder={`${'FirstName'}`}
                                 value={SignUpFormData.firstName}
                                 onChange={handleChange}
                                 textBoxClassName="w-full border rounded-md shadow-sm pr-1"
                             />
                         </div>
                         <div className="flex flex-col mr-1 w-full">
-                            <LabelStyle1 labelText={`${t('LastName')}:`} labelClassName="text-sm ml-1" />
+                            <LabelStyle1 labelText={`${'LastName'}:`} labelClassName="text-sm ml-1" />
                             <TextBoxStyle2
                                 Name='lastName'
-                                placeholder={`${t('LastName')}`}
+                                placeholder={`${'LastName'}`}
                                 value={SignUpFormData.lastName}
                                 onChange={handleChange}
                                 textBoxClassName="w-full border rounded-md shadow-sm pr-1"
@@ -129,7 +129,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                     </div>
 
                     <div className="flex space-x-1 items-center">
-                        <LabelStyle1 labelText={`${t('Matricule')}:`} labelClassName="text-sm ml-1 text-nowrap" />
+                        <LabelStyle1 labelText={`${'Matricule'}:`} labelClassName="text-sm ml-1 text-nowrap" />
                         <TextBoxStyle2
                             Name='matricule'
                             placeholder="222231354689"
@@ -140,7 +140,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                     </div>
 
           <div className="flex space-x-1 items-center w-[90%]">
-            <LabelStyle1 labelText={`${t('AcademicYear')}:`} labelClassName="text-sm ml-1 text-nowrap" />
+            <LabelStyle1 labelText={`${'AcademicYear'}:`} labelClassName="text-sm ml-1 text-nowrap" />
             <ComboBoxStyle1
               Name="educationYear"
               options={academicYearOptions}
@@ -148,7 +148,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
               onChange={handleChange}
               comboBoxClassName={`w-full`}
             />
-            <LabelStyle1 labelText={`${t('Speciality')}:`} labelClassName="text-sm ml-1" />
+            <LabelStyle1 labelText={`${'Speciality'}:`} labelClassName="text-sm ml-1" />
             <ComboBoxStyle1
               Name="specialty"
               options={specialityOptions}
@@ -159,7 +159,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
             />
           </div>
           <div className="flex space-x-1 items-center w-[90%]">
-            <LabelStyle1 labelText={`${t('Section')}:`} labelClassName="text-sm ml-1 text-nowrap" />
+            <LabelStyle1 labelText={`${'Section'}:`} labelClassName="text-sm ml-1 text-nowrap" />
             <ComboBoxStyle1
               Name="section"
               options={SectionOptions}
@@ -167,7 +167,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
               onChange={handleChange}
               comboBoxClassName={`w-full`}
             />
-            <LabelStyle1 labelText={`${t('Group')}:`} labelClassName="text-sm ml-1" />
+            <LabelStyle1 labelText={`${'Group'}:`} labelClassName="text-sm ml-1" />
             <ComboBoxStyle1
               Name="group"
               options={GroupOptions}
@@ -180,7 +180,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                    
 
                     <div className="flex space-x-1">
-                        <LabelStyle1 labelText={`${t('Email')}:`} labelClassName="text-md w-auto ml-1" />
+                        <LabelStyle1 labelText={`${'Email'}:`} labelClassName="text-md w-auto ml-1" />
                         <TextBoxStyle2
                             Name='email'
                             textBoxtype='email'
@@ -193,22 +193,22 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
 
                     <div className="flex space-x-1 w-full">
                         <div className="flex flex-col ml-1 w-full">
-                            <LabelStyle1 labelText={`${t('Password')}:`} labelClassName="text-sm mr-1" />
+                            <LabelStyle1 labelText={`${'Password'}:`} labelClassName="text-sm mr-1" />
                             <TextBoxStyle2
                                 Name='password'
                                 type='password'
-                                placeholder={`${t('Password')}`}
+                                placeholder={`${'Password'}`}
                                 value={SignUpFormData.password}
                                 onChange={handleChange}
                                 textBoxClassName="w-[90%] border rounded-md shadow-sm pr-1"
                             />
                         </div>
                         <div className="flex flex-col w-full">
-                            <LabelStyle1 labelText={`${t('ConfirmPassword')}:`} labelClassName="text-sm mr-1 text-nowrap" />
+                            <LabelStyle1 labelText={`${'ConfirmPassword'}:`} labelClassName="text-sm mr-1 text-nowrap" />
                             <TextBoxStyle2
                                 Name='confirmPassword'
                                 type='password'
-                                placeholder={`${t('ConfirmPassword')}`}
+                                placeholder={`${'ConfirmPassword'}`}
                                 value={SignUpFormData.confirmPassword}
                                 onChange={handleChange}
                                 textBoxClassName="w-full border rounded-md shadow-sm pr-1"
@@ -219,7 +219,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
 
            
         <ButtonStyle1
-          buttonText={`${t('SignUp')}`}
+          buttonText={`${'SignUp'}`}
           buttonClassName="items-center w-full mt-8"
           onClick={SignUpButtonHandled}
         />

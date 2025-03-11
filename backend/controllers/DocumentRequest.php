@@ -43,9 +43,15 @@ class DocumentRequest
         try {
             $sql = "SELECT documentrequest.*, etudient.EducationYear
                     FROM documentrequest
-                    INNER JOIN etudient
-                    ON documentrequest.studentId = etudient.Id
-                    ORDER BY `SubmissionDate` DESC";
+                    INNER JOIN etudient ON documentrequest.studentId = etudient.Id
+                    ORDER BY 
+                    CASE 
+                        WHEN documentrequest.Status = 'Completed' THEN 1  -- ضع القيم المكتملة في النهاية
+                        WHEN documentrequest.Status = 'Rejected' THEN 2  -- ضع المرفوضة في المنتصف
+                        ELSE 0  -- ضع أي حالة أخرى في البداية
+                    END,
+                        documentrequest.SubmissionDate DESC;
+                    ";
             $stmt = $conn->prepare($sql);
 
             if (!$stmt) {

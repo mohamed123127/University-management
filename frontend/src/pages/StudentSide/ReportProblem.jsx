@@ -56,7 +56,7 @@ export default function Repport({Email}) {
       >
             <h2 className="text-blue-800 text-center text-2xl font-bold">{t('report_problem')}</h2>  
         <div className="flex flex-col">
-          <LabelStyle1 labelText={t('Title')} labelClassName="text-lg font-semibold mb-2 rtl:mr-1 ltr:ml-1" />
+          <LabelStyle1 labelText={'Title'} labelClassName="text-lg font-semibold mb-2 rtl:mr-1 ltr:ml-1" />
           <input
             type="text"
             name="title"
@@ -68,7 +68,7 @@ export default function Repport({Email}) {
         </div>
 
         <div className="flex flex-col h-full">
-          <LabelStyle1 labelText={t('Content')} labelClassName="text-lg font-semibold mb-2 mb-2 rtl:mr-1 ltr:ml-1" />
+          <LabelStyle1 labelText={'Content'} labelClassName="text-lg font-semibold mb-2 mb-2 rtl:mr-1 ltr:ml-1" />
           <textarea name="content" placeholder={t('reportPlaceholderContent')} value={repportData.content} onChange={handleChange} className="w-full h-full border resize-none border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 p-3 text-blue-900 placeholder-gray-400" />
         </div>
 
@@ -77,7 +77,7 @@ export default function Repport({Email}) {
         {successMessage && <p className="text-green-500">{successMessage}</p>}
 
         <ButtonStyle1 
-          buttonText={t('SendReport')} 
+          buttonText={'SendReport'} 
           onClick={handleSubmit}
           buttonClassName="w-full py-3 font-semibold text-lg"
         />

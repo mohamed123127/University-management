@@ -89,7 +89,7 @@
   "SelectField": "Select Field:",
     "UpdateField": "Update Field",
     "PleaseSelectField": "Please select a field and provide a new value.",
-    "RequestType": "Request Type:",
+    "RequestType": "Request Type",
     "SendReport": "Send Report",
     "NewSpeciality": "New Speciality:",
     "CurrentSpeciality": "Current Speciality:",
@@ -103,7 +103,21 @@
     "NewPassword": "New Password:",
     "NewField": "New {{field}} :",
     "SendAnnouncement": "Send Announcement",
-    "allStatus": "All Status"
+    "allStatus": "All Status",
+    "EducationYear": "Education Year",
+    "Submission Date": "Submission Date",
+    "Actions": "Actions" ,
+    "all": "All",
+    "Active": "Active",
+    "desactive": "Disabled" ,
+        "Search": "Search...",
+    "full name": "Full Name" ,
+    "EnterCarID": "Enter Car ID",
+    "EnterLicenseCardID": "Enter License Card ID",
+    "EnterInternshipPlace": "Enter Internship Place",
+    "EnterInternshipPeriod": "Enter Internship Period" ,
+    "requestID": "Request ID"
+    
 
   }
   

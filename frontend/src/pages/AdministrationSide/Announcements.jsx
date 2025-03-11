@@ -77,7 +77,7 @@ export default function Announcement() {
         </div>
 
         <div className="flex flex-col">
-          <LabelStyle1 labelText={t('Title')} labelClassName="text-lg font-semibold mb-2" />
+          <LabelStyle1 labelText={'Title'} labelClassName="text-lg font-semibold mb-2" />
           <input
             type="text"
             name="title"
@@ -89,7 +89,7 @@ export default function Announcement() {
         </div>
 
         <div className="flex flex-col h-full">
-          <LabelStyle1 labelText={t('Content')} labelClassName="text-lg font-semibold mb-2" />
+          <LabelStyle1 labelText={'Content'} labelClassName="text-lg font-semibold mb-2" />
           <textarea
             name="content"
             placeholder={t('AnnouncmentPlaceholderContent')}
@@ -104,7 +104,7 @@ export default function Announcement() {
         {successMessage && <p className="text-green-500 mt-2 mb-2">{successMessage}</p>}
 
         <ButtonStyle1 
-          buttonText= {t('SendAnnouncement')} 
+          buttonText= {'SendAnnouncement'} 
           onClick={handleSubmit}
           buttonClassName="w-full py-2 font-semibold text-lg"
         />

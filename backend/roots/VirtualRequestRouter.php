@@ -94,7 +94,26 @@ try {
                     $response = ["success" => false, "message" => "طريقة غير صالحة"];
                 }
          break;
+         case 'getByRequestId':
+            if ($method == "GET") {
+                if(isset($_GET["id"])){
+                    $id=$_GET["id"];
+                }else{
+                    echo json_encode (["success" => false, "message" => "id dont sended"]);
+                    exit();
+                }
+                if($id!=""){
+                   
+                    $response= VRequest::getByRequestId($conn,$id);
 
+                }else{
+                    $response = ["success" => false, "message" => "id is empty"];
+                }
+            
+            }else {
+                $response = ["success" => false, "message" => "طريقة غير صالحة"];
+            }
+     break;
         default:
             $response = ["success" => false, "message" => "Invalid endpoint"];
             break;

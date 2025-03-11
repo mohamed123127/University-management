@@ -52,7 +52,7 @@ try{
         default:
             $response = ['success' => false, 'message' => 'Endpoint not exsist'];
         break;
-        case 'updateRequest':
+        case 'accepteRequest':
             if($method == "POST"){
                 if (isset($data['requestId']) && isset($data['requestType']) && isset($data['newValue']) && isset($data['studentId']) ) {
                     $requestId = $data['requestId'];
@@ -65,7 +65,25 @@ try{
                 }
                 
                 if ($type !== '' && $requestId !== '' && $newValue !== '' && $studentId !== '') {
-                    $response = ChangeRequests::updateRequest($conn,$requestId,$type,$newValue,$studentId);
+                    $response = ChangeRequests::accepteRequest($conn,$requestId,$type,$newValue,$studentId);
+                } else {
+                    $response = ["success" => false, "message" => "inputs  are vide"];
+                }
+            }else{
+                $response = ["success" => false, "message" => "Invalid method"];
+            }
+        break;
+        case 'refusedRequest':
+            if($method == "POST"){
+                if (isset($data['requestId'])) {
+                    $requestId = $data['requestId'];
+                } else {
+                    echo json_encode(["success" => false, "message" => "requestId is required"]);
+                    exit();
+                }
+                
+                if ($requestId) {
+                    $response = ChangeRequests::refusedRequest($conn,$requestId);
                 } else {
                     $response = ["success" => false, "message" => "inputs  are vide"];
                 }

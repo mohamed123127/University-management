@@ -1,7 +1,7 @@
 import settings from '../../resources/Settings'
 class ApiOperator{
 
-    static rootUrl = settings.domain + "/roots/";
+    static rootUrl = settings.domain + "University-management/backend/roots/";
 
     static async request(apiUrl,method,data){
         //alert(this.rootUrl+apiUrl);

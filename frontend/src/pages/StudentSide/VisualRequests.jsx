@@ -159,7 +159,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
                     <ComboBoxStyle1 Name="New Speciality" options={specialityOptions} value={newSpeciality} onChange={(e) => setSelectedSpeciality(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
                 </div>
             )} 
-            <ButtonStyle1 onClick={addButtonHandled} buttonText={t('Add')} buttonClassName="w-20 bg-blue-500 text-white rounded-md h-8 font-bold text-center hover:bg-blue-600" />
+            <ButtonStyle1 onClick={addButtonHandled} buttonText={'Add'} buttonClassName="w-20 bg-blue-500 text-white rounded-md h-8 font-bold text-center hover:bg-blue-600" />
         </div>
         <DataGridView Columns={columns} Data={data} ClassName="table-auto ltr:ml-2 rtl:mr-2" />        
     </div>

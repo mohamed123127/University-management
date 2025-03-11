@@ -13,7 +13,9 @@ export default function Students() {
     const [result,setResult]=useState([]);
 
 
+    const options1 = [t("Matricule"), t("EducationYear"), t("full name"), t("Email")];
 
+    const options2 = ["all", "Active", "desactive"];
 
     useEffect(()=>{
         const fetchData=async()=>{
@@ -45,8 +47,8 @@ export default function Students() {
         { name: "Action", Header: "Active", width: "10%", className: "text-center" },
     ];
 
-    const [selectedOption, setSelectedOption] = useState("Matricule");
-    const [selectedOption2, setSelectedOption2] = useState("all");
+    const [selectedOption, setSelectedOption] = useState(t("Matricule"));
+    const [selectedOption2, setSelectedOption2] = useState(t("all"));
     const [searchTerm, setSearchTerm] = useState("");
    
     const handleAction = async(row) => {
@@ -79,17 +81,15 @@ export default function Students() {
         setSearchTerm(e.target.value);
     };
 
-    const options1 = ["Matricule", "EducationYear", "full name", "Email"];
 
-    const options2 = ["all", "Active", "desactive"];
 
     const filteredStudents = students.filter((student) => {
         if (searchTerm === "") return true;
-        else if (selectedOption === "full name") {
+        else if (selectedOption === t("full name")) {
             const fullName = `${student.FirstName} ${student.LastName}`.toLowerCase();
             return fullName.includes(searchTerm.toLowerCase());
         }
-        else if (selectedOption ==="Matricule"){
+        else if (selectedOption ===t("Matricule")){
             return student.Matricule.startsWith(searchTerm.toLowerCase());
 
         }
@@ -97,9 +97,9 @@ export default function Students() {
     });
 
     const filteredStudents1 = filteredStudents.filter((student) => {
-        if (selectedOption2 === "all") return true;
-        if (selectedOption2 === "Active")  return student.Active === 1;
-        if (selectedOption2 === "desactive") return student.Active === 0;
+        if (selectedOption2 === t("all")) return true;
+        if (selectedOption2 === t("Active"))  return student.Active === 1;
+        if (selectedOption2 === t("desactive")) return student.Active === 0;
     });
 
     return (
@@ -114,7 +114,7 @@ export default function Students() {
                         type="search"
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        placeholder="Search..."
+                        placeholder={"Search"}
                         textBoxClassName="w-96 h-8 border mb-2 rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     </div>
