@@ -12,25 +12,27 @@ import Settings from "pages/StudentSide/Settings";
 import VisualRequests from "pages/StudentSide/VisualRequests";
 import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { useTranslation } from "react-i18next";
+import { X } from "lucide-react";
+
 
 export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen,studentData}) {
   const [openedList, setOpenedList] = useState(""); // القائمة الفرعية المفتوحة
   const { t, i18n } = useTranslation();
 
   const DocumentRequestItemsList = [
-    t('registration_certificate'),
-        t('grade_transcript'),
-        t('parking_permit'),
-        t('library_card'),
-        t('internship_permit'),
-        t('studentCard'),
-        t('block_academic_year')
+    'registration_certificate',
+        'grade_transcript',
+        'parking_permit',
+        'library_card',
+        'internship_permit',
+        'studentCard',
+        'block_academic_year'
   ];
 
   const VisualRequestsItemsList = [
-    t('Group'),
-    t('Section'),
-    t('Speciality')
+    'Group',
+    'Section',
+    'Speciality'
   ];
 
   const toggleStatSidebar = () => {
@@ -41,9 +43,13 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
   };
 
   const sidebarItemClickHundled = (PageName, PageIcon, Page) => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
     SetActualPageName(PageName);
     SetActualPageIcon(PageIcon);
     SetActualPage(Page);
+    if (mediaQuery.matches) {
+      setIsOpen(!isOpen);
+    }
   }
 
   const DocumentRequestListItemClickHundled = (Page) => {
@@ -62,21 +68,25 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
 
   return (
     <div className={`${ClassName}`}>
-      <div className={`relative flex flex-col h-screen ${isOpen ? "w-60" : "w-12"} bg-blue-600 p-1 text-white transition-all duration-500 ease-in-out`}>
+      <div className={`relative flex flex-col h-screen bg-blue-600 p-1 text-white transition-all duration-500 ease-in-out`}>
         {/* زر الشريط الجانبي */}
-        <Dropdown isOpen={isOpen} setIsOpen={toggleStatSidebar} Orientation={"horizontal"} ClassName="mt-3 ltr:ml-2 rtl:mr-2"/>
-
-        <div className="flex flex-col space-y-4 mt-20 h-full relative">
+        <div className="flex justify-between">
+          <Dropdown isOpen={isOpen} setIsOpen={toggleStatSidebar} Orientation={"horizontal"} ClassName={`mt-3 ltr:ml-2 rtl:mr-2 ${isOpen ? "collapse md:visible" : "visible"}`}/>
+          <button onClick={()=>{setIsOpen(!isOpen)}} className={`mt-3 ltr:mr-2 rtl:ml-2 ${isOpen ? "block md:collapse" : "collapse"}`}>
+              <X size={25} className="text-red-600"/>
+          </button>
+        </div>
+        <div className={`flex flex-col ${isOpen ? "items-center md:items-start" : ""} space-y-4 mt-20 h-full relative`}>
           <SideBatItem 
             OnClick={() => sidebarItemClickHundled('dashboard', <RxDashboard className="w-8 h-8" />, <EtudientDashboard studentName={studentData.FirstName}/>)} 
             itemIcon={<RxDashboard size='25'/>} 
-            Title={t('dashboard')} 
+            Title={'dashboard'} 
             isOpen={isOpen} 
           />
           <SideBarItemWithList 
             OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <DocumentRequests StudentData={studentData}/>)} 
             itemIcon={<DocumentIcon />} 
-            Title={t('document_requests')} 
+            Title={'document_requests'} 
             isOpen={isOpen} 
             ItemsList={DocumentRequestItemsList} 
             OpenedList={openedList} 
@@ -87,7 +97,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
           <SideBarItemWithList 
             OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests studentData={studentData}/>)} 
             itemIcon={<EyeIcon />} 
-            Title={t('visual_requests')} 
+            Title={'visual_requests'} 
             isOpen={isOpen} 
             ItemsList={VisualRequestsItemsList} 
             OpenedList={openedList} 
@@ -98,13 +108,13 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
           <SideBatItem 
             OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem Email={studentData.Email}/>)} 
             itemIcon={<ExclamationCircleIcon />} 
-            Title={t('report_problem')} 
+            Title={'report_problem'} 
             isOpen={isOpen}
           />
           <SideBatItem 
             OnClick={() => sidebarItemClickHundled('manage_account', <UserCircleIcon className="w-8 h-8" />, <ManageAccount StudentData={studentData}/>)} 
             itemIcon={<UserCircleIcon />} 
-            Title={t('manage_account')} 
+            Title={'manage_account'} 
             isOpen={isOpen}
           />
           
