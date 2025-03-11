@@ -4,7 +4,7 @@ import settings from '../../resources/Settings'
 class DocumentRequest 
 {
     static DocumentRequestRootUrl = "DocumentRequestRouter.php?endpoint="
-    static rootUrl = settings.domain + "/roots/";
+    static rootUrl = settings.domain + "1/University-management/backend/roots/";
 
     static async SaveDocumentRequestAsPdf(pdf,data)
     {

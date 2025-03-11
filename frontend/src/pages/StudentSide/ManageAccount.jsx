@@ -92,12 +92,8 @@ export default function ManageAccount({StudentData}) {
       <div className="bg-white rounded-lg shadow-lg w-[80%] h-96 mt-12 max-w-4xl p-8">
         <h1 className="text-2xl font-bold text-blue-600 text-center mb-12">{t('manage_account')}</h1>
         <div className="flex">
-
-
-
-
         <form className="flex flex-col lg:flex-row items-center mb-6 space-y-4 lg:space-y-0 lg:space-x-4">
-          <div className="flex flex-col lg:flex-row items-center space-x-2">
+          <div className="flex items-center space-x-2">
             <LabelStyle1 
               labelText={t('SelectField')} 
               labelClassName="text-lg font-semibold text-gray-700" 
@@ -110,26 +106,26 @@ export default function ManageAccount({StudentData}) {
             />
           </div>
           {selectedField && (
-  <div className="flex flex-col lg:flex-row items-center">
+  <div className="flex  justify-start items-center">
     <LabelStyle1 
-      labelText={t("NewField", { field: t(selectedField) })} // ترجمة النص الديناميكي
+      labelText={t("NewField", { field: t(selectedField) })}
       labelClassName="text-lg font-semibold text-gray-700" 
     />
     <TextBoxStyle2 
-      textBoxClassName="h-10 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mr-2 ml-2" 
+      textBoxClassName="h-10 px-3 border border-gray-300 w-32 md:w-48 rounded-lg focus:ring-2 focus:ring-blue-500 mr-2 ml-2" 
       value={newValue} 
       onChange={handleNewValueChange} 
     />
+                <ButtonStyle1 buttonText={t('UpdateField')} buttonClassName="h-10 px-6 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition" onClick={UpdateFieldButtonHandled}/>
+
   </div>
 )}
 
         </form>
-          <ButtonStyle1 
-            buttonText={t('UpdateField')}
-            buttonClassName="h-10 px-6 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition" 
-            onClick={UpdateFieldButtonHandled}
-          />
-</div>
+        </div>
+
+
+
 
         <form 
           className="space-y-6"

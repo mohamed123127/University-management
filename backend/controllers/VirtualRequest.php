@@ -98,9 +98,37 @@ class VRequest{
         }
     }
 
+    //To change name after
     public static function getById($conn , $id) {
         try {
             $sql = "SELECT * FROM changerequests WHERE StudentId =? ";
+           
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            if (!$stmt) {
+                return(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+                
+            }
+    
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            $requests = [];
+            while ($row = $result->fetch_assoc()) {
+                $requests[] = $row;
+            }
+    
+            return(["success" => true, "data" => $requests]);
+    
+            $stmt->close();
+        } catch (Exception $ex) {
+            return(["success" => false, "message" => "An error occurred: " . $ex]);
+        }
+    }
+
+    public static function getByRequestId($conn , $id) {
+        try {
+            $sql = "SELECT * FROM changerequests WHERE Id =? ";
            
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);

@@ -5,8 +5,9 @@ import { FaUser } from "react-icons/fa";
 import Language from "components/Basics/Language"; 
 import { useTranslation } from "react-i18next";
 import NotificationJs from "js/models/Notification";
+import BurggerButton from "components/custom controls/buttons/BurggerButton";
 
-export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentName="",studentId='' }) {
+export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentName="",studentId='',isOpenedSidebar, setIsOpenedSidebar}) {
   const [notifications, setNotifications] = useState([
     { id: 1, message: "Your account has been activated", date_time: "04/11/2024 16:32", IsRead: true },
     { id: 2, message: "Your demand to change group was accepted", date_time: "06/11/2024 09:20", IsRead: false },
@@ -30,15 +31,16 @@ export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentNa
   useEffect(() => { i18n.changeLanguage(currentLanguage); document.documentElement.dir = i18n.dir(); }, [currentLanguage]);
 
   return (
-    <div className={`flex justify-between bg-blue-600 shadow-md w-full h-12 ${ClassName}`}>
+    <div className={`flex justify-between bg-blue-600 shadow-md w-full h-12 ${isOpenedSidebar ? "hidden md:flex" : "flex"} ${ClassName}`}>
       <div className="flex items-center text-white">
         <div className="ltr:ml-4 rtl:mr-4">{PageIcon}</div>
-        <h2 className="ltr:ml-1 rtl:mr-1 font-bold text-xl">{t(PageName)}</h2>
+        <h2 className="ltr:ml-1 rtl:mr-1 font-bold text-xl">{PageName}</h2>
       </div>
       <div className="flex items-center">
         <Language onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language} ClassName="ltr:mr-2 rtl:ml-2" PrimaryButtonColor="red" />
         <Notification studentId={studentId} notificationsList={notifications} setNotification={setNotifications} isOpen={openedPanel === "Notifications"} setIsOpen={() => handleOpenPanelClick("Notifications")} ClassName="ltr:mr-2 rtl:ml-2" />
         <Account AccountImage={FaUser} AccountName={StudentName} isOpen={openedPanel === "Account"} setIsOpen={() => handleOpenPanelClick("Account")} ClassName="ltr:mr-4 rtl:ml-4" />
+        <BurggerButton isOpen={isOpenedSidebar} setIsOpen={setIsOpenedSidebar}/>
       </div>
     </div>
   );

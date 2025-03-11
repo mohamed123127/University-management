@@ -35,5 +35,20 @@ export class VirtualRequests
     }
   }
 
+  static async getByRequestId(id) 
+  {
+    try 
+    {
+        const resulte = await ApiOperator.get(this.VirtualRequestsRootUrl + "getByRequestId" ,{"id":id});
+        if(resulte.success){
+            return resulte.data;
+        }else{
+           alert(resulte.success +"\n"+resulte.message);
+        }
+       
+    } catch (error) {
+        alert("catch in getByRequestId: " + error);
+    }
+  }
 
 }

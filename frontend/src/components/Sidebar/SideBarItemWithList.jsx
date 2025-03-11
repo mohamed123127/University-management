@@ -12,7 +12,7 @@ export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList
   const { t, i18n } = useTranslation();
 
   return (
-    <button onClick={OnClick} className={`flex flex-col items-center space-y-2`}>
+    <button onClick={OnClick} className={`flex flex-col items-center space-y-2 w-fit md:w-full`}>
   {isOpen ? (
     <div
       className={`flex items-center justify-between cursor-pointer w-full hover:bg-blue-500 rounded relative ${
@@ -27,7 +27,7 @@ export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList
         isOpen={OpenedList === Title}
         setIsOpen={() =>{ handleListClick(Title)}}
         Orientation={"vertical"}
-        ClassName="rtl:ml-2 rtl:mt-1 ltr:mr-2 ltr:mt-1"
+        ClassName={`rtl:ml-2 rtl:mt-1 ltr:mr-2 ltr:mt-1 ${isOpen ? "hidden md:block" : "block"}`}
       />
       <ul
         className={`absolute ${

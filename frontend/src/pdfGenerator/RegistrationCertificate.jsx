@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { jsPDF } from 'jspdf';
 import { useLocation } from 'react-router-dom';
-import html2canvas from 'html2canvas';
 import uniBoumrdas from 'resources/Images/univ-logo.png';
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 import PdfGenerator from 'js/Helpers/PdfGenerator';

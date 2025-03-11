@@ -4,7 +4,8 @@ import Student from "js/models/Student";
 import { FaCheck  } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { IoCloseSharp } from "react-icons/io5";
-
+import ChangeRequests from "js/models/ChangeRequests";
+import { VirtualRequests } from "js/models/VirtualRequest";
 
 
 
@@ -34,6 +35,17 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
         });
     };
     
+    const AcceptButtonClick = async (row)=>{
+        const request = await VirtualRequests.getByRequestId(row.Id);
+        const studentId = request[0].StudentId;
+        ChangeRequests.accepteRequest(row.Id,row.Type,row.NewValue,studentId);
+        setData(Data.filter((r) => r.Id !== row.Id ));
+    }
+
+    const RefusedButtonClick = async (row)=>{
+        ChangeRequests.refusedRequest(row.Id);
+        setData(Data.filter((r) => r.Id !== row.Id ));
+    }
 
     return (
         <div className={`${ClassName} min-w-full border border-gray-300 bg-white shadow-lg rounded-md`}>
@@ -52,7 +64,8 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {(Data || []).map((row, rowIndex) => (
+                    
+                    {Data.length > 0 ? (Data || []).map((row, rowIndex) => (
                         <tr
                             key={rowIndex}
                             className={`border-b transition duration-200 ${
@@ -82,19 +95,19 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
                                         <div className="flex gap-2">
                                             <button
                                             className="flex items-center bg-green-500 text-white py-1 px-1 rounded hover:bg-green-600"
-                                            //onClick={() => handleAccept(params.row.id)}
+                                            onClick={() => AcceptButtonClick(row)}
                                             >
                                                 <FaCheck  className="w-5 h-5" />
                                             </button>
                                             <button
-  className="flex items-center bg-red-500 text-white py-1 px-1 rounded hover:bg-red-600"
-  // onClick={() => handleReject(params.row.id)}
->
-  <IoCloseSharp
-    className="w-5 h-5 text-3xl font-extrabold" // زيادة الوزن إلى "extrabold"
-    style={{ strokeWidth: 40 }} // زيادة سمك الأيقونة (في حال كانت الأيقونة تحتوي على خطوط خارجية)
-  />
-</button>
+                                                className="flex items-center bg-red-500 text-white py-1 px-1 rounded hover:bg-red-600"
+                                                onClick={() => RefusedButtonClick(row)}
+                                                >
+                                                <IoCloseSharp
+                                                    className="w-5 h-5 text-3xl font-extrabold" // زيادة الوزن إلى "extrabold"
+                                                    style={{ strokeWidth: 40 }} // زيادة سمك الأيقونة (في حال كانت الأيقونة تحتوي على خطوط خارجية)
+                                                />
+                                                </button>
 
                                         </div>
                                     )
@@ -105,7 +118,13 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
                                 </td>
                             ))}
                         </tr>
-                    ))}
+                    )) : 
+                    <tr>
+                    <td colSpan={Columns.length} className="p-3 text-center text-gray-500">
+                      No data to show
+                    </td>
+                  </tr>
+                  }
                 </tbody>
             </table>
         </div>

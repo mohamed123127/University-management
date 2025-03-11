@@ -49,8 +49,8 @@ export default function VisualRequestsAdmin() {
             try{
                 const resulte = await ChangeRequests.getAll();
                 if(resulte.success){
-                    setData(resulte.data);
-                    console.log(resulte.data); 
+                    setData(resulte.data.filter(row => row.Status !== "Completed"));
+                    console.log(resulte.data.filter(row => row.Status !== "Completed"));
                 }else{
                     alert(resulte.success + "\n" + resulte.message);
                 }
