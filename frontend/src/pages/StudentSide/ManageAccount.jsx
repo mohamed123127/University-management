@@ -148,7 +148,7 @@ export default function ManageAccount({StudentData}) {
               </div>
               <div className="flex flex-col w-1/2 space-y-2 ">
                 <LabelStyle1 
-                  labelText={`${t('LastName')}:`} 
+                  labelText={`${'LastName'}:`} 
                   labelClassName="text-lg font-semibold text-gray-700" 
                 />
                 <TextBoxStyle2 
@@ -164,7 +164,7 @@ export default function ManageAccount({StudentData}) {
             <div className="flex w-full">
               <div className="flex flex-col w-1/2 space-y-2 ltr:mr-4 rtl:ml-4">
                 <LabelStyle1 
-                  labelText={`${t('Email')}:`}
+                  labelText={`${'Email'}:`}
                   labelClassName="text-lg font-semibold text-gray-700" 
                 />
                 <TextBoxStyle2 
@@ -178,7 +178,7 @@ export default function ManageAccount({StudentData}) {
               </div>
               <div className="flex flex-col w-1/2 space-y-2">
                 <LabelStyle1 
-                  labelText={`${t('Password')}:`} 
+                  labelText={`${'Password'}:`} 
                   labelClassName="text-lg font-semibold text-gray-700" 
                 />
                 <TextBoxStyle2 

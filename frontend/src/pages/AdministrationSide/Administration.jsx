@@ -89,7 +89,7 @@ export default function Administrations() {
                         Name="firstName"
                         value={formData.firstName}
                         onChange={handleChange}
-                        placeholder="First Name"
+                        placeholder={`${'FirstName'}`}
                         textBoxClassName="w-full"
                     />
                 </div>
@@ -101,7 +101,7 @@ export default function Administrations() {
                         Name="lastName"
                         value={formData.lastName}
                         onChange={handleChange}
-                        placeholder="Last Name"
+                        placeholder={`${'LastName'}`}
                         textBoxClassName="w-full"
                     />
                 </div>
@@ -113,7 +113,7 @@ export default function Administrations() {
                         Name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="Email"
+                       placeholder="example@gmail.com"
                         textBoxClassName="w-full"
                     />
                 </div>
@@ -125,7 +125,7 @@ export default function Administrations() {
                         Name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        placeholder="Password"
+                        placeholder={`${'Password'}`}
                         textBoxClassName="w-full"
                         type="password"
                     />

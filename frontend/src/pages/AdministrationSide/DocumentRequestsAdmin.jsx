@@ -28,7 +28,7 @@ export default function DocumentRequestsAdmin() {
         "Master 2"
     ];
     const statsOptionsTexts = [
-        t("all status"),
+        t("allStatus"),
          "Pending",   
          "Completed",
        t("InProgress"),
@@ -37,12 +37,12 @@ export default function DocumentRequestsAdmin() {
     ];
     const [selectedType, setSelectedType] = useState(t("allRequests"));
     const [selectedYear, setSelectedYear] = useState(t("allYears"));
-    const [selectedStatus, setSelectedStatus] = useState(t("all status"));
+    const [selectedStatus, setSelectedStatus] = useState(t("allStatus"));
     const [data,setData] = useState([]);
     const filteredData = data.filter((row) => {
         const typeMatch = selectedType === t("allRequests") || t(row.Type) === selectedType;
         const yearMatch = selectedYear === t("allYears") || row.EducationYear === selectedYear;
-        const statusMatch = selectedStatus === t("all status") || row.Status === selectedStatus;
+        const statusMatch = selectedStatus === t("allStatus") || row.Status === selectedStatus;
         return typeMatch && yearMatch && statusMatch;
     });
 
@@ -52,7 +52,7 @@ export default function DocumentRequestsAdmin() {
         { name: "combobox", Header: "Status" , width: "12%", className: "text-center" },
         { name: "EducationYear", Header: "EducationYear" , width: "12%", className: "text-center" },
         { name: "SubmissionDate", Header: "Submission Date", width: "10%", className: "text-center" },
-        { name: "LastUpdatedDate", Header: "LastUpdated Date", width: "10%", className: "text-center" },
+        { name: "LastUpdatedDate", Header: "LastUpdatedDate", width: "10%", className: "text-center" },
         {name: "Action",Header: "Actions",width: "15%"}
     ];
 

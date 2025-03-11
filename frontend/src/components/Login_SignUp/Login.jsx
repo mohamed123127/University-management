@@ -121,17 +121,17 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
             <div className="flex flex-col items-center relative h-full w-full">
                     {/* Student_adminstation switch and welcom part */}
                         <div className="flex justify-end w-full pb-20 ">
-                            <LabelStyle1 labelText={t('Login')} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap"/>
+                            <LabelStyle1 labelText={'Login'} labelClassName="absolute left-1/2 transform -translate-x-1/2 text-3xl text-blue-600 mt-10 text-nowrap"/>
                             <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={currentLanguage}/>
                         </div>
                     {/* Login_SignUp form */}
                     <form className="bg-white flex flex-col w-[80%]">
-                    <LabelStyle1 labelText={`${t('Email')}:`} labelClassName="text-md"/>
+                    <LabelStyle1 labelText={`${'Email'}:`} labelClassName="text-md"/>
                     <TextBoxStyle2 Name='email' placeholder="Example@gmail.com" value={loginFormData.email} onChange={handleChange} textBoxClassName="w-full pr-1"/>
-                    <LabelStyle1 labelText={`${t('Password')}:`} labelClassName="text-md mt-5"/>
-                    <TextBoxStyle2 type="password" Name='password' placeholder="password" value={loginFormData.password} onChange={handleChange} textBoxClassName="w-full pr-1"/>
+                    <LabelStyle1 labelText={`${'Password'}:`} labelClassName="text-md mt-5"/>
+                    <TextBoxStyle2 type="password" Name='password' placeholder={`${'Password'}`} value={loginFormData.password} onChange={handleChange} textBoxClassName="w-full pr-1"/>
                     <a href="#" className="self-end text-sm text-blue-400 max-w-fit">{`${t('ForgotPassword')}`}</a>
-                    <ButtonStyle1 buttonText={`${t('Login')}`} buttonClassName="mt-5" onClick={LoginButtonHandled}/>
+                    <ButtonStyle1 buttonText={`${'Login'}`} buttonClassName="mt-5" onClick={LoginButtonHandled}/>
                     <div className="relative mt-8">
                         <h5 className="absolute left-1/2 transform -translate-x-1/2 top-[-12px] bg-white px-2">{`${t('OR')}`}</h5>
                         <hr className="border border-gray-500" />
@@ -145,7 +145,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                     </form>
                     <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'visible' : 'hidden'}`}>{`${t('DontHaveAccount')}`} <button ref={SignUpButton} onClick={SignUpButtonHandled} className="text-blue-400">{`${t('SignUp')}`}</button></p>
 
-                    <ToggleButton toggleButtonClassName="absolute bottom-4" leftLabel={`${t('Administration')}`} rightLabel={`${t('Student')}`} onToggle={setIsStudent}/>
+                    <ToggleButton toggleButtonClassName="absolute bottom-4" leftLabel={`${'Administration'}`} rightLabel={`${'Student'}`} onToggle={setIsStudent}/>
             </div>
         </div>
     );

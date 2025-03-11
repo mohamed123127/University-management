@@ -104,7 +104,7 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
             <div className="flex items-center justify-between rounded-lg shadow-md border border-gray-300 p-4">
                 {/* ComboBox, TextBoxes, and Button Section */}
                 <div className="flex items-center space-x-4">
-                    <p className="text-[#374151] font-bold">{t('Request Type')}:</p>
+                    <p className="text-[#374151] font-bold">{t('RequestType')}</p>
                     <ComboBoxStyle1
                         Name="Type of demande"
                         options={demandeOptions}
@@ -118,14 +118,14 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
                         <>
                             <TextBoxStyle2
                                 type="text"
-                                placeholder="Enter Car ID"
+                                placeholder={'EnterCarID'}
                                 value={carId}
                                 onChange={(e) => setCarId(e.target.value)}
                                 className="h-8"
                             />
                             <TextBoxStyle2
                                 type="text"
-                                placeholder="Enter License Card ID"
+                                placeholder={'EnterLicenseCardID'}
                                 value={licenseCardId}
                                 onChange={(e) => setLicenseCardId(e.target.value)}
                                 className="h-8"
@@ -136,14 +136,14 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
                         <>
                             <TextBoxStyle2
                                 type="text"
-                                placeholder="Enter internship Place "
+                                placeholder={'EnterInternshipPlace'}
                                 value={internshipPlace}
                                 onChange={(e) => setinternshipPlace(e.target.value)}
                                 className="h-8"
                             />
                             <TextBoxStyle2
                                 type="text"
-                                placeholder="Enter internship Period"
+                                placeholder={'EnterInternshipPeriod'}
                                 value={internshipPeriod}
                                 onChange={(e) => setinternshipPeriod(e.target.value)}
                                 className="h-8"
@@ -153,7 +153,7 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
                     
                     {/* Add Button */}
                     <ButtonStyle1
-                        buttonText={t('Add')}
+                        buttonText={'Add'}
                         buttonClassName="w-20 h-8 font-bold"
                         onClick={AddButtonClickHandled}
                     />

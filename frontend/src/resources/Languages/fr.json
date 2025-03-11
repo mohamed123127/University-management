@@ -90,7 +90,7 @@
     "UpdateField": "Mettre à jour le champ",
     "PleaseSelectField": "Veuillez sélectionner un champ et fournir une nouvelle valeur.",
     "ManageAccount": "Gérer le compte",
-    "RequestType": "Type de demande :",
+    "RequestType": "Type de demande ",
     "SendReport": "Envoyer le rapport",
     "NewSpeciality": "Nouvelle spécialité :",
     "CurrentSpeciality": "Spécialité actuelle :",
@@ -104,7 +104,21 @@
     "NewPassword": "Nouveau mot de passe :",
     "NewField": "Nouveau {{field}} :",
     "SendAnnouncement": "Envoyer une annonce",
-    "allStatus": "Tous les statuts"
+    "allStatus": "Tous les statuts" ,
+    "EducationYear": "Année scolaire",
+    "Submission Date": "Date de soumission",
+    "Actions": "Actions" ,
+    "all": "Tous",
+    "Active": "Actif",
+    "desactive": "Désactivé",
+    "full name": "Nom complet",
+      "Search": "Rechercher..." ,
+      "EnterCarID": "Entrez l'ID de la voiture",
+      "EnterLicenseCardID": "Entrez l'ID de la carte de licence",
+      "EnterInternshipPlace": "Entrez le lieu du stage",
+      "EnterInternshipPeriod": "Entrez la période du stage" ,
+         "requestID": "ID de la demande"
+    
 
   }
   

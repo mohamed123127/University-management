@@ -90,7 +90,7 @@
     "UpdateField": "تحديث الحقل",
     "PleaseSelectField": "يرجى اختيار الحقل وتقديم قيمة جديدة.",
     "ManageAccount": "إدارة الحساب",
-    "RequestType": "نوع الطلب:",
+    "RequestType": "نوع الطلب",
     "SendReport": "إرسال التقرير",
     "NewSpeciality": "التخصص الجديد: ",
     "CurrentSpeciality": "التخصص الحالي: ",
@@ -104,7 +104,21 @@
     "NewPassword": "كلمة المرور الجديدة:",
     "NewField": "{{field}} الجديد :",
     "SendAnnouncement": "إرسال الإعلان",
-    "allStatus": "جميع الحالات"
-
+    "allStatus": "جميع الحالات",
+    "EducationYear": "السنة الدراسية",
+    "Submission Date": "تاريخ التقديم",
+    "Actions": "الإجراءات",
+    "LastUpdated Date": "تاريخ آخر تحديث",
+    "all": "الكل",
+    "Active": "نشط",
+    "desactive": "معطل" ,
+     "Search": "ابحث..." ,
+    "full name": "الاسم الكامل" ,
+    "EnterCarID": "أدخل معرف السيارة",
+    "EnterLicenseCardID": "أدخل معرف بطاقة الرخصة",
+    "EnterInternshipPlace": "أدخل مكان التدريب",
+    "EnterInternshipPeriod": "أدخل مدة التدريب",
+    "requestID": "معرف الطلب"
+    
   }
   
