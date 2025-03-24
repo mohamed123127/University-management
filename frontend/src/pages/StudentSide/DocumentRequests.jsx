@@ -53,8 +53,17 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
         t('library_card'),
         t('internship_permit'),
         t('studentCard'),
-        t('block_academic_year')
+        t('block_academic_year'),
+        t('bon_conduit'),
+        t('classement'),
+        t('convention_de_stage'),
+        t('copie_de_bac_rectorat'),
+        t('releve_de_note_inh'),
+        t('block_d_annee_rectorat'),
+        t('attestation_de_langue'),
+        t('accise_de_diplome')
     ];
+    
 
     const handleChange = (e) => {
         const { value } = e.target;

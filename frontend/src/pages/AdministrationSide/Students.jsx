@@ -36,14 +36,15 @@ export default function Students() {
 
 
     const columns = [
-        { name: "Matricule", Header: "Matricule", width: "15%", className: "text-center" },
-        { name: "FirstName", Header: "FirstName", width: "15%", className: "text-center" },
-        { name: "LastName", Header: "LastName", width: "15%", className: "text-center" },
+        { name: "Matricule", Header: "Matricule", width: "10%", className: "text-center" },
+        { name: "FirstName", Header: "FirstName", width: "10%", className: "text-center" },
+        { name: "LastName", Header: "LastName", width: "10%", className: "text-center" },
         { name: "EducationYear", Header: "Year", width: "10%", className: "text-center" },
-        { name: "Speciality", Header: "Speciality", width: "10%", className: "text-center" },
-        { name: "Section", Header: "Section", width: "10%", className: "text-center" },
+        { name: "Speciality", Header: "Speciality", width: "5%", className: "text-center" },
+        { name: "Section", Header: "Section", width: "5%", className: "text-center" },
         { name: "Grp", Header: "Group", width: "10%", className: "text-center" },
-        { name: "Email", Header: "Email", width: "20%", className: "text-center" },
+        { name: "Email", Header: "Email", width: "10%", className: "text-center" },
+        { name: "Role", Header: "Role", width: "35%", className: "text-center" }, 
         { name: "Action", Header: "Active", width: "10%", className: "text-center" },
     ];
 
