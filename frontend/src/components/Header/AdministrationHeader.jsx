@@ -18,11 +18,11 @@ export default function AdministrationHeader({ ClassName, PageName, PageIcon,Adm
     <div className={`flex justify-between bg-blue-600 shadow-md w-full h-12 ${ClassName}`}>
       <div className="flex items-center text-white">
         <div className="ltr:ml-4 rtl:mr-4">{PageIcon}</div>
-        <h2 className="ltr:ml-1 rtl:mr-1 font-bold text-xl">{PageName}</h2>
+        <h2 className="ltr:ml-1 rtl:mr-1 font-bold text-xl">{t(PageName)}</h2>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center ltr:mr-2 rtl:ml-2">
         <Language onLanguageChange={handleLanguageChange} DefaultLanguage={i18n.language} ClassName="ltr:mr-2 rtl:ml-2" PrimaryButtonColor="red" />
-        <Account AccountImage={FaUser} AccountName={AdminName} isOpen={openedPanel === "Account"} setIsOpen={() => handleOpenPanelClick("Account")} ClassName="ltr:mr-4 rtl:ml-4" />
+        <Account AccountImage={FaUser} AccountName={AdminName} isOpen={openedPanel === "Account"} setIsOpen={() => handleOpenPanelClick("Account")} ClassName="ltr:mr-2 rtl:ml-2" />
         <BurggerButton isOpen={isOpenedSidebar} setIsOpen={setIsOpenedSidebar}/>
       </div>
     </div>

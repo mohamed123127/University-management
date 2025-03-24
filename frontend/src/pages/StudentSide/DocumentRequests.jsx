@@ -160,7 +160,7 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
                 </div>
 
                 </div>
-                <DataGridView Columns={columns} Data={data} ClassName="table-auto ltr:ml-2 rtl:mr-2" />    
+                <DataGridView Columns={columns} Data={data} ClassName="table-auto" />    
                 </div>
         
     

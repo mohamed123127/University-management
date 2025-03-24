@@ -117,8 +117,17 @@
       "EnterLicenseCardID": "Entrez l'ID de la carte de licence",
       "EnterInternshipPlace": "Entrez le lieu du stage",
       "EnterInternshipPeriod": "Entrez la période du stage" ,
-         "requestID": "ID de la demande"
-    
-
+         "requestID": "ID de la demande",
+    "LessonTiming": "Horaire du cours",
+    "CurrentDay": "Jour actuel",
+    "CurrentHour": "Heure actuelle",
+    "NewDay": "Nouveau jour",
+    "NewHour": "Nouvelle heure",
+"Saturday": "Samedi",
+        "Sunday": "Dimanche",
+        "Monday": "Lundi",
+        "Tuesday": "Mardi",
+        "Wednesday": "Mercredi",
+        "Thursday": "Jeudi"
   }
   

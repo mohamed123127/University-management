@@ -81,7 +81,7 @@ export default function Administrations() {
     return (
         <div className="p-2 bg-gray-100 min-h-screen rounded-lg shadow-md">
             {/* Input Form */}
-            <div className="mb-6 bg-white p-2 rounded-lg shadow-sm flex items-end space-x-4">
+            <div className="mb-6 bg-white p-2 rounded-lg shadow-sm flex items-end space-x-4 rtl:space-x-reverse">
                 {/* First Name */}
                 <div className="flex flex-col w-[15%]">
                     <LabelStyle1 labelText="First Name :" labelClassName="mb-1 text-sm text-gray-700" />

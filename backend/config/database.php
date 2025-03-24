@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "university management";
+$dbname = "university managment";
 
 
 

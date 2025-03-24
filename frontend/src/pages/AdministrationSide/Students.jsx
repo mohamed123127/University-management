@@ -105,19 +105,16 @@ export default function Students() {
     return (
         <div className="p-2 bg-gray-100 min-h-screen rounded-lg shadow-md">
            
-            <div className="mb-2 flex justify-between items-center bg-white pl-2 rounded-lg shadow-sm h-20">
+            <div className="mb-2 flex justify-between items-center bg-white ltr:pl-2 rtl:pr-2 rounded-lg shadow-sm h-20">
                 
                 <div className="w-full">
-                    <div className="flex">
-                    <LabelStyle1 labelText="Search:" labelClassName="text-lg ltr:mr-2 rtl:mr-2"/>
                     <TextBoxStyle2
                         type="search"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         placeholder={"Search"}
-                        textBoxClassName="w-96 h-8 border mb-2 rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        textBoxClassName="w-96 h-8 border mb-2 mr-2 rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    </div>
                     
                     <div>
                         <RadioButton

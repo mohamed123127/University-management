@@ -36,16 +36,18 @@ export default function MainPage({openedPage}){
     }, [studentData]); // تحديث actualPage عند تغيير studentData
 
     return(
-        <div className="grid grid-cols-[1fr] grid-rows-[auto_1fr] h-screen bg-slate-400">
-            <Header ClassName="justify-self-end row-start-1 h-16 w-full" StudentName={studentData ? studentData.LastName + " " + studentData.FirstName : ''} PageIcon={actualPageIcon} PageName={actualPageName} studentId={localStorage.getItem('id')} isOpenedSidebar={isOpenedSidebar} setIsOpenedSidebar={setIsOpenedSidebar} />            
-            <div className="row-start-2 flex bg-yellow-400">
-                <div id="sidebar" className={`${isOpenedSidebar ? "w-full md:w-60" : "hidden md:block md:w-16"} h-full transition-all`} >
-                    <SideBar ClassName={`top-0 ltr:left-0 rtl:right-0`} SetActualPageName={setActualPageName} SetActualPageIcon={setActualPageIcon} SetActualPage={setActualPage} isOpen={isOpenedSidebar} setIsOpen={setIsOpenedSidebar} studentData={studentData}/>
-                </div>
-                <div className={`bg-gray-100 w-full h-full col-start-2 row-start-2 ${isOpenedSidebar ? "hidden md:block" : "block"}`}>
-                {actualPage}
-                </div>            
-            </div>
+        <div>
+                    <div className={`fixed md:static w-screen h-12 ltr:pr-0 rtl:pl-0 ${isOpenedSidebar ? "hidden md:block md:rtl:pr-60 md:ltr:pl-60" : "md:rtl:pr-16 md:ltr:pl-16"} bg-green-300`} >
+                    <Header StudentName={studentData ? studentData.LastName + " " + studentData.FirstName : ''} PageIcon={actualPageIcon} PageName={actualPageName} studentId={localStorage.getItem('id')} isOpenedSidebar={isOpenedSidebar} setIsOpenedSidebar={setIsOpenedSidebar} />            
+                    </div>
+                    <div className={`flex w-full h-full ${isOpenedSidebar ? "pt-0" : "pt-12"} md:pt-0`}>
+                        <div className={`${isOpenedSidebar ? "w-full md:w-60" : "hidden md:block md:w-16"} static md:fixed md:top-0 h-full bg-blue-400`}>
+                        <SideBar SetActualPageName={setActualPageName} SetActualPageIcon={setActualPageIcon} SetActualPage={setActualPage} isOpen={isOpenedSidebar} setIsOpen={setIsOpenedSidebar} studentData={studentData}/>
+                        </div>
+                            <div className={`${isOpenedSidebar ? "hidden md:block md:rtl:pr-60 md:ltr:pl-60" : "block md:rtl:pr-16 md:ltr:pl-16"} h-full w-full pr-0 pl-0`}>
+                            {actualPage}
+                            </div>
+                    </div>
         </div>
     );
 }

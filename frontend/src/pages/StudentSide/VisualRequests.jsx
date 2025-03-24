@@ -19,18 +19,25 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const [newGroup, setNewGroup] = useState('');
     const [newSection, setSelectedSection] = useState('');
     const [newSpeciality, setSelectedSpeciality] = useState('');
+    const [currentDay,setCurrentDay] = useState('');
+    const [currentHour,setCurrentHour] = useState('');
+    const [newDay,setNewDay] = useState('');
+    const [newHour,setNewHour] = useState('');
     const [submittedRequests, setSubmittedRequests] = useState([]);
 
     const demandeOptions = [
         'Group',
         'Section',
-        'Speciality'
+        'Speciality',
+        'LessonTiming'
     ];
 
 
 
     const groupOptions = ['1', '2', '3', '4', '5'];
     const sectionOptions = ['1','2'];
+    const days = ['Saturday','Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+    const hours = ['8:00 - 9:30', '9:40 - 11:10', '11:20 - 12:50', '13:00 - 14:30', '14:40 - 16:10','16:20 - 17:50'];
     //const [studentData,setStudentData] = useState(null);
     //useEffect(()=>{setStudentData(StudentData)},[])
 
@@ -80,6 +87,10 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         {
             return studentData.Speciality;
         }
+        else if(selectedDemande === t('LessonTiming'))
+            {
+                return currentDay + " " + currentHour;
+            }
     }
 
     const getNewValue = ()=>{
@@ -95,6 +106,10 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         {
             return newSpeciality;
         }
+        else if(selectedDemande === t('LessonTiming'))
+            {
+                return newDay + " " + newHour;
+            }
     }
 
     const addButtonHandled = async ()=>{
@@ -109,7 +124,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             if (result.success === true) {
     
               const newData = {
-              Type: selectedDemande, // Assume selectedDemande is defined elsewhere
+              Type: selectedDemande, 
               OldValue: getOldValue(),
                NewValue: getNewValue(),
                 Status : "Pending",
@@ -157,6 +172,18 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
                     <TextBoxStyle2 Name="Current Speciality" value={studentData.Speciality} readOnly={true} textBoxClassName="p-2 border h-8 w-20 text-center border-gray-300 rounded-md bg-gray-200 shadow-sm ml-1 mr-1" />
                     <p className={`text-[#374151] font-semibold`}>{t('NewSpeciality')}</p>                   
                     <ComboBoxStyle1 Name="New Speciality" options={specialityOptions} value={newSpeciality} onChange={(e) => setSelectedSpeciality(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
+                </div>
+            )} 
+            {selectedDemande === t('LessonTiming') && (
+                <div className="flex items-center">
+                    <p className={`text-[#374151] font-semibold`}>{t('CurrentDay')}</p>
+                    <ComboBoxStyle1 options={days} value={currentDay} onChange={(e) => setCurrentDay(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
+                    <p className={`text-[#374151] font-semibold`}>{t('CurrentHour')}</p>                   
+                    <ComboBoxStyle1 options={hours} value={currentHour} onChange={(e) => setCurrentHour(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
+                    <p className={`text-[#374151] font-semibold`}>{t('NewDay')}</p>
+                    <ComboBoxStyle1 options={days} value={newDay} onChange={(e) => setNewDay(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
+                    <p className={`text-[#374151] font-semibold`}>{t('NewHour')}</p>                   
+                    <ComboBoxStyle1 options={hours} value={newHour} onChange={(e) => setNewHour(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
                 </div>
             )} 
             <ButtonStyle1 onClick={addButtonHandled} buttonText={'Add'} buttonClassName="w-20 bg-blue-500 text-white rounded-md h-8 font-bold text-center hover:bg-blue-600" />

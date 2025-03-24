@@ -5,6 +5,7 @@ import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1"
 import TextBoxStyle2 from "components/custom controls/textBox/TextBoxStyle2";
 import { useTranslation } from 'react-i18next';
 import ChangeRequests from "js/models/ChangeRequests";
+import { AlertTriangle } from "lucide-react";
 
 export default function ManageAccount({StudentData}) {
   const [accountData, setAccountData] = useState({ firstName: '', lastName: '', email: '', password: '' });
@@ -65,14 +66,17 @@ export default function ManageAccount({StudentData}) {
 
 
 
- const UpdateFieldButtonHandled = async ()=>{
+ const UpdateFieldButtonHandled = async (e)=>{
+  e.preventDefault();
   try{
+    //alert(selectedField);
     const result = await ChangeRequests.add({
         "type":selectedField,
         "oldValue":getOldValue(),
         "newValue":newValue,
         "studentId":StudentData.Id
-    })
+    });
+    //alert(result);
     if (result.success === true) {
         //alert("تم اضافة طلبك");
         setError(null);
@@ -88,117 +92,58 @@ export default function ManageAccount({StudentData}) {
  }
 
   return (
-    <div className="flex justify-center w-full h-screen bg-gradient-to-r bg-gray-100">
-      <div className="bg-white rounded-lg shadow-lg w-[80%] h-96 mt-12 max-w-4xl p-8">
-        <h1 className="text-2xl font-bold text-blue-600 text-center mb-12">{t('manage_account')}</h1>
-        <div className="flex">
-        <form className="flex flex-col lg:flex-row items-center mb-6 space-y-4 lg:space-y-0 lg:space-x-4">
-          <div className="flex items-center space-x-2">
-            <LabelStyle1 
-              labelText={t('SelectField')} 
-              labelClassName="text-lg font-semibold text-gray-700" 
-            />
-            <ComboBoxStyle1 
-              options={AccountManagmentFields} 
-              onChange={handleComboChange} 
-              value={selectedField} 
-              comboBoxClassName="h-10 px-3 rounded-lg focus:ring-2 focus:ring-blue-500" 
-            />
+    <div className="p-2 mt-16 flex justify-center">
+      <div className="flex flex-col justify-between bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[95%] lg:w-[80%]">
+      <div className="flex flex-col justify-between">
+      <form className="flex w-full h-fit mb-8">
+        <div className={`flex flex-col space-y-4 md:space-y-0 md:flex-row ${selectedField ? "flex-1" : ""}`}>
+          <div className={`flex items-center space-x-2 w-full ${selectedField ? "md:w-1/2" : "md:w-96"}`}>
+            <LabelStyle1 labelText={t('SelectField')} labelClassName={`text-lg whitespace-nowrap font-semibold ${selectedField ? "w-[108px]" : "w-fit"} md:w-full text-gray-700`}/>
+            <ComboBoxStyle1 options={AccountManagmentFields} onChange={handleComboChange} value={selectedField} comboBoxClassName={`h-10 px-3 ${selectedField ? "ml-3" : "ml-0"}  md:ml-0 w-full rounded-lg focus:ring-2 focus:ring-blue-500`}/>
           </div>
           {selectedField && (
-  <div className="flex  justify-start items-center">
-    <LabelStyle1 
-      labelText={t("NewField", { field: t(selectedField) })}
-      labelClassName="text-lg font-semibold text-gray-700" 
-    />
-    <TextBoxStyle2 
-      textBoxClassName="h-10 px-3 border border-gray-300 w-32 md:w-48 rounded-lg focus:ring-2 focus:ring-blue-500 mr-2 ml-2" 
-      value={newValue} 
-      onChange={handleNewValueChange} 
-    />
-                <ButtonStyle1 buttonText={t('UpdateField')} buttonClassName="h-10 px-6 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition" onClick={UpdateFieldButtonHandled}/>
-
-  </div>
-)}
-
-        </form>
+          <div className="flex items-center space-x-2 w-full md:w-1/2">
+            <LabelStyle1 labelText={t("NewField", { field: t(selectedField) })} labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700" />
+            <TextBoxStyle2 textBoxClassName="h-10 px-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500" value={newValue} onChange={handleNewValueChange} />
+          </div>)}
         </div>
-
-
-
-
-        <form 
-          className="space-y-6"
-        >
-          <div className="space-y-6">
-            <div className="flex w-full">
-              <div className="flex flex-col w-1/2 space-y-2 ltr:mr-4 rtl:ml-4">
-                <LabelStyle1 
-                  labelText={`${t('FirstName')}:`} 
-                  labelClassName="text-lg font-semibold text-gray-700" 
-                />
-                <TextBoxStyle2 
-                  type="text" 
-                  name="firstName" 
-                  placeholder="" 
-                  value={StudentData.FirstName} 
-                  onChange={handleChange} 
-                  className="flex-grow w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 p-2" 
-                />
-              </div>
-              <div className="flex flex-col w-1/2 space-y-2 ">
-                <LabelStyle1 
-                  labelText={`${'LastName'}:`} 
-                  labelClassName="text-lg font-semibold text-gray-700" 
-                />
-                <TextBoxStyle2 
-                  type="text" 
-                  name="lastName" 
-                  placeholder="" 
-                  value={StudentData.LastName} 
-                  onChange={handleChange} 
-                  className="flex-grow w-full  border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 p-2" 
-                />
-              </div>
+        <div className="flex items-start md:items-center ml-2">
+            <ButtonStyle1 buttonText={t('UpdateField')} buttonClassName="h-10 px-6 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition" onClick={UpdateFieldButtonHandled}/>
+        </div>
+      </form>
+      <div className="flex flex-col space-y-4 w-full">
+        <div className="w-full">
+          <div className="flex space-x-4">
+            <div className="flex flex-col h-16 w-1/2">
+              <LabelStyle1 labelText="First Name" labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700"/>
+              <TextBoxStyle2 type="text" name="firstName" placeholder="" value={StudentData.FirstName} onChange={handleChange} className="flex-1 w-full" />
             </div>
-            <div className="flex w-full">
-              <div className="flex flex-col w-1/2 space-y-2 ltr:mr-4 rtl:ml-4">
-                <LabelStyle1 
-                  labelText={`${'Email'}:`}
-                  labelClassName="text-lg font-semibold text-gray-700" 
-                />
-                <TextBoxStyle2 
-                  type="email" 
-                  name="email" 
-                  placeholder="" 
-                  value={StudentData.Email} 
-                  onChange={handleChange} 
-                  className="flex-grow w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 p-2" 
-                />
-              </div>
-              <div className="flex flex-col w-1/2 space-y-2">
-                <LabelStyle1 
-                  labelText={`${'Password'}:`} 
-                  labelClassName="text-lg font-semibold text-gray-700" 
-                />
-                <TextBoxStyle2 
-                  type="text" 
-                  name="password" 
-                  placeholder="" 
-                  value={StudentData.Password} 
-                  onChange={handleChange} 
-                  className="flex-grow w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 p-2" 
-                />
-              </div>
+            <div className="flex flex-col h-16 w-1/2">
+              <LabelStyle1 labelText="Last Name" labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700 "/>
+              <TextBoxStyle2 type="text" name="lastName" placeholder="" value={StudentData.LastName} onChange={handleChange} className="flex-1 w-full" />
             </div>
-            {error && (
+          </div>          
+        </div>
+        <div className="w-full">
+        <div className="flex space-x-4">
+            <div className="flex flex-col h-16 w-1/2">
+              <LabelStyle1 labelText="Email" labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700"/>
+              <TextBoxStyle2 type="text" name="email" placeholder="" value={StudentData.Email} onChange={handleChange} className="flex-1 w-full" />
+            </div>
+            <div className="flex flex-col h-16 w-1/2">
+              <LabelStyle1 labelText="Password" labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700"/>
+              <TextBoxStyle2 type="text" name="password" placeholder="" value={StudentData.Password} onChange={handleChange} className="flex-1 w-full" />
+            </div>
+          </div>     
+        </div>
+        </div>
+        </div>
+      {error && (
               <p className="text-red-500 text-center mt-4">{error}</p>
             )}
             {successMessage && (
               <p className="text-green-500 text-center mt-4">{successMessage}</p>
             )}
-          </div>
-        </form>
       </div>
     </div>
   );

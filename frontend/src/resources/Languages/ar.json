@@ -118,7 +118,17 @@
     "EnterLicenseCardID": "أدخل معرف بطاقة الرخصة",
     "EnterInternshipPlace": "أدخل مكان التدريب",
     "EnterInternshipPeriod": "أدخل مدة التدريب",
-    "requestID": "معرف الطلب"
-    
+    "requestID": "معرف الطلب",
+    "LessonTiming": "توقيت الدرس",
+    "CurrentDay": "اليوم الحالي",
+    "CurrentHour": "الساعة الحالية",
+    "NewDay": "اليوم الجديد",
+    "NewHour": "الساعة الجديدة",
+    "Saturday": "السبت",
+        "Sunday": "الأحد",
+        "Monday": "الإثنين",
+        "Tuesday": "الثلاثاء",
+        "Wednesday": "الأربعاء",
+        "Thursday": "الخميس"
   }
   
