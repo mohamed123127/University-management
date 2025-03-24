@@ -14,6 +14,7 @@ export default function MainPage({openedPage}){
     const [isOpenedSidebar,setIsOpenedSidebar] = useState(false);
     const [studentData, setStudentData] = useState(null);
     const [actualPage, setActualPage] = useState(null); // بدءًا بـ null
+    const [role, setRole] = useState(null);
 
     useEffect(() => {
         const fetchStudentData = async () => {
@@ -34,7 +35,15 @@ export default function MainPage({openedPage}){
             setActualPage(<EtudientDashboard studentName={studentData.FirstName} />);
         }
     }, [studentData]); // تحديث actualPage عند تغيير studentData
-
+      useEffect(() => {
+        const fetchRole = async () => {
+            const nrole = await Student.getStudentWithRole(localStorage.getItem('id'));
+            setRole(nrole); 
+        };
+    
+        fetchRole();
+    }, []);
+     
     return(
         <div>
                     <div className={`fixed md:static w-screen h-12 ltr:pr-0 rtl:pl-0 ${isOpenedSidebar ? "hidden md:block md:rtl:pr-60 md:ltr:pl-60" : "md:rtl:pr-16 md:ltr:pl-16"} bg-green-300`} >

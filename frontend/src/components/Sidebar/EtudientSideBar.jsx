@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dropdown from "components/custom controls/buttons/Dropdown";
 import SideBarItemWithList from "components/Sidebar/SideBarItemWithList";
 import SideBatItem from "components/Sidebar/SideBarItem";
@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
 
 
-export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen,studentData}) {
+export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen,studentData, studentRole}) {
   const [openedList, setOpenedList] = useState(""); // القائمة الفرعية المفتوحة
   const { t, i18n } = useTranslation();
 
@@ -66,6 +66,9 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
     setOpenedList('');
   }
 
+ 
+
+
   return (
     <div className={`${ClassName}`}>
       <div className={`relative flex flex-col bg-blue-600 h-screen p-1 text-white transition-all duration-500 ease-in-out`}>
@@ -77,6 +80,9 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
           </button>
         </div>
         <div className={`flex flex-col ${isOpen ? "items-center md:items-start" : ""} space-y-4 mt-20 h-full relative`}>
+       
+
+         
           <SideBatItem 
             OnClick={() => sidebarItemClickHundled('dashboard', <RxDashboard className="w-8 h-8" />, <EtudientDashboard studentName={studentData.FirstName}/>)} 
             itemIcon={<RxDashboard size='25'/>} 
@@ -94,23 +100,27 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             itemClickHandled={DocumentRequestListItemClickHundled}
             StudentData={studentData}
           />
-          <SideBarItemWithList 
-            OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests studentData={studentData}/>)} 
-            itemIcon={<EyeIcon />} 
-            Title={'visual_requests'} 
-            isOpen={isOpen} 
-            ItemsList={VisualRequestsItemsList} 
-            OpenedList={openedList} 
-            setOpenedList={setOpenedList}
-            itemClickHandled={VisualRequestsListItemClickHundled}
-            StudentData={studentData}
-          />
-          <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem Email={studentData.Email}/>)} 
-            itemIcon={<ExclamationCircleIcon />} 
-            Title={'report_problem'} 
-            isOpen={isOpen}
-          />
+     <SideBarItemWithList 
+  OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests studentData={studentData}/>)} 
+  itemIcon={<EyeIcon />} 
+  Title={'visual_requests'} 
+  isOpen={isOpen} 
+  ItemsList={VisualRequestsItemsList} 
+  OpenedList={openedList} 
+  setOpenedList={setOpenedList}
+  itemClickHandled={VisualRequestsListItemClickHundled}
+  StudentData={studentData}
+  ClassName={`${studentRole !== "Section Delegate" ? 'hidden':'visible' }`}
+ />
+
+<SideBatItem 
+  OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem Email={studentData.Email}/>)} 
+  itemIcon={<ExclamationCircleIcon />} 
+  Title={'report_problem'} 
+  isOpen={isOpen}
+  ClassName={`${studentRole !== "Section Delegate" ? 'hidden':'visible' }`}
+ />
+
           <SideBatItem 
             OnClick={() => sidebarItemClickHundled('manage_account', <UserCircleIcon className="w-8 h-8" />, <ManageAccount StudentData={studentData}/>)} 
             itemIcon={<UserCircleIcon />} 

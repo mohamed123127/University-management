@@ -47,6 +47,26 @@ try{
                 $response = ["success" => false, "message" => "Method does not match"];
             }
         break;
+        //---------------------------
+       case 'setRole':
+         if ($method == "POST" && isset($data['studentId']) && isset($data['role'])) {
+             $response = etudient::SetRole($conn, $data['studentId'], $data['role']);
+         } else {
+              $response = ["success" => false, "message" => "Invalid request"];
+         }
+       break;
+        
+       case 'getStudentWithRole':
+        if ($method == "GET" && isset($_GET['studentId'])) {
+            $studentId = $_GET['studentId'];
+            Etudient::getStudentWithRole($conn, $studentId);
+        } else {
+            echo json_encode(["success" => false, "message" => "Invalid request. studentId is required"]);
+        }
+        break;
+    
+    
+    
         case 'isExistEtudient':
             if($method == "POST"){
                 if (isset($data['email']) && isset($data['password'])) {
