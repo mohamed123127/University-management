@@ -5,7 +5,7 @@ import VisualRequests from "pages/StudentSide/VisualRequests";
 import { useTranslation } from "react-i18next";
 
 
-export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled,StudentData}) {
+export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList, OpenedList, setOpenedList, OnClick ,itemClickHandled,StudentData,  ClassName }) {
  
   const handleListClick = (listName) => {
     setOpenedList((prevList) => (prevList === listName ? "" : listName));
@@ -13,7 +13,7 @@ export default function SideBarItemWithList({ itemIcon, Title, isOpen, ItemsList
   const { t, i18n } = useTranslation();
 
   return (
-    <button onClick={OnClick} className={`flex flex-col items-center space-y-2 w-fit md:w-full`}>
+    <button onClick={OnClick} className={`flex flex-col items-center space-y-2 w-fit md:w-full ${ClassName} `}>
   {isOpen ? (
     <div
       className={`flex items-center justify-between cursor-pointer w-full hover:bg-blue-500 rounded relative ${

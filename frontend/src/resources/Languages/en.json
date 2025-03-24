@@ -116,7 +116,15 @@
     "EnterLicenseCardID": "Enter License Card ID",
     "EnterInternshipPlace": "Enter Internship Place",
     "EnterInternshipPeriod": "Enter Internship Period" ,
-    "requestID": "Request ID"
+    "requestID": "Request ID",
+    "bon_conduit": "Bon Conduit",
+  "classement": "Ranking",
+  "convention_de_stage": "Internship Agreement",
+  "copie_de_bac_rectorat": "Baccalaureate Copy ",
+  "releve_de_note_inh": "Grade Transcript ",
+  "block_d_annee_rectorat": "Year Block ",
+  "attestation_de_langue": "Language Certificate",
+  "accise_de_diplome": "Degree Access"
     
 
   }

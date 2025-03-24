@@ -14,6 +14,7 @@ export default function MainPage({openedPage}){
     const [isOpenedSidebar,setIsOpenedSidebar] = useState(false);
     const [studentData, setStudentData] = useState(null);
     const [actualPage, setActualPage] = useState(null); // بدءًا بـ null
+    const [role, setRole] = useState(null);
 
     useEffect(() => {
         const fetchStudentData = async () => {
@@ -34,13 +35,21 @@ export default function MainPage({openedPage}){
             setActualPage(<EtudientDashboard studentName={studentData.FirstName} />);
         }
     }, [studentData]); // تحديث actualPage عند تغيير studentData
-
+      useEffect(() => {
+        const fetchRole = async () => {
+            const nrole = await Student.getStudentWithRole(localStorage.getItem('id'));
+            setRole(nrole); 
+        };
+    
+        fetchRole();
+    }, []);
+     
     return(
         <div className="grid grid-cols-[1fr] grid-rows-[auto_1fr] h-screen bg-slate-400">
             <Header ClassName="justify-self-end row-start-1 h-16 w-full" StudentName={studentData ? studentData.LastName + " " + studentData.FirstName : ''} PageIcon={actualPageIcon} PageName={actualPageName} studentId={localStorage.getItem('id')} isOpenedSidebar={isOpenedSidebar} setIsOpenedSidebar={setIsOpenedSidebar} />            
             <div className="row-start-2 flex bg-yellow-400">
                 <div id="sidebar" className={`${isOpenedSidebar ? "w-full md:w-60" : "hidden md:block md:w-16"} h-full transition-all`} >
-                    <SideBar ClassName={`top-0 ltr:left-0 rtl:right-0`} SetActualPageName={setActualPageName} SetActualPageIcon={setActualPageIcon} SetActualPage={setActualPage} isOpen={isOpenedSidebar} setIsOpen={setIsOpenedSidebar} studentData={studentData}/>
+                    <SideBar ClassName={`top-0 ltr:left-0 rtl:right-0`} SetActualPageName={setActualPageName} SetActualPageIcon={setActualPageIcon} SetActualPage={setActualPage} isOpen={isOpenedSidebar} setIsOpen={setIsOpenedSidebar} studentData={studentData} studentRole={role}/>
                 </div>
                 <div className={`bg-gray-100 w-full h-full col-start-2 row-start-2 ${isOpenedSidebar ? "hidden md:block" : "block"}`}>
                 {actualPage}

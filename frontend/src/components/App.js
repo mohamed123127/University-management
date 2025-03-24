@@ -20,6 +20,7 @@ import StudentsTable from "pages/AdministrationSide/Students";
 import Login_SignUp from "pages/Authentication/Login_SignUp";
 import DocumentRequests from "pages/StudentSide/DocumentRequests";
 import Student from "js/models/Student";
+import StudentRoleSelector from "pages/test";
 
 const routes = [
   {

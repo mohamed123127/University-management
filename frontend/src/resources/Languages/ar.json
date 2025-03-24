@@ -118,7 +118,15 @@
     "EnterLicenseCardID": "أدخل معرف بطاقة الرخصة",
     "EnterInternshipPlace": "أدخل مكان التدريب",
     "EnterInternshipPeriod": "أدخل مدة التدريب",
-    "requestID": "معرف الطلب"
+    "requestID": "معرف الطلب",
+    "bon_conduit": "إفادة حسن السير",
+  "classement": "الترتيب",
+  "convention_de_stage": "اتفاقية تدريب",
+  "copie_de_bac_rectorat": "نسخة من البكالوريا",
+  "releve_de_note_inh": "كشف النقاط ",
+  "block_d_annee_rectorat": "حجب السنة ",
+  "attestation_de_langue": "شهادة اللغة",
+  "accise_de_diplome": "الوصول إلى الشهادة"
     
   }
   

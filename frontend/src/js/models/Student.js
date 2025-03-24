@@ -96,6 +96,26 @@ class Student
       alert("catch in getAll: " + error);
     }
   }
+
+  //------------------
+  static async setRole(studentId, role) {
+    try{
+    return await ApiOperator.post(this.StudentRootUrl + "setRole", { studentId , role });
+  }catch(error){alert("catch in setRole: " + error);}
+}
+
+static async getStudentWithRole(studentId) {
+  try {
+    const response = await ApiOperator.get(this.StudentRootUrl + "getStudentWithRole", { studentId });
+     return response.role; 
+  } catch (error) {
+      console.error("catch in getStudentWithRole:", error);
+  }
+}
+
+
+
+
 }
 
 export default Student;

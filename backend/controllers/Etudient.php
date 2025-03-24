@@ -312,5 +312,55 @@ class Etudient extends User {
             return(["success" => false, "message" => "An error occurred: " . $ex]);
         }
     }  
+//----------------------------------
+
+
+public static function SetRole($conn, $studentId, $role) {
+    try {
+        if ($role == 'Simple Student') {
+
+          $querydelete = "DELETE FROM StudentRole WHERE StudentId = ?";
+            $stmt = $conn->prepare($querydelete);
+            $stmt->execute([$studentId]);
+        } else {
+          
+            $query = "INSERT INTO StudentRole (StudentId, Role) 
+                      VALUES (?, ?) 
+                      ON DUPLICATE KEY UPDATE Role = ?";
+
+            $stmt = $conn->prepare($query);
+            $stmt->execute([$studentId, $role, $role]);
+        }
+
+        return ["success" => true, "message" => "Student set as $role"];
+    } catch (Exception $e) {
+        return ["success" => false, "error" => $e->getMessage()];
+    }
+
+    
+}
+
+
+public static function getStudentWithRole($conn, $studentId) {
+    try {
+        $query = "SELECT Role FROM StudentRole WHERE StudentId = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $studentId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $studentData = $result->fetch_assoc();
+        $role = $studentData ? $studentData['Role'] : "Simple Student";
+        
+        echo json_encode(["success" => true, "role" => $role]);
+        exit;
+    } catch (Exception $e) {
+        echo json_encode(["success" => false, "error" => $e->getMessage()]);
+        exit; 
+    }
+}
+
+
+
+
 }
 ?>

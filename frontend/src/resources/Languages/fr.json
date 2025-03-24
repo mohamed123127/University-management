@@ -117,7 +117,15 @@
       "EnterLicenseCardID": "Entrez l'ID de la carte de licence",
       "EnterInternshipPlace": "Entrez le lieu du stage",
       "EnterInternshipPeriod": "Entrez la période du stage" ,
-         "requestID": "ID de la demande"
+      "requestID": "ID de la demande" ,
+     "bon_conduit": "Bon de conduite",
+     "classement": "Classement",
+     "convention_de_stage": "Convention de stage",
+     "copie_de_bac_rectorat": "Copie du Bac ",
+     "releve_de_note_inh": "Relevé de notes ",
+     "block_d_annee_rectorat": "Blocage d'année ",
+     "attestation_de_langue": "Attestation de langue",
+     "accise_de_diplome": "Accès au diplôme"    
     
 
   }
