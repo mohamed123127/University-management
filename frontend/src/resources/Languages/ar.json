@@ -127,8 +127,6 @@
   "block_d_annee_rectorat": "حجب السنة ",
   "attestation_de_langue": "شهادة اللغة",
   "accise_de_diplome": "الوصول إلى الشهادة",
-    
-    "requestID": "معرف الطلب",
     "LessonTiming": "توقيت الدرس",
     "CurrentDay": "اليوم الحالي",
     "CurrentHour": "الساعة الحالية",
@@ -139,6 +137,7 @@
         "Monday": "الإثنين",
         "Tuesday": "الثلاثاء",
         "Wednesday": "الأربعاء",
-        "Thursday": "الخميس"
+        "Thursday": "الخميس",
+    "Branch": "الفرع"
   }
   

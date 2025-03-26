@@ -7,6 +7,7 @@ import ComboBoxStyle1 from "../custom controls/combo box/ComboBoxStyle1";
 import Language from "components/Basics/Language";
 import i18n from 'i18next';
 import Student from "js/models/Student";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,setCurrentLanguage}) {
@@ -24,7 +25,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
 
     useEffect(()=>{
       const params = new URLSearchParams(window.location.search);
-        const email = params.get('email');
+      const email = params.get('email');
       if(email) SignUpFormData.email = email;
     },[])
 
@@ -35,8 +36,10 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
 
     const GroupOptions = ['1', '2', '3' , '4' , '5'];
     const SectionOptions = ['1', '2'];
-    const specialityOptions = ['Isil', 'Si'];
-    const academicYearOptions = ['Licence 1', 'Licence 2', 'Licence 3', 'Master 1', 'Master 2'];
+    const Branchs = ['LMD','ING',"LP"];
+    const [academicYearOptions,setAcademicYearOptions] = useState(['Licence 1', 'Licence 2', 'Licence 3', 'Master 1', 'Master 2']);
+    const [specialityOptions,setSpecialityOptions] = useState([]);
+    const [specialityVisibility,setSpecialityVisibility] = useState(false);
 
     const [SignUpFormData, setSignUpFormData] = useState({
         matricule: '',
@@ -44,6 +47,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         lastName: '',
         section: '',
         group: '',
+        Branch: 'LMD',
         educationYear: '',
         specialty: '',
         email: '',
@@ -51,7 +55,8 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         confirmPassword: ''
     });
 
-    useEffect(() => {
+    {/*
+      useEffect(() => {
       if (SignUpFormData.educationYear === 'Licence 3') {
         setSpecialityComboBoxDisabled(false);
       } else {
@@ -62,10 +67,13 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         }));
       }
   }, [SignUpFormData.educationYear]);
+      */}
 
 
-    const [specialityComboBoxDisabled, setSpecialityComboBoxDisabled] = useState(true);
+    /*const [specialityComboBoxDisabled, setSpecialityComboBoxDisabled] = useState(true);*/
 
+
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setSignUpFormData((prevData) => ({
@@ -74,7 +82,61 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         }));
     };
 
-    
+    const BranchsHandleChange = (e)=>{
+      handleChange(e);
+      switch(e.target.value){
+        case 'LMD':
+          setAcademicYearOptions(['Licence 1', 'Licence 2', 'Licence 3', 'Master 1', 'Master 2']);
+          SignUpFormData.educationYear = "Licence 1";
+          setSpecialityVisibility(false);
+          break;
+          case 'ING':
+          setAcademicYearOptions(['ingenieur 1','ingenieur 2','ingenieur 3','ingenieur 4','ingenieur 5',]);
+          SignUpFormData.educationYear = "ingenieur 1";
+          setSpecialityVisibility(false);
+          break;
+          case 'LP':
+            setAcademicYearOptions(['Licence 1', 'Licence 2', 'Licence 3']);
+            SignUpFormData.educationYear = "Licence 1";
+            setSpecialityVisibility(false);
+            break;
+          default:
+            break;
+      }
+    };
+
+    const EducationYearHandChange = (e)=>{
+      handleChange(e);
+      switch(e.target.value){
+        case 'Master 1':
+          setSpecialityVisibility(true);
+          setSpecialityOptions(['IA 1','CS 2']);
+          break;
+          case 'Master 2':
+            setSpecialityVisibility(true);
+            setSpecialityOptions(['IA 3','CS 4']);
+          break;
+          case 'ingenieur 3':
+            setSpecialityVisibility(true);
+            setSpecialityOptions(['IA 1','CS 2']);
+            break;
+          case 'ingenieur 5':
+            setSpecialityVisibility(true);
+            setSpecialityOptions(['IA 3','CS 4']);
+            break;
+            case 'Licence 3':
+              setSpecialityVisibility(true);
+              if(SignUpFormData.Branch === "LMD"){
+                setSpecialityOptions(['ISIL','SI']);
+              }else{
+                setSpecialityOptions(['IA 2','CS 3']);
+              }
+            break;
+          default:
+            setSpecialityVisibility(false);
+            break;
+      }
+    };
 
     const SignUpButtonHandled = async () => {
         if (SignUpFormData.password !== SignUpFormData.confirmPassword) {
@@ -107,20 +169,20 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                 <div className="space-y-4">
                     <div className="flex">
                         <div className="flex flex-col ml-1 mr-1 w-full">
-                            <LabelStyle1 labelText={`${'FirstName'}:`} labelClassName="text-sm ml-1 mr-1" />
+                            <LabelStyle1 labelText={`${t('FirstName')} :`} labelClassName="text-sm ml-1 mr-1" />
                             <TextBoxStyle2
                                 Name='firstName'
-                                placeholder={`${'FirstName'}`}
+                                placeholder={`${t('FirstName')}`}
                                 value={SignUpFormData.firstName}
                                 onChange={handleChange}
                                 textBoxClassName="w-full border rounded-md shadow-sm pr-1"
                             />
                         </div>
                         <div className="flex flex-col mr-1 w-full">
-                            <LabelStyle1 labelText={`${'LastName'}:`} labelClassName="text-sm ml-1" />
+                            <LabelStyle1 labelText={`${t('LastName')} :`} labelClassName="text-sm ml-1" />
                             <TextBoxStyle2
                                 Name='lastName'
-                                placeholder={`${'LastName'}`}
+                                placeholder={`${t('LastName')}`}
                                 value={SignUpFormData.lastName}
                                 onChange={handleChange}
                                 textBoxClassName="w-full border rounded-md shadow-sm pr-1"
@@ -129,7 +191,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                     </div>
 
                     <div className="flex space-x-1 items-center">
-                        <LabelStyle1 labelText={`${'Matricule'}:`} labelClassName="text-sm ml-1 text-nowrap" />
+                        <LabelStyle1 labelText={`${t('Matricule')} :`} labelClassName="text-sm ml-1 text-nowrap" />
                         <TextBoxStyle2
                             Name='matricule'
                             placeholder="222231354689"
@@ -139,27 +201,35 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                         />
                     </div>
 
-          <div className="flex space-x-1 items-center w-[90%]">
-            <LabelStyle1 labelText={`${'AcademicYear'}:`} labelClassName="text-sm ml-1 text-nowrap" />
+          <div className="flex space-x-1 items-center">
+          <LabelStyle1 labelText={`${t('Branch')} :`} labelClassName="text-sm ml-1 text-nowrap" />
+            <ComboBoxStyle1
+              Name="Branch"
+              options={Branchs}
+              value={SignUpFormData.Branch}
+              onChange={BranchsHandleChange}
+              comboBoxClassName={`${specialityVisibility ? 'w-fit' : 'w-full'}`}
+            />
+            <LabelStyle1 labelText={`${t('AcademicYear')} :`} labelClassName="text-sm ml-1 text-nowrap" />
             <ComboBoxStyle1
               Name="educationYear"
               options={academicYearOptions}
               value={SignUpFormData.educationYear}
-              onChange={handleChange}
+              onChange={EducationYearHandChange}
               comboBoxClassName={`w-full`}
             />
-            <LabelStyle1 labelText={`${'Speciality'}:`} labelClassName="text-sm ml-1" />
+            <LabelStyle1 labelText={`${t('Speciality')} :`} labelClassName={`text-sm ml-1 text-nowrap ${specialityVisibility ? 'block' : 'hidden'}`}/>
             <ComboBoxStyle1
               Name="specialty"
               options={specialityOptions}
               value={SignUpFormData.specialty}
               onChange={handleChange}
-              disabled={specialityComboBoxDisabled}
-              comboBoxClassName={`${specialityComboBoxDisabled ? 'bg-gray-200 cursor-not-allowed' : 'bg-white'} w-full`}
+              comboBoxClassName={` ${specialityVisibility ? 'block' : 'hidden'} w-fit`}
             />
           </div>
-          <div className="flex space-x-1 items-center w-[90%]">
-            <LabelStyle1 labelText={`${'Section'}:`} labelClassName="text-sm ml-1 text-nowrap" />
+
+          <div className="flex space-x-1 items-center">
+            <LabelStyle1 labelText={`${t('Section')} :`} labelClassName="text-sm ml-1 text-nowrap" />
             <ComboBoxStyle1
               Name="section"
               options={SectionOptions}
@@ -167,7 +237,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
               onChange={handleChange}
               comboBoxClassName={`w-full`}
             />
-            <LabelStyle1 labelText={`${'Group'}:`} labelClassName="text-sm ml-1" />
+            <LabelStyle1 labelText={`${t('Group')} :`} labelClassName="text-sm ml-1 text-nowrap" />
             <ComboBoxStyle1
               Name="group"
               options={GroupOptions}
@@ -180,7 +250,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                    
 
                     <div className="flex space-x-1">
-                        <LabelStyle1 labelText={`${'Email'}:`} labelClassName="text-md w-auto ml-1" />
+                        <LabelStyle1 labelText={`${t('Email')} :`} labelClassName="text-md w-auto ml-1" />
                         <TextBoxStyle2
                             Name='email'
                             textBoxtype='email'
@@ -193,22 +263,22 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
 
                     <div className="flex space-x-1 w-full">
                         <div className="flex flex-col ml-1 w-full">
-                            <LabelStyle1 labelText={`${'Password'}:`} labelClassName="text-sm mr-1" />
+                            <LabelStyle1 labelText={`${t('Password')} :`} labelClassName="text-sm mr-1" />
                             <TextBoxStyle2
                                 Name='password'
                                 type='password'
-                                placeholder={`${'Password'}`}
+                                placeholder={`${t('Password')}`}
                                 value={SignUpFormData.password}
                                 onChange={handleChange}
                                 textBoxClassName="w-[90%] border rounded-md shadow-sm pr-1"
                             />
                         </div>
                         <div className="flex flex-col w-full">
-                            <LabelStyle1 labelText={`${'ConfirmPassword'}:`} labelClassName="text-sm mr-1 text-nowrap" />
+                            <LabelStyle1 labelText={`${t('ConfirmPassword')} :`} labelClassName="text-sm mr-1 text-nowrap" />
                             <TextBoxStyle2
                                 Name='confirmPassword'
                                 type='password'
-                                placeholder={`${'ConfirmPassword'}`}
+                                placeholder={`${t('ConfirmPassword')}`}
                                 value={SignUpFormData.confirmPassword}
                                 onChange={handleChange}
                                 textBoxClassName="w-full border rounded-md shadow-sm pr-1"
@@ -219,7 +289,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
 
            
         <ButtonStyle1
-          buttonText={`${'SignUp'}`}
+          buttonText={`${t('SignUp')}`}
           buttonClassName="items-center w-full mt-8"
           onClick={SignUpButtonHandled}
         />

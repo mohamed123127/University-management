@@ -127,8 +127,7 @@
         "Monday": "Monday",
         "Tuesday": "Tuesday",
         "Wednesday": "Wednesday",
-        "Thursday": "Thursday"
-    "requestID": "Request ID",
+        "Thursday": "Thursday",
     "bon_conduit": "Bon Conduit",
   "classement": "Ranking",
   "convention_de_stage": "Internship Agreement",
@@ -136,8 +135,8 @@
   "releve_de_note_inh": "Grade Transcript ",
   "block_d_annee_rectorat": "Year Block ",
   "attestation_de_langue": "Language Certificate",
-  "accise_de_diplome": "Degree Access"
-    
+  "accise_de_diplome": "Degree Access",
+    "Branch": "Branch"
 
   }
   
