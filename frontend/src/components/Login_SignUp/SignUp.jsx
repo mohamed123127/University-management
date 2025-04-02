@@ -110,26 +110,18 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
       switch(e.target.value){
         case 'Master 1':
           setSpecialityVisibility(true);
-          setSpecialityOptions(['IA 1','CS 2']);
-          break;
-          case 'Master 2':
-            setSpecialityVisibility(true);
-            setSpecialityOptions(['IA 3','CS 4']);
+          setSpecialityOptions(['ILT','TI']);
           break;
           case 'ingenieur 3':
             setSpecialityVisibility(true);
-            setSpecialityOptions(['IA 1','CS 2']);
-            break;
-          case 'ingenieur 5':
-            setSpecialityVisibility(true);
-            setSpecialityOptions(['IA 3','CS 4']);
+            setSpecialityOptions(['GL']);
             break;
             case 'Licence 3':
               setSpecialityVisibility(true);
               if(SignUpFormData.Branch === "LMD"){
                 setSpecialityOptions(['ISIL','SI']);
               }else{
-                setSpecialityOptions(['IA 2','CS 3']);
+                setSpecialityOptions(['DWI']);
               }
             break;
           default:
