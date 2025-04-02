@@ -143,7 +143,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                         </div>
                     </button>
                     </form>
-                    <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'visible' : 'hidden'}`}>{`${t('DontHaveAccount')}`} <button ref={SignUpButton} onClick={SignUpButtonHandled} className="text-blue-400">{`${t('SignUp')}`}</button></p>
+                    <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'visible' : 'hidden'}`}>{`${t('DontHaveAccount')}`} <button ref={SignUpButton} disabled onClick={SignUpButtonHandled} className="text-blue-400 opacity-50 cursor-not-allowed">{`${t('SignUp')}`}</button></p>
 
                     <ToggleButton toggleButtonClassName="absolute bottom-4" leftLabel={`${'Administration'}`} rightLabel={`${'Student'}`} onToggle={setIsStudent}/>
             </div>
