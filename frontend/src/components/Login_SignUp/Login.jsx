@@ -44,7 +44,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
     };
     const [isStudent,setIsStudent] = useState(true);
     const [loginFormData,setLoginFormData] = useState({
-        email:'',
+        matricule:'',
         password:''
     });
 
@@ -52,9 +52,9 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
         e.preventDefault();
         try{
             let data ;
-            if(isStudent) data = await Student.isExistEtudient(loginFormData.email,loginFormData.password);
+            if(isStudent) data = await Student.isExistEtudient(loginFormData.matricule,loginFormData.password);
           
-            else data = await Administration.isExistAdmin(loginFormData.email,loginFormData.password); //await Administration.isExistEtudient(loginFormData.email,loginFormData.password);
+            else data = await Administration.isExistAdmin(loginFormData.matricule,loginFormData.password); //await Administration.isExistEtudient(loginFormData.email,loginFormData.password);
          
             if (data.success === true) {
             localStorage.setItem('jwt', data.token); // تخزين التوكن في Local Storage
@@ -126,9 +126,9 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                         </div>
                     {/* Login_SignUp form */}
                     <form className="bg-white flex flex-col w-[80%]">
-                    <LabelStyle1 labelText={`${'Email'}:`} labelClassName="text-md"/>
-                    <TextBoxStyle2 Name='email' placeholder="Example@gmail.com" value={loginFormData.email} onChange={handleChange} textBoxClassName="w-full pr-1"/>
-                    <LabelStyle1 labelText={`${'Password'}:`} labelClassName="text-md mt-5"/>
+                    <LabelStyle1 labelText='Matricule' labelClassName="text-md"/>
+                    <TextBoxStyle2 Name='matricule' placeholder="22227653984" value={loginFormData.matricule} onChange={handleChange} textBoxClassName="w-full pr-1"/>
+                    <LabelStyle1 labelText='Password' labelClassName="text-md mt-5"/>
                     <TextBoxStyle2 type="password" Name='password' placeholder={`${'Password'}`} value={loginFormData.password} onChange={handleChange} textBoxClassName="w-full pr-1"/>
                     <a href="#" className="self-end text-sm text-blue-400 max-w-fit">{`${t('ForgotPassword')}`}</a>
                     <ButtonStyle1 buttonText={`${'Login'}`} buttonClassName="mt-5" onClick={LoginButtonHandled}/>
@@ -143,7 +143,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                         </div>
                     </button>
                     </form>
-                    <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'visible' : 'hidden'}`}>{`${t('DontHaveAccount')}`} <button ref={SignUpButton} disabled onClick={SignUpButtonHandled} className="text-blue-400 opacity-50 cursor-not-allowed">{`${t('SignUp')}`}</button></p>
+                    <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'visible' : 'hidden'}`}>{`${t('DontHaveAccount')}`} <button ref={SignUpButton}  onClick={SignUpButtonHandled} className="text-blue-400 opacity-50 cursor-not-allowed">{`${t('SignUp')}`}</button></p>
 
                     <ToggleButton toggleButtonClassName="absolute bottom-4" leftLabel={`${'Administration'}`} rightLabel={`${'Student'}`} onToggle={setIsStudent}/>
             </div>

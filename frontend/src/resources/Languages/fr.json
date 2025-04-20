@@ -137,7 +137,18 @@
      "block_d_annee_rectorat": "Blocage d'année ",
      "attestation_de_langue": "Attestation de langue",
      "accise_de_diplome": "Accès au diplôme",
-     "Branch": "Branche" 
+     "Branch": "Branche" ,
+      "changePassword": "Changer le mot de passe",
+      "update": "Mettre à jour",
+      "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+      "allFieldsRequired": "Tous les champs sont obligatoires",
+      "fieldRequired": "Le champ est obligatoire",
+      "rejectionReason": "Raison du rejet de la demande",
+      "rejectionNote": "Remarque sur la raison du rejet",
+    "reason": "La raison",
+  "requestRejectionNumber": "Rejet de la demande numéro",
+  "notifications": "Notifications",
+  "changePasswordOnFirstLoginForSecurityReason": "Le mot de passe doit être changé lors de la première connexion pour des raisons de sécurité"
     
 
   }

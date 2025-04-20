@@ -19,14 +19,38 @@ class Student
     }
   }
 
-  static async isExistEtudient(Email, Password) 
+  static async importStudents(data) 
   {
     try 
     {
-        const result = await ApiOperator.post(this.StudentRootUrl + "isExistEtudient", {email: Email,password: Password});
+        const result = await ApiOperator.post(this.StudentRootUrl + "importStudents", data);
+        console.log(result);
+        return result;
+    } catch (error) {
+        alert("catch in importStudents: " + error);
+    }
+  }
+
+  static async isExistEtudient(Matricule, Password) 
+  {
+    try 
+    {
+      //alert(Matricule +"\n"+ Password);
+        const result = await ApiOperator.post(this.StudentRootUrl + "isExistEtudient", {matricule: Matricule,password: Password});
         return result; 
     } catch (error) {
         alert("catch in isExistEtudient: " + error);
+    }
+  }
+
+  static async firstLoginProcess(studentId, Password) 
+  {
+    try 
+    {
+        const result = await ApiOperator.post(this.StudentRootUrl + "firstLoginProcess", {studentId: studentId,password: Password});
+        return result; 
+    } catch (error) {
+        alert("catch in firstLoginProcess: " + error);
     }
   }
 

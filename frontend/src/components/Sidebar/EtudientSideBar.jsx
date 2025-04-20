@@ -66,9 +66,6 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
     setOpenedList('');
   }
 
- 
-
-
   return (
     <div className={`${ClassName}`}>
       <div className={`relative flex flex-col bg-blue-600 h-screen p-1 text-white transition-all duration-500 ease-in-out`}>

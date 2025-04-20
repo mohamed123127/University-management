@@ -136,7 +136,18 @@
   "block_d_annee_rectorat": "Year Block ",
   "attestation_de_langue": "Language Certificate",
   "accise_de_diplome": "Degree Access",
-    "Branch": "Branch"
-
+    "Branch": "Branch",
+      "changePassword": "Change Password",
+      "update": "Update",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "allFieldsRequired": "All fields are required",
+      "fieldRequired": "This field is required",
+      "rejectionReason": "Reason for request rejection",
+      "rejectionNote": "Note regarding the rejection reason",
+    "reason": "Reason",
+  "requestRejectionNumber": "Request rejection number",
+  "notifications": "Notifications",
+  "changePasswordOnFirstLoginForSecurityReason": "You must change your password on first login for security reasons"
+    
   }
   

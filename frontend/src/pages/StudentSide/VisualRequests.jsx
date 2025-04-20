@@ -43,7 +43,9 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
 
     useEffect(()=>{
         const loadData =async()=>{
+            const data = await VirtualRequests.getById(studentData.Id);
             setData(await VirtualRequests.getById(studentData.Id));
+            console.log(data);
         }
          loadData();
 
@@ -56,8 +58,9 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
 
     const columns = [
        
+        { name: "Id", Header: t('ID'), width: "5%" },
         { name: "Type", Header: t('RequestType'), width: "20%" },
-        { name: "Status", Header: t('Status'), width: "15%" },
+        { name: "Status", Header: t('Status'), width: "12%" },
         { name: "OldValue", Header: t('CurrentValue'), width: '20%' },
         { name: "NewValue", Header: t('NewValue'), width: '20%' },
         { name: "SubmissionDate", Header: t('SubmissionDate'), width: "12%" },
