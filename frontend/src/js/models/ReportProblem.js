@@ -29,6 +29,24 @@ class ReportProblem
       console.log(error);
     }
   }
+  //==========================
+  static async sendReply(email, message) {
+    try {
+      const data = { email, message };
+      console.log("📤 Sending request:", data); // ✅ عرض البيانات قبل الإرسال
+
+      const result = await ApiOperator.post(this.ReportProblemRootUrl + "sendReply", data);
+
+      console.log("📥 Response from API:", result); // ✅ عرض الرد من API
+
+      return result;
+    } catch (error) {
+      console.error("❌ Error in sendReply:", error);
+      alert("Error in sendReply: " + error);
+    }
+}
+
+
 }
 
 export default ReportProblem;

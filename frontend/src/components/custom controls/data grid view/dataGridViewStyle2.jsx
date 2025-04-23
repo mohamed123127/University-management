@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import Student from "js/models/Student";
 import { FaCheck } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
@@ -12,6 +12,11 @@ import Announcement from "js/models/Announcement";
 function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
     const { t } = useTranslation();
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
+    const totalPages = Data ? Math.ceil(Data.length / itemsPerPage) : 1;
+    const paginatedData = Data ? Data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage) : [];
+
     const roles = [
         { label: "Simple Student", className: "bg-gray-200 text-black" },
         { label: "Group Delegate", className: "bg-blue-200 text-black" },
@@ -22,28 +27,21 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
     if (!Columns || !Data) {
         return <div>Loading...</div>;
     }
+   
+    const goToPage = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
 
     const toggleActive = async (rowIndex, row) => {
-        await Student.changeStatus({ "id": row.Id, "status": !row.Active });
-
-        setData((prevStudents) => {
-            const updatedStudents = [...prevStudents];
-            if (updatedStudents[rowIndex]) {
-                updatedStudents[rowIndex] = {
-                    ...updatedStudents[rowIndex],
-                    Active: updatedStudents[rowIndex].Active === 1 ? 0 : 1
-                };
-            } else {
-                console.error("Row index out of bounds");
-            }
-            return updatedStudents;
-        });
+        await Student.changeStatus({ id: row.Id, status: !row.Active });
+        setData((prev) => prev.map((r, i) => (i === rowIndex ? { ...r, Active: r.Active === 1 ? 0 : 1 } : r)));
     };
 
     const AcceptButtonClick = async (row) => {
         const request = await VirtualRequests.getByRequestId(row.Id);
-        const studentId = request[0].StudentId;
-        ChangeRequests.accepteRequest(row.Id, row.Type, row.NewValue, studentId);
+        ChangeRequests.accepteRequest(row.Id, row.Type, row.NewValue, request[0].StudentId);
         setData(Data.filter((r) => r.Id !== row.Id));
     };
 
@@ -80,14 +78,40 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
         });
     };
 
-    const handleRoleChange = async (rowIndex, row, event) => {
-        const newRole = event.target.value;
-        await Student.setRole(row.Id, newRole);
-        setData((prevStudents) => {
-            const updatedStudents = [...prevStudents];
-            updatedStudents[rowIndex] = { ...updatedStudents[rowIndex], Role: newRole };
-            return updatedStudents;
-        });
+    const handleRoleChange = async (row, value) => {
+        setData(prevData =>
+            prevData.map(Row =>
+                Row === row ? { ...Row, Role: value } : Row
+            )
+        );
+        try {
+            const response = await Student.setRole(row.Id, value);
+            
+            if (!response.success) {
+                alert("Error\n" + response.message);
+            }
+        } catch (error) {
+            console.error("Error updating role:", error);
+            alert("Error in updating role: " + error.message);
+        }
+    };
+
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        let startPage = Math.max(currentPage - 2, 1);
+        let endPage = Math.min(currentPage + 2, totalPages);
+
+        if (startPage > 1) pageNumbers.push(1);
+        if (startPage > 2) pageNumbers.push("...");
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+
+        if (endPage < totalPages - 1) pageNumbers.push("...");
+        if (endPage < totalPages) pageNumbers.push(totalPages);
+
+        return pageNumbers;
     };
 
     return (
@@ -95,62 +119,43 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
             <table className="min-w-full">
                 <thead className="bg-gray-100">
                     <tr>
-                        {(Columns || []).map((column) => (
-                            <th
-                                key={column.name}
-                                className="px-4 py-2 border-b border-gray-300 text-left text-sm font-medium text-gray-700"
-                                style={{ width: column.width }}
-                            >
+                        {Columns.map((column) => (
+                            <th key={column.name} className="px-4 py-2 border-b text-left text-sm font-medium text-gray-700" style={{ width: column.width }}>
                                 {t(column.Header)}
                             </th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {Data.length > 0 ? (
-                        (Data || []).map((row, rowIndex) => (
-                            <tr
-                                key={rowIndex}
-                                className={`border-b transition duration-200 ${
-                                    rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"
-                                } hover:bg-gray-200`}
-                            >
-                                {(Columns || []).map((column, colIndex) => (
+                    {paginatedData.length > 0 ? (
+                        paginatedData.map((row, rowIndex) => (
+                            <tr key={rowIndex} className={`border-b ${rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-gray-200`}>
+                                {Columns.map((column, colIndex) => (
                                     <td key={colIndex} className="px-4 py-2 text-sm text-gray-600">
                                         {column.name === "Action" ? (
                                             <button
                                                 onClick={() => toggleActive(rowIndex, row)}
-                                                className={`px-3 py-1 rounded text-white transition duration-200 ${
-                                                    row.Active
-                                                        ? "bg-green-500 w-[80px] hover:bg-green-600"
-                                                        : "bg-red-500 w-[80px] hover:bg-red-600"
-                                                }`}
+                                                className={`px-3 py-1 rounded text-white transition ${row.Active ? "bg-green-500 w-[80px] hover:bg-green-600" : "bg-red-500 w-[80px] hover:bg-red-600"}`}
                                             >
                                                 {row.Active ? t("Active") : t("desactive")}
                                             </button>
                                         ) : column.name === "YesNoButtons" ? (
                                             <div className="flex gap-2">
-                                                <button
-                                                    className="flex items-center bg-green-500 text-white py-1 px-1 rounded hover:bg-green-600"
-                                                    onClick={() => AcceptButtonClick(row)}
-                                                >
+                                                <button className="bg-green-500 text-white py-1 px-1 rounded hover:bg-green-600" onClick={() => AcceptButtonClick(row)}>
                                                     <FaCheck className="w-5 h-5" />
                                                 </button>
-                                                <button
-                                                    className="flex items-center bg-red-500 text-white py-1 px-1 rounded hover:bg-red-600"
-                                                    onClick={() => RefusedButtonClick(row)}
-                                                >
-                                                    <IoCloseSharp className="w-5 h-5 text-3xl font-extrabold" style={{ strokeWidth: 40 }} />
+                                                <button className="bg-red-500 text-white py-1 px-1 rounded hover:bg-red-600" onClick={() => RefusedButtonClick(row)}>
+                                                    <IoCloseSharp className="w-5 h-5 text-3xl font-extrabold" />
                                                 </button>
                                             </div>
                                         ) : column.name === "Role" ? (
                                             <ComboBoxStyle2
-                                                Name={`role-${rowIndex}`}
-                                                options={roles}
-                                                value={row.Role}
-                                                onChange={(e) => handleRoleChange(rowIndex, row, e)}
-                                                comboBoxClassName="w-full"
-                                            />
+                                            key={rowIndex}
+                                             Name={`role-${rowIndex}`} 
+                                             options={roles} 
+                                             value={row.Role} 
+                                             onChange={(e) => handleRoleChange(row, e.target.value)} 
+                                             comboBoxClassName="w-full" />
                                         ) : (
                                             row[column.name]
                                         )}
@@ -160,13 +165,24 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={Columns.length} className="p-3 text-center text-gray-500">
-                                No data to show
-                            </td>
+                            <td colSpan={Columns.length} className="p-3 text-center text-gray-500">No data to show</td>
                         </tr>
                     )}
                 </tbody>
             </table>
+            <div className="flex justify-center items-center mt-4 gap-2 pt-2 pb-2">
+                <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 bg-gray-300 text-gray-700 rounded disabled:opacity-50">{"<"}</button>
+                {renderPageNumbers().map((page, index) => (
+                    <button
+                        key={index}
+                        onClick={() => goToPage(page)}
+                        className={`px-3 py-1 rounded ${currentPage === page ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"}`}
+                    >
+                        {page}
+                    </button>
+                ))}
+                <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="px-3 py-1 bg-gray-300 text-gray-700 rounded disabled:opacity-50">{">"}</button>
+            </div>
         </div>
     );
 }

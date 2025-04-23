@@ -57,9 +57,8 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
         t('bon_conduit'),
         t('classement'),
         t('convention_de_stage'),
-        t('copie_de_bac_rectorat'),
-        t('releve_de_note_inh'),
-        t('block_d_annee_rectorat'),
+        t('copie_de_bac'),
+        t('releve_de_note'),
         t('attestation_de_langue'),
         t('accise_de_diplome')
     ];
@@ -78,6 +77,7 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
   },[])
     const AddButtonClickHandled = () => {
       switch(docunentType){
+       
           case t('registration_certificate'):
               window.open(`/DocumentRequest/RegistrationCertificate/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&educationYear=${StudentData.EducationYear}&faculty=${StudentData.Faculty}&Speciality=${StudentData.Speciality}`, "_blank");
           break;
@@ -98,8 +98,19 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
               window.open(`/DocumentRequest/StudentIDCard/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}`, "_blank");
           break;
           case t('block_academic_year'):
-              window.open(`/DocumentRequest/BlockAcademicYear/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}`, "_blank");
+            alert("Go to : Rectora)");
           break;
+         
+          case t(''):
+            alert("Go to : ");
+         break;
+         case t(''):
+            alert("Go to :");
+         break;
+          
+        
+            
+         
 
 
           default:

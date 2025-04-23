@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ComboBoxStyle1 from 'components/custom controls/combo box/ComboBoxStyle1';
@@ -13,12 +14,14 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const { t, i18n } = useTranslation(); 
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
     const [selectedDemande, setSelectedDemande] = useState('');
-    const [currentGroup] = useState(studentData.group);
-    const [currentSection] = useState(studentData.section);
-    const [currentSpeciality] = useState(studentData.speciality);
-    const [newGroup, setNewGroup] = useState('');
-    const [newSection, setSelectedSection] = useState('');
-    const [newSpeciality, setSelectedSpeciality] = useState('');
+    const [matricule1, setmatricule1] = useState('');
+    const [matricule2, setmatricule2] = useState('');
+    const [newGroup1, setNewGroup1] = useState('');
+    const [newGroup2, setNewGroup2] = useState('');
+    const [newSection1, setSelectedSection1] = useState('');
+    const [newSection2, setSelectedSection2] = useState('');
+    const [newSpeciality1, setSelectedSpeciality1] = useState('');
+    const [newSpeciality2, setSelectedSpeciality2] = useState('');
     const [currentDay,setCurrentDay] = useState('');
     const [currentHour,setCurrentHour] = useState('');
     const [newDay,setNewDay] = useState('');
@@ -57,15 +60,17 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const specialityOptions = ['Isil', 'Si'];
 
     const columns = [
-       
         { name: "Id", Header: t('ID'), width: "5%" },
-        { name: "Type", Header: t('RequestType'), width: "20%" },
-        { name: "Status", Header: t('Status'), width: "12%" },
-        { name: "OldValue", Header: t('CurrentValue'), width: '20%' },
-        { name: "NewValue", Header: t('NewValue'), width: '20%' },
+        { name: "Type", Header: t('RequestType'), width: "15%" },
+        { name: "Status", Header: t('Status'), width: "10%" },
+        { name: "Matricule1", Header: t('Matricule 1'), width: "10%" },
+        { name: "NewValue1", Header: t('New Value 1'), width: "10%" },
+        { name: "Matricule2", Header: t('Matricule 2'), width: "10%" },
+        { name: "NewValue2", Header: t('New Value 2'), width: "10%" },
         { name: "SubmissionDate", Header: t('SubmissionDate'), width: "12%" },
-        { name: "LastUpdatedDate", Header: t('LastUpdatedDate'), width: "13%" }
+        { name: "LastUpdatedDate", Header: t('LastUpdatedDate'), width: "13%" },
     ];
+    
     
     const [data , setData]=useState([]);
 
@@ -77,122 +82,202 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         setCurrentLanguage(lang);
     };
 
-    const getOldValue = ()=>{
-        if(selectedDemande === t('Group'))
-        {
-            return studentData.Grp;
-        }
-        else if(selectedDemande === t('Section'))
-        {
-            return studentData.Section;
-        }
-        else if(selectedDemande === t('Speciality'))
-        {
-            return studentData.Speciality;
-        }
-        else if(selectedDemande === t('LessonTiming'))
-            {
-                return currentDay + " " + currentHour;
-            }
-    }
-
     const getNewValue = ()=>{
         if(selectedDemande === t('Group'))
         {
-            return newGroup;
+            return [newGroup1,newGroup2];
         }
         else if(selectedDemande === t('Section'))
         {
-            return newSection;
+            return [newSection1,newSection2];
         }
         else if(selectedDemande === t('Speciality'))
         {
-            return newSpeciality;
+            return [newSpeciality1,newSpeciality2];
         }
         else if(selectedDemande === t('LessonTiming'))
             {
                 return newDay + " " + newHour;
             }
     }
-
-    const addButtonHandled = async ()=>{
-        try{
+    const addButtonHandled = async () => {
+        try {
+            const [newVal1, newVal2] = getNewValue(); 
+    
             const result = await ChangeRequests.add({
-                "type":selectedDemande,
-                "oldValue":getOldValue(),
-                "newValue":getNewValue(),
-                "studentId":studentData.Id
-
-            })
+                type: selectedDemande,
+                newValue1: newVal1,
+                newValue2: newVal2,
+                studentId: studentData.Id,
+               matricule1: matricule1, 
+               matricule2: matricule2  
+            });
+    
             if (result.success === true) {
     
-              const newData = {
-              Type: selectedDemande, 
-              OldValue: getOldValue(),
-               NewValue: getNewValue(),
-                Status : "Pending",
-               SubmissionDate : new Date().toLocaleDateString('en-CA'),
-                LastUpdatedDate: new Date().toLocaleDateString('en-CA')
-
-    };
-
-    // Add the new data to the state
-    setData((prevData) => [...prevData, newData]);
-                      
-
+                const newData = {
+                    Type: selectedDemande,
+                    newValue1: newVal1,
+                    newValue2: newVal2,
+                    matricule1: matricule1, 
+                    matricule2: matricule2, 
+                    Status: "Pending",
+                    SubmissionDate: new Date().toLocaleDateString('en-CA'),
+                    LastUpdatedDate: new Date().toLocaleDateString('en-CA'),
+                };
+    
+                
+                setData((prevData) => [...prevData, newData]);
+    
             } else {
                 alert(result.success + "  \n" + result.message);
             }
-        }catch(error) {
+        } catch (error) {
             alert("catch in addButtonHandled in visual request" + error);
         }
-    }
+    };
+    
 
     return (
-    <div className="h-full bg-gray-100 rounded-lg shadow-lg w-full">
-        <div className="flex justify-start items-center rounded-lg shadow-md space-x-1 bg-gray-100 border m-2 p-2 border-gray-300">
-        <p className={`text-[#374151] font-bold`}>{t('RequestType')}</p>
-        <ComboBoxStyle1 Name="Type of demande" options={demandeOptions} value={selectedDemande} onChange={(e) => setSelectedDemande(e.target.value)} comboBoxClassName="h-8 ml-1 mr-2 rounded-md shadow-sm"/>
-            {selectedDemande === t('Group') && (
-                <div className="flex items-center">
-                    <p className={`text-[#374151] font-semibold`}>{t('CurrentGroup')}</p>
-                    <TextBoxStyle2 Name="Current Group" value={studentData.Grp} readOnly={true} textBoxClassName="p-2 border h-8 w-20 text-center border-gray-300 rounded-md bg-gray-200 shadow-sm ml-1 mr-1" />
-                    <p className={`text-[#374151] font-semibold`}>{t('NewGroup')}</p>
-                    <ComboBoxStyle1 Name="New Group" options={groupOptions} value={newGroup} onChange={(e) => setNewGroup(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
-                </div>
-            )}
-            {selectedDemande === t('Section') && (
-                <div className="flex items-center">
-                    <p className={`text-[#374151] font-semibold`}>{t('CurrentSection')}</p>
-                    <TextBoxStyle2 Name="Current Section" value={studentData.Section} readOnly={true} textBoxClassName="p-2 border h-8 w-20 text-center border-gray-300 rounded-md bg-gray-200 shadow-sm ml-1 mr-1" />
-                    <p className={`text-[#374151] font-semibold`}>{t('NewSection')}</p>
-                    <ComboBoxStyle1 Name="New Section" options={sectionOptions} value={newSection} onChange={(e) => setSelectedSection(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
-                </div>
-            )}
-            {selectedDemande === t('Speciality') && (
-                <div className="flex items-center">
-                    <p className={`text-[#374151] font-semibold`}>{t('CurrentSpeciality')}</p>
-                    <TextBoxStyle2 Name="Current Speciality" value={studentData.Speciality} readOnly={true} textBoxClassName="p-2 border h-8 w-20 text-center border-gray-300 rounded-md bg-gray-200 shadow-sm ml-1 mr-1" />
-                    <p className={`text-[#374151] font-semibold`}>{t('NewSpeciality')}</p>                   
-                    <ComboBoxStyle1 Name="New Speciality" options={specialityOptions} value={newSpeciality} onChange={(e) => setSelectedSpeciality(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
-                </div>
-            )} 
-            {selectedDemande === t('LessonTiming') && (
-                <div className="flex items-center">
-                    <p className={`text-[#374151] font-semibold`}>{t('CurrentDay')}</p>
-                    <ComboBoxStyle1 options={days} value={currentDay} onChange={(e) => setCurrentDay(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
-                    <p className={`text-[#374151] font-semibold`}>{t('CurrentHour')}</p>                   
-                    <ComboBoxStyle1 options={hours} value={currentHour} onChange={(e) => setCurrentHour(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
-                    <p className={`text-[#374151] font-semibold`}>{t('NewDay')}</p>
-                    <ComboBoxStyle1 options={days} value={newDay} onChange={(e) => setNewDay(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
-                    <p className={`text-[#374151] font-semibold`}>{t('NewHour')}</p>                   
-                    <ComboBoxStyle1 options={hours} value={newHour} onChange={(e) => setNewHour(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
-                </div>
-            )} 
-            <ButtonStyle1 onClick={addButtonHandled} buttonText={'Add'} buttonClassName="w-20 bg-blue-500 text-white rounded-md h-8 font-bold text-center hover:bg-blue-600" />
-        </div>
-        <DataGridView Columns={columns} Data={data} ClassName="table-auto ltr:ml-2 rtl:mr-2" />        
+      <div className="p-1 h-full bg-gray-100 rounded-lg shadow-lg w-full ">
+    <div className="flex flex-col md:flex-row flex-wrap justify-start items-start md:items-center gap-1 bg-gray-100 border-[1px] m-2 p-1 border-gray-300 rounded-md shadow-md">
+    <p className="text-[#374151] font-bold">{t('RequestType')}</p>
+    
+        <ComboBoxStyle1 
+          Name="Type of demande" 
+          options={demandeOptions} 
+          value={selectedDemande} 
+          onChange={(e) => setSelectedDemande(e.target.value)} 
+          comboBoxClassName="h-8 w-full sm:w-auto ml-1 mr-2 rounded-md shadow-sm"
+        />
+    
+        {selectedDemande === t('Group') && (
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-2 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
+            <p className="text-[#374151] font-semibold">{t('Matricule 1')}</p>
+            <TextBoxStyle2 
+              Name="Matricule 1" 
+              value={matricule1} 
+              onChange={(e) => setmatricule1(e.target.value)}
+              textBoxClassName="p-2 border h-8 w-full sm:w-28 text-center border-gray-300 rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('NewGroup')}</p>
+            <ComboBoxStyle1 
+              Name="New Group 1" 
+              options={groupOptions} 
+              value={newGroup1} 
+              onChange={(e) => setNewGroup1(e.target.value)} 
+              comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('Matricule 2')}</p>
+            <TextBoxStyle2 
+              Name="Matricule 2" 
+              value={matricule2} 
+              onChange={(e) => setmatricule2(e.target.value)}
+              textBoxClassName="p-2 border h-8 w-full sm:w-28 text-center border-gray-300 rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('NewGroup')}</p>
+            <ComboBoxStyle1 
+              Name="New Group 2" 
+              options={groupOptions} 
+              value={newGroup2} 
+              onChange={(e) => setNewGroup2(e.target.value)} 
+              comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
+            />
+          </div>
+        )}
+    
+        {selectedDemande === t('Section') && (
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-1 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
+            <p className="text-[#374151] font-semibold">{t('Matricule 1')}</p>
+            <TextBoxStyle2
+              Name="Matricule 1"
+              value={matricule1} 
+              onChange={(e) => setmatricule1(e.target.value)}
+              textBoxClassName="p-2 border h-8 w-full sm:w-28 text-center border-gray-300 rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('NewSection')}</p>
+            <ComboBoxStyle1
+              Name="New Section 1"
+              options={sectionOptions}
+              value={newSection1}
+              onChange={(e) => setSelectedSection1(e.target.value)}
+              comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('Matricule 2')}</p>
+            <TextBoxStyle2
+              Name="Matricule 2"
+              value={matricule2} 
+              onChange={(e) => setmatricule2(e.target.value)}   
+              textBoxClassName="p-2 border h-8 w-full sm:w-28 text-center border-gray-300 rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('NewSection')}</p>
+            <ComboBoxStyle1
+              Name="New Section 2"
+              options={sectionOptions}
+              value={newSection2} 
+              onChange={(e) => setSelectedSection2(e.target.value)}
+              comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
+            />
+          </div>
+        )}
+    
+        {selectedDemande === t('Speciality') && (
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-1 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
+            <p className="text-[#374151] font-semibold">{t('Matricule 1')}</p>
+            <TextBoxStyle2
+              Name="Matricule 1"
+              value={matricule1} 
+              onChange={(e) => setmatricule1(e.target.value)}
+              textBoxClassName="p-2 border h-8 w-full sm:w-28 text-center border-gray-300 rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('NewSpeciality')}</p>
+            <ComboBoxStyle1
+              Name="New Speciality 1"
+              options={specialityOptions}
+              value={newSpeciality1}
+              onChange={(e) => setSelectedSpeciality1(e.target.value)}
+              comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('Matricule 2')}</p>
+            <TextBoxStyle2
+              Name="Matricule 2"
+              value={matricule2} 
+              onChange={(e) => setmatricule2(e.target.value)}
+              textBoxClassName="p-2 border h-8 w-full sm:w-28 text-center border-gray-300 rounded-md shadow-sm"
+            />
+    
+            <p className="text-[#374151] font-semibold">{t('NewSpeciality')}</p>
+            <ComboBoxStyle1
+              Name="New Speciality 2"
+              options={specialityOptions}
+              value={newSpeciality2}
+              onChange={(e) => setSelectedSpeciality2(e.target.value)}
+              comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
+            />
+          </div>
+        )}
+    
+        <ButtonStyle1 
+          onClick={addButtonHandled} 
+          buttonText={'Add'} 
+          buttonClassName="w-full sm:w-20 bg-blue-500 text-white rounded-md h-8 font-bold text-center hover:bg-blue-600" 
+        />
+      </div>
+    
+      <div className="overflow-x-auto border border-gray-300 rounded-md shadow-md ">
+      <DataGridView Columns={columns} Data={data} ClassName="table-auto ltr:ml-0 rtl:mr-2 w-full" />
+      </div>
     </div>
+    
+      
     );
     
 }

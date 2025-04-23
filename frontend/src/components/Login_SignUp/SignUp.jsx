@@ -51,8 +51,10 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
         educationYear: '',
         specialty: '',
         email: '',
+        phoneNumber: '',
         password: '',
         confirmPassword: ''
+        
     });
 
     {/*
@@ -76,6 +78,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
     
     const handleChange = (e) => {
         const { name, value } = e.target;
+      
         setSignUpFormData((prevData) => ({
             ...prevData,
             [name]: value
@@ -135,6 +138,13 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
             alert("Passwords do not match!");
             return;
         }
+            // التحقق من أن رقم الهاتف ليس فارغًا
+    if (!SignUpFormData.phoneNumber.trim()) {
+      alert("Phone nuumber cannot be empty!");
+      return;
+  }
+
+  console.log("Form Data:", SignUpFormData);
         //alert(SignUpFormData.specialty);
         Student.addEtudient({
           matricule: SignUpFormData.matricule,
@@ -145,7 +155,8 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
           section: SignUpFormData.section,
           group: SignUpFormData.group,
           email: SignUpFormData.email,
-          password: SignUpFormData.password
+          password: SignUpFormData.password,
+          phoneNumber: SignUpFormData.phoneNumber
       });
               
     };
@@ -253,6 +264,18 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
                         />
                     </div>
 
+                    
+                    <div className="flex space-x-1">
+                    <LabelStyle1  labelClassName="text-md w-auto ml-1" />
+                    <TextBoxStyle2
+                            Name='phoneNumber'
+                   
+                            placeholder="Enter your phone number"
+                            value={SignUpFormData.phoneNumber}
+                            onChange={handleChange}
+                            textBoxClassName="border rounded-md shadow-sm flex-grow pr-1 text-nowrap"
+                        />
+                    </div>
                     <div className="flex space-x-1 w-full">
                         <div className="flex flex-col ml-1 w-full">
                             <LabelStyle1 labelText={`${t('Password')} :`} labelClassName="text-sm mr-1" />

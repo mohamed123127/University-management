@@ -31,6 +31,7 @@ try{
                     $section = $data['section'];
                     $group = $data['group'];
                     $email = $data['email'];
+                    $phoneNumber = $data['phoneNumber'];
                     $password = $data['password'];
                     $phoneNumber = $data['phoneNumber'];
                 } else {
@@ -115,6 +116,15 @@ try{
             echo json_encode(["success" => false, "message" => "Invalid request. studentId is required"]);
         }
         break;
+        
+        case 'getStudentsRole':
+            if ($method == "GET" ) {
+                
+                Etudient::getStudentsRole($conn);
+            } else {
+                echo json_encode(["success" => false, "message" => "Invalid request. studentId is required"]);
+            }
+            break;
     
     
     

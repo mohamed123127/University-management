@@ -19,6 +19,7 @@ class Etudient extends User {
     private $section;
     private $group;
     private $phoneNumber;
+  
     private $isActive;
 
 
@@ -125,38 +126,30 @@ class Etudient extends User {
         return null;
     }
     public function addEtudient($conn) {
-        
-        try{
-            /*$student = $this->getByEmail($conn,$this->email);
-            if($student == null){*/
-            $sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, Speciality, section, grp , email, password,PhoneNumber, Active,isNew) 
+      try {
+		$sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, Speciality, section, grp , email, password,PhoneNumber, Active,isNew) 
                 VALUES ( ?,?, ?, ?, ?, ?, ?, ?, ?,?, 1,1)";
+                $stmt = $conn->prepare($sql);
+                if (!$stmt) {
+                    return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
+                }
     
-        $stmt = $conn->prepare($sql);
-        
+                $stmt->bind_param("ssssssssssi", $this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->phoneNumber, $this->password, $this->isActive);
+    
 
-        if (!$stmt) {
-            return(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+                if ($stmt->execute()) {
+                    return ["success" => true, "message" => "Student added successfully."];
+                } else {
+                    return ["success" => false, "message" => "Failed to add student. Error: " . $stmt->error];
+                }
+            } else {
+                return ["success" => false, "message" => "This email is already used"];
+            }
+        } catch (Exception $ex) {
+            return ["success" => false, "message" => "Error: " . $ex->getMessage()];
         }
-        
-        
-        // Bind parameters for 10 values (update type of parameters to match input data)
-        $stmt->bind_param("ssssssssss",$this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password,$this->phoneNumber);
-       
-        if ($stmt->execute()) {
-           
-            return(["success" => true, "message" => "Student added successfully."]);
-        } else {
-            return(["success" => false, "message" => "Failed to add student."]);
-        }
-        /*}else{
-            return ["success"=> false, "message" => "this email has aleardy used"];
-        }*/
-        }catch(Exception $ex){
-            return(["success" => false, "message" => $ex->getMessage()]);
-        }
-        
     }
+
     public function updateStudent($conn) {
         try {    
             $sql = "UPDATE etudient SET firstName = ?, lastName = ?, educationYear = ?, Speciality = ?, section = ?, grp = ?,email = ?, password = ?,PhoneNumber = ?, Active = true,isNew = true WHERE Matricule=?";
@@ -168,7 +161,7 @@ class Etudient extends User {
             return ["success" => false, "message" => $ex->getMessage()];
         }
     }
-    
+
     public static function changeActivate($conn, $id, $status) {
         try {
             $sql = "UPDATE etudient SET Active = ? WHERE Id = ?";
@@ -402,6 +395,24 @@ public static function getStudentWithRole($conn, $studentId) {
     } catch (Exception $e) {
         echo json_encode(["success" => false, "error" => $e->getMessage()]);
         exit; 
+    }
+}
+public static function getStudentsRole($conn  ) {
+    try {
+        $query = "SELECT StudentId , Role FROM StudentRole ";
+        $stmt = $conn->prepare($query);
+     
+        $stmt->execute();
+       
+        $result = $stmt->get_result();
+    
+        $studentsRole = [];
+        while ($row = $result->fetch_assoc()) {
+            $studentsRole[] = $row;
+        }
+
+        echo json_encode(["success" => true, "studentsRole" => $studentsRole]);
+        exit;
     }
 }
 

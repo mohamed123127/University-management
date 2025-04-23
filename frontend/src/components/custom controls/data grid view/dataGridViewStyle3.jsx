@@ -7,6 +7,11 @@ import DocumentRequest from "js/models/DocumentRequest";
 import TextBoxStyle2 from "../textBox/TextBoxStyle2";
 
 function DataGridViewStyle3({ Columns, Data, setData }) {
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const totalPages = Data ? Math.ceil(Data.length / itemsPerPage) : 1;
+    const paginatedData = Data ? Data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage) : [];
+
     const { t } = useTranslation();
     const options = [
         { label: 'Pending', className: "bg-blue-200" },
@@ -52,6 +57,30 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
             console.log('b');
         }
     };
+
+    const goToPage = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        let startPage = Math.max(currentPage - 2, 1);
+        let endPage = Math.min(currentPage + 2, totalPages);
+
+        if (startPage > 1) pageNumbers.push(1);
+        if (startPage > 2) pageNumbers.push("...");
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+
+        if (endPage < totalPages - 1) pageNumbers.push("...");
+        if (endPage < totalPages) pageNumbers.push(totalPages);
+
+        return pageNumbers;
+    };
     return (
         <div className="overflow-x-auto bg-white shadow-md rounded-md">
             <table className="min-w-full border border-gray-300">
@@ -63,7 +92,8 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {Data.map((row, rowIndex) => (
+                    {paginatedData.map((row, rowIndex) => (
+
                         <tr key={rowIndex} className={`border-b transition duration-200 ${rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-gray-200`}>
                             {Columns.map((column, colIndex) => (
                                 <td key={colIndex} className="px-4 py-2 text-sm text-gray-600 text-center">
@@ -105,7 +135,22 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
                     ))}
                 </tbody>
             </table>
+            <div className="flex justify-center items-center mt-4 gap-2 pt-2 pb-2">
+                <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 bg-gray-300 text-gray-700 rounded disabled:opacity-50">{"<"}</button>
+                {renderPageNumbers().map((page, index) => (
+                    <button
+                        key={index}
+                        onClick={() => goToPage(page)}
+                        className={`px-3 py-1 rounded ${currentPage === page ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700"}`}
+                    >
+                        {page}
+                    </button>
+                ))}
+                <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="px-3 py-1 bg-gray-300 text-gray-700 rounded disabled:opacity-50">{">"}</button>
+            </div>
         </div>
+       
+        
     );
 }
 
