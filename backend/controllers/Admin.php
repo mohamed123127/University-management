@@ -6,18 +6,12 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 require_once '../config/database.php';
+require_once '../controllers/User.php'; 
 
-class Admin {
-    private $firstName;
-    private $lastName;
-    private $email;
-    private $password;
-
+class Admin extends User{
+    
     public function __construct($firstName, $lastName, $email, $password) {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->email = $email;
-        $this->password = $password;
+        parent::__construct($firstName,$lastName,$email, $password);
     }
 
     public function addAdmin($conn) {

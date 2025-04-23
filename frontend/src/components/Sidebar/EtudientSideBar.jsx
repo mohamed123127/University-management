@@ -66,12 +66,9 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
     setOpenedList('');
   }
 
- 
-
-
   return (
     <div className={`${ClassName}`}>
-      <div className={`relative flex flex-col h-screen bg-blue-600 p-1 text-white transition-all duration-500 ease-in-out`}>
+      <div className={`relative flex flex-col bg-blue-600 h-screen p-1 text-white transition-all duration-500 ease-in-out`}>
         {/* زر الشريط الجانبي */}
         <div className="flex justify-between">
           <Dropdown isOpen={isOpen} setIsOpen={toggleStatSidebar} Orientation={"horizontal"} ClassName={`mt-3 ltr:ml-2 rtl:mr-2 ${isOpen ? "collapse md:visible" : "visible"}`}/>

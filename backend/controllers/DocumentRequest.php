@@ -31,7 +31,6 @@ class DocumentRequest
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ssssssi", $this->type, $this->status, $this->notes, $this->submissionDate, $this->lastUpdatedDate, $this->documentUrl, $this->studentId);
             $stmt->execute();
-            $stmt->get_result();
             return true;
         } catch (Exception $e) {
             echo json_encode(["success" => false, "message" => "هناك خطأ"]);

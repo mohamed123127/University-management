@@ -4,12 +4,15 @@ header("Access-Control-Allow-Origin: *");
         protected $id;
         protected $email;
         protected $password;
-        protected $isActive;
+        protected $firstName;
+        protected $lastName;
+   
 
-        public function __construct( $email, $password, $isActive) {
+        public function __construct( $firstName,$lastName,$email, $password) {
+            $this->firstName = $firstName;
+            $this->lastName = $lastName;
             $this->email = $email;
             $this->password = $password;
-            $this->isActive = $isActive;
         }
     }
 ?>

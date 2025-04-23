@@ -4,7 +4,7 @@ export default  function RadioButton({ options, name, value, onChange,radioClass
     return (
         <div className="flex items-center space-x-4">
             {options.map((option, index) => (
-                <label key={index} className="flex items-center space-x-2">
+                <label key={index} className="flex items-center space-x-2 rtl:space-x-reverse">
                     <input
                         type="radio"
                         name={name}

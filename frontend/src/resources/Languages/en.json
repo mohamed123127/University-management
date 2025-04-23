@@ -117,6 +117,17 @@
     "EnterInternshipPlace": "Enter Internship Place",
     "EnterInternshipPeriod": "Enter Internship Period" ,
     "requestID": "Request ID",
+    "LessonTiming": "Lesson Timing",
+    "CurrentDay": "Current Day",
+    "CurrentHour": "Current Hour",
+    "NewDay": "New Day",
+    "NewHour": "New Hour",
+    "Saturday": "Saturday",
+        "Sunday": "Sunday",
+        "Monday": "Monday",
+        "Tuesday": "Tuesday",
+        "Wednesday": "Wednesday",
+        "Thursday": "Thursday",
     "bon_conduit": "Bon Conduit",
   "classement": "Ranking",
   "convention_de_stage": "Internship Agreement",
@@ -124,8 +135,19 @@
   "releve_de_note": "Grade Transcript ",
   "block_d_annee_rectorat": "Year Block ",
   "attestation_de_langue": "Language Certificate",
-  "accise_de_diplome": "Degree Access"
+  "accise_de_diplome": "Degree Access",
+    "Branch": "Branch",
+      "changePassword": "Change Password",
+      "update": "Update",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "allFieldsRequired": "All fields are required",
+      "fieldRequired": "This field is required",
+      "rejectionReason": "Reason for request rejection",
+      "rejectionNote": "Note regarding the rejection reason",
+    "reason": "Reason",
+  "requestRejectionNumber": "Request rejection number",
+  "notifications": "Notifications",
+  "changePasswordOnFirstLoginForSecurityReason": "You must change your password on first login for security reasons"
     
-
   }
   

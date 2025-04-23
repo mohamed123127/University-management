@@ -14,9 +14,6 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const { t, i18n } = useTranslation(); 
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
     const [selectedDemande, setSelectedDemande] = useState('');
-    const [currentGroup] = useState(studentData.group);
-    const [currentSection] = useState(studentData.section);
-    const [currentSpeciality] = useState(studentData.speciality);
     const [matricule1, setmatricule1] = useState('');
     const [matricule2, setmatricule2] = useState('');
     const [newGroup1, setNewGroup1] = useState('');
@@ -25,24 +22,33 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const [newSection2, setSelectedSection2] = useState('');
     const [newSpeciality1, setSelectedSpeciality1] = useState('');
     const [newSpeciality2, setSelectedSpeciality2] = useState('');
+    const [currentDay,setCurrentDay] = useState('');
+    const [currentHour,setCurrentHour] = useState('');
+    const [newDay,setNewDay] = useState('');
+    const [newHour,setNewHour] = useState('');
     const [submittedRequests, setSubmittedRequests] = useState([]);
 
     const demandeOptions = [
         'Group',
         'Section',
-        'Speciality'
+        'Speciality',
+        'LessonTiming'
     ];
 
 
 
     const groupOptions = ['1', '2', '3', '4', '5'];
     const sectionOptions = ['1','2'];
+    const days = ['Saturday','Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+    const hours = ['8:00 - 9:30', '9:40 - 11:10', '11:20 - 12:50', '13:00 - 14:30', '14:40 - 16:10','16:20 - 17:50'];
     //const [studentData,setStudentData] = useState(null);
     //useEffect(()=>{setStudentData(StudentData)},[])
 
     useEffect(()=>{
         const loadData =async()=>{
+            const data = await VirtualRequests.getById(studentData.Id);
             setData(await VirtualRequests.getById(studentData.Id));
+            console.log(data);
         }
          loadData();
 
@@ -54,12 +60,13 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const specialityOptions = ['Isil', 'Si'];
 
     const columns = [
+        { name: "Id", Header: t('ID'), width: "5%" },
         { name: "Type", Header: t('RequestType'), width: "15%" },
         { name: "Status", Header: t('Status'), width: "10%" },
-        { name: "NewValue1", Header: t('New Value 1'), width: "15%" },
         { name: "Matricule1", Header: t('Matricule 1'), width: "10%" },
+        { name: "NewValue1", Header: t('New Value 1'), width: "10%" },
         { name: "Matricule2", Header: t('Matricule 2'), width: "10%" },
-        { name: "NewValue2", Header: t('New Value 2'), width: "15%" },
+        { name: "NewValue2", Header: t('New Value 2'), width: "10%" },
         { name: "SubmissionDate", Header: t('SubmissionDate'), width: "12%" },
         { name: "LastUpdatedDate", Header: t('LastUpdatedDate'), width: "13%" },
     ];
@@ -75,8 +82,6 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         setCurrentLanguage(lang);
     };
 
-   
-
     const getNewValue = ()=>{
         if(selectedDemande === t('Group'))
         {
@@ -90,6 +95,10 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         {
             return [newSpeciality1,newSpeciality2];
         }
+        else if(selectedDemande === t('LessonTiming'))
+            {
+                return newDay + " " + newHour;
+            }
     }
     const addButtonHandled = async () => {
         try {
@@ -111,7 +120,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
                     newValue1: newVal1,
                     newValue2: newVal2,
                     matricule1: matricule1, 
-                   matricule2: matricule2, 
+                    matricule2: matricule2, 
                     Status: "Pending",
                     SubmissionDate: new Date().toLocaleDateString('en-CA'),
                     LastUpdatedDate: new Date().toLocaleDateString('en-CA'),

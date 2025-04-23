@@ -27,9 +27,9 @@ class Notification {
     }
 
     public static function getByStudentId($conn,$studentId){
-        $query = "SELECT n.Id , a.Content , n.IsRead , a.date_time FROM notification n
+        $query = "SELECT n.Id,a.Title , a.Content , n.IsRead , a.date_time FROM notification n
                   JOIN announcement a ON n.AnnouncementId = a.Id
-                  WHERE n.StudentId = ?;";
+                  WHERE n.StudentId = ? order by a.date_time desc";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i",$studentId);
         if (!$stmt) {

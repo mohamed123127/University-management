@@ -101,7 +101,8 @@ class VRequest{
     //To change name after
     public static function getById($conn , $id) {
         try {
-            $sql = "SELECT * FROM changerequests WHERE StudentId =? ";
+            $sql = "SELECT * FROM changerequests WHERE StudentId =? 
+            ORDER BY changerequests.LastUpdatedDate DESC;";
            
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);

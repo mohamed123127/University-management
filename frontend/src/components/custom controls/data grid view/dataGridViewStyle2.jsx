@@ -6,6 +6,8 @@ import { IoCloseSharp } from "react-icons/io5";
 import ChangeRequests from "js/models/ChangeRequests";
 import { VirtualRequests } from "js/models/VirtualRequest";
 import ComboBoxStyle2 from "../combo box/ComboBoxStyle2";
+import Swal from 'sweetalert2';
+import Announcement from "js/models/Announcement";
 
 function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
     const { t } = useTranslation();
@@ -44,8 +46,36 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
     };
 
     const RefusedButtonClick = async (row) => {
-        ChangeRequests.refusedRequest(row.Id);
-        setData(Data.filter((r) => r.Id !== row.Id));
+        Swal.fire({
+            title: t('rejectionNote'),
+            html:
+                '<textarea id="reason" class="!w-[80%] swal2-textarea" placeholder='+t('rejectionReason')+' style="resize: none;"></textarea>',
+            confirmButtonText: t('send'),
+            confirmButtonColor: '#3B82F6',
+            showCancelButton: true,
+            cancelButtonText: t('Cancel'),
+            cancelButtonColor: '#EF4444',
+            preConfirm: () => {
+                const orderCancellationReason = document.getElementById('reason').value;
+
+                if (!orderCancellationReason && orderCancellationReason !== '') {
+                    Swal.showValidationMessage(t('fieldRequired'));
+                    return false;
+                }
+                
+                return { orderCancellationReason };
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const orderCancellationReason = result.value.orderCancellationReason;
+                const request = await VirtualRequests.getByRequestId(row.Id);
+                const studentId = request[0].StudentId;
+                const requestId = request[0].Id;
+                ChangeRequests.refusedRequest(row.Id);
+                Announcement.Add({"title": t('requestRejectionNumber') + ' ' + requestId,"content": t('reason') + " : " + orderCancellationReason,"recipient":studentId});
+                setData(Data.filter((r) => r.Id !== row.Id));
+            }
+        });
     };
 
     const handleRoleChange = async (row, value) => {

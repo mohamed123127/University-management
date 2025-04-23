@@ -35,6 +35,7 @@ class ChangeRequests
             }
 
             const response = await ApiOperator.post(this.ChangeRequestsRootUrl + "accepteRequest",data);
+            console.log(response);
             return response;
         } catch(error){
             alert("catch in updateRequest: " + error);

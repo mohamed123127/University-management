@@ -49,11 +49,11 @@ export default function Repport({Email}) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full p-2 bg-gray-100">    
+    <div className="flex flex-col items-center w-full h-[80vh] p-2 mt-8">    
       <form 
         className="flex flex-col w-full max-w-xl bg-white p-6 rounded-lg shadow-lg space-y-6 h-full" 
         onSubmit={handleSubmit}
-      >
+        >
             <h2 className="text-blue-800 text-center text-2xl font-bold">{t('report_problem')}</h2>  
         <div className="flex flex-col">
           <LabelStyle1 labelText={'Title'} labelClassName="text-lg font-semibold mb-2 rtl:mr-1 ltr:ml-1" />
@@ -64,7 +64,7 @@ export default function Repport({Email}) {
             value={repportData.title}
             onChange={handleChange}
             className="w-full border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 p-3 text-blue-900 placeholder-gray-400"
-          />
+            />
         </div>
 
         <div className="flex flex-col h-full">
@@ -80,7 +80,7 @@ export default function Repport({Email}) {
           buttonText={'SendReport'} 
           onClick={handleSubmit}
           buttonClassName="w-full py-3 font-semibold text-lg"
-        />
+          />
       </form>
     </div>
   );

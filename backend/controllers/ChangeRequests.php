@@ -100,9 +100,6 @@ class ChangeRequests{
                 case 'Password':
                     Etudient::changePassword($conn, $studentId, $newValue);
                 break;
-                default:
-                return ["success" => true, "message" => "The request has been refused"];
-                break;
             }
             self::completeRequest($conn,$requestId);
             return ["success" => true, "message" => "The request has been completed successfully."];
@@ -113,8 +110,10 @@ class ChangeRequests{
 
     public static function refusedRequest($conn,$requestId){
         try{
-            self::completeRequest($conn,$requestId);
-            return ["success" => true, "message" => "The request has been refused successfully."];
+            $sql = "UPDATE changerequests SET Status = 'Rejected', LastUpdatedDate = NOW() WHERE Id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $requestId);
+            $stmt->execute();            return ["success" => true, "message" => "The request has been refused successfully."];
         }catch(Exception $e){
             return ["success" => false, "message" => "هناك خطأ","error: " => $e->getMessage()];
         }

@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 require_once __DIR__ . '/../../config/database.php';
-require '../../backend/packages/vendor/autoload.php';
+require '../../packages/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
