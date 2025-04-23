@@ -14,29 +14,28 @@ require_once '../utils/JwtLogin.php';
 
 class Etudient extends User {
     private $matricule;
-    private $firstName;
-    private $lastName;
     private $educationYear;
     private $specialty;
     private $section;
     private $group;
+    private $phoneNumber;
+    private $isActive;
 
-    const TABLE_NAME = "etudient";
 
-    public function __construct($firstName, $lastName, $email, $password, $isActive, $matricule, $educationYear, $specialty, $section, $group) {
-        parent::__construct($email, $password, $isActive);
+    public function __construct($firstName, $lastName, $email, $password, $isActive, $matricule, $educationYear, $specialty, $section, $group,$phoneNumber) {
+        parent::__construct($firstName,$lastName,$email, $password);
         $this->matricule = $matricule;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
         $this->educationYear = $educationYear;
         $this->specialty = $specialty;
         $this->section = $section;
         $this->group = $group;
+        $this->phoneNumber = $phoneNumber;
+        $this->isActive = $isActive;
     }
-    public static function isExistEtudient($conn, $email, $password) {
-        $sql = "SELECT `Id`, `Active` FROM etudient WHERE email = ? AND password = ?";
+    public static function isExistEtudient($conn, $matricule, $password) {
+        $sql = "SELECT `Id`, `Active` FROM etudient WHERE Matricule = ? AND password = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $email, $password);
+        $stmt->bind_param("ss", $matricule, $password);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
@@ -53,6 +52,26 @@ class Etudient extends User {
             return ["success" => false, "message" => "Invalid email or password"];
         }
         return null;
+    }
+    public static function isExistEtudient_matricule($conn, $matricule,$detailed=false) {
+        $sql = "SELECT `Id` FROM etudient WHERE Matricule = ? ";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $matricule);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            if($detailed){
+                $etudient = $result->fetch_assoc();
+                $StudentId = $etudient['Id'];
+                return ["success" => true, "message" => "User exists",'id' => $StudentId];
+            }else{
+                return true;
+            }
+            
+        }else{
+            if( $detailed ) return ["success" => false, "message" => "Invalid email or password"];
+            else return false;
+        }
     }
     public static function getById($conn, $id) {
         $sql = "SELECT * FROM etudient WHERE id = ?";
@@ -108,10 +127,10 @@ class Etudient extends User {
     public function addEtudient($conn) {
         
         try{
-            $student = $this->getByEmail($conn,$this->email);
-            if($student == null){
-            $sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, Speciality, section, grp , email, password, Active) 
-                VALUES ( ?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            /*$student = $this->getByEmail($conn,$this->email);
+            if($student == null){*/
+            $sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, Speciality, section, grp , email, password,PhoneNumber, Active,isNew) 
+                VALUES ( ?,?, ?, ?, ?, ?, ?, ?, ?,?, 1,1)";
     
         $stmt = $conn->prepare($sql);
         
@@ -122,7 +141,7 @@ class Etudient extends User {
         
         
         // Bind parameters for 10 values (update type of parameters to match input data)
-        $stmt->bind_param("sssssssssi",$this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password, $this->isActive);
+        $stmt->bind_param("ssssssssss",$this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password,$this->phoneNumber);
        
         if ($stmt->execute()) {
            
@@ -130,14 +149,26 @@ class Etudient extends User {
         } else {
             return(["success" => false, "message" => "Failed to add student."]);
         }
-        }else{
+        /*}else{
             return ["success"=> false, "message" => "this email has aleardy used"];
-        }
+        }*/
         }catch(Exception $ex){
             return(["success" => false, "message" => $ex->getMessage()]);
         }
         
     }
+    public function updateStudent($conn) {
+        try {    
+            $sql = "UPDATE etudient SET firstName = ?, lastName = ?, educationYear = ?, Speciality = ?, section = ?, grp = ?,email = ?, password = ?,PhoneNumber = ?, Active = true,isNew = true WHERE Matricule=?";
+            if (!($stmt = $conn->prepare($sql))) return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
+    
+            $stmt->bind_param("ssssssssss",  $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password,$this->phoneNumber,$this->matricule);
+            return $stmt->execute() ? ["success" => true, "message" => "Student updated successfully."] : ["success" => false, "message" => "Failed to update student."];
+        } catch (Exception $ex) {
+            return ["success" => false, "message" => $ex->getMessage()];
+        }
+    }
+    
     public static function changeActivate($conn, $id, $status) {
         try {
             $sql = "UPDATE etudient SET Active = ? WHERE Id = ?";
@@ -218,10 +249,10 @@ class Etudient extends User {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $specialty, $id);
             $stmt->execute();
-            return(["seccess" => true , "message" => "The Specialty has been changed successfully."]);
+            return(["success" => true , "message" => "The Specialty has been changed successfully."]);
         } catch (Exception $ex){
             return([
-                "seccess" => false,
+                "success" => false,
                 "message" => "An unexpected error occurred: " . $ex->getMessage()
             ]);
         }
@@ -233,10 +264,10 @@ class Etudient extends User {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $firstName, $id);
             $stmt->execute();
-            return(["seccess" => true , "message" => "The First Name has been changed successfully."]);
+            return(["success" => true , "message" => "The First Name has been changed successfully."]);
         } catch (Exception $ex){
             return([
-                "seccess" => false,
+                "success" => false,
                 "message" => "An unexpected error occurred: " . $ex->getMessage()
             ]);
         }
@@ -248,10 +279,10 @@ class Etudient extends User {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $lastName, $id);
             $stmt->execute();
-            return(["seccess" => true , "message" => "The Last Name has been changed successfully."]);
+            return(["success" => true , "message" => "The Last Name has been changed successfully."]);
         } catch (Exception $ex){
             return([
-                "seccess" => false,
+                "success" => false,
                 "message" => "An unexpected error occurred: " . $ex->getMessage()
             ]);
         }
@@ -263,10 +294,10 @@ class Etudient extends User {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $email, $id);
             $stmt->execute();
-            return(["seccess" => true , "message" => "The Email has been changed successfully."]);
+            return(["success" => true , "message" => "The Email has been changed successfully."]);
         } catch (Exception $ex){
             return([
-                "seccess" => false,
+                "success" => false,
                 "message" => "An unexpected error occurred: " . $ex->getMessage()
             ]);
         }
@@ -278,10 +309,25 @@ class Etudient extends User {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $password, $id);
             $stmt->execute();
-            return(["seccess" => true , "message" => "The PassWord has been changed successfully."]);
+            return(["success" => true , "message" => "The PassWord has been changed successfully."]);
         } catch (Exception $ex){
             return([
-                "seccess" => false,
+                "success" => false,
+                "message" => "An unexpected error occurred: " . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public static function changeIsNewValue($conn, $id, $isNew = 0){
+        try{
+            $sql = "UPDATE etudient set isNew = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ii", $isNew, $id);
+            $stmt->execute();
+            return(["success" => true , "message" => "isNew value has been changed successfully."]);
+        } catch (Exception $ex){
+            return([
+                "success" => false,
                 "message" => "An unexpected error occurred: " . $ex->getMessage()
             ]);
         }
@@ -359,8 +405,21 @@ public static function getStudentWithRole($conn, $studentId) {
     }
 }
 
-
-
-
+public static function DeleteAllStudents($conn){
+    try {
+        $query = "DELETE FROM etudient";
+        $stmt = $conn->prepare($query);
+        if ($stmt->execute()) {
+           
+            return(["success" => true, "message" => "Students Deleted successfully."]);
+        } else {
+            return(["success" => false, "message" => "Failed to delete students."]);
+        }
+       
+    } catch (Exception $e) {
+        echo json_encode(["success" => false, "error" => $e->getMessage()]);
+        exit; 
+    }
+}
 }
 ?>

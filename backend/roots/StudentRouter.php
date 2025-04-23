@@ -21,7 +21,7 @@ try{
     {
         case 'addEtudient' :
             if($method == "POST"){
-                if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['educationYear']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['password']) ) {
+                if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['educationYear']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['password']) && isset($data['phoneNumber'])) {
                     $matricule = $data['matricule'];
                     $firstName = $data['firstName'];
                     $lastName = $data['lastName'];
@@ -32,13 +32,14 @@ try{
                     $group = $data['group'];
                     $email = $data['email'];
                     $password = $data['password'];
+                    $phoneNumber = $data['phoneNumber'];
                 } else {
                     echo json_encode(["success" => false, "message" => "all inputs  are required"]);
                     exit();
                 }
                 
-                if ($matricule !== '' && $firstName !== '' && $lastName !== '' &&  $educationYear !== '' && $section !== '' && $group !== '' &&  $email !== '' && $password !== '') {
-                    $etudient = new Etudient($firstName, $lastName, $email, $password,false, $matricule, $educationYear, $speciality, $section, $group);
+                if ($matricule !== '' && $firstName !== '' && $lastName !== '' &&  $educationYear !== '' && $section !== '' && $group !== '' &&  $email !== '' && $password !== '' && $phoneNumber !== '') {
+                    $etudient = new Etudient($firstName, $lastName, $email, $password,false, $matricule, $educationYear, $speciality, $section, $group,$phoneNumber);
                     $response=$etudient->addEtudient($conn);
                 } else {
                     $response =["success" => false, "message" => "input cant be empty"];
@@ -47,6 +48,56 @@ try{
                 $response = ["success" => false, "message" => "Method does not match"];
             }
         break;
+        case 'importStudents':
+            if ($method == "POST") {
+                if (isset($data['studentsData']) && is_array($data['studentsData'])) {
+                    $students = $data['studentsData'];
+                    $insertedStudents = [];
+                    $failedStudents = [];
+                    //Etudient::DeleteAllStudents($conn);
+                    foreach ($students as $student) {
+                            $matricule = $student['matricule'];
+                            $firstName = $student['firstName'];
+                            $lastName = $student['lastName'];
+                            $educationYear = $student['educationYear'];
+                            $speciality = isset($student['speciality']) ? $student['speciality'] : "";
+                            $section = $student['section'];
+                            $group = $student['group'];
+                            $email = $student['email'];
+                            $password = $student['password'];
+                            $phone = $student['phone'];
+
+                            $etudient = new Etudient($firstName, $lastName, $email, $password, false, $matricule, $educationYear, $speciality, $section, $group, $phone);
+                                if(Etudient::isExistEtudient_matricule($conn,$matricule)){
+                                    $response = $etudient->updateStudent($conn);
+                                }else{
+                                    $response = $etudient->addEtudient($conn);
+                                }
+                                
+                                if ($response['success']) {
+                                    $insertedStudents[] = $student;
+                                } else {
+                                    $failedStudents[] = ["student" => $student, "error" => $response['message']];
+                                }
+                            
+                       
+                    }
+        
+                    $response = [
+                        "success" => true,
+                        "message" => "Bulk student upload completed",
+                        "inserted" => count($insertedStudents),
+                        "failed" => count($failedStudents),
+                        "errors" => $failedStudents
+                    ];
+                } else {
+                    $response = ["success" => false, "message" => "Invalid data format or missing studentsData"];
+                }
+            } else {
+                $response = ["success" => false, "message" => "Method does not match"];
+            }
+        break;
+        
         //---------------------------
        case 'setRole':
          if ($method == "POST" && isset($data['studentId']) && isset($data['role'])) {
@@ -69,19 +120,19 @@ try{
     
         case 'isExistEtudient':
             if($method == "POST"){
-                if (isset($data['email']) && isset($data['password'])) {
-                    $email = $data['email'];
+                if (isset($data['matricule']) && isset($data['password'])) {
+                    $matricule = $data['matricule'];
                     $password = $data['password'];
                 } else {
-                    $response = ["success" => false, "message" => "Email and password are required"];
+                    $response = ["success" => false, "message" => "matricule and password are required"];
                     echo json_encode($response);
                     exit();
                 }
 
-                if ($email !== '' && $password !== '') {
-                    $response = Etudient::isExistEtudient($conn, $email, $password);
+                if ($matricule !== '' && $password !== '') {
+                    $response = Etudient::isExistEtudient($conn, $matricule, $password);
                 } else {
-                    $response = ["success" => false, "message" => "Email and password are required"];
+                    $response = ["success" => false, "message" => "matricule and password are required (Not Empty)"];
                 }
             }else
             {
@@ -180,7 +231,41 @@ try{
         default:
             $response = ["success" => false, "message" => "Invalid endpoint"];
             break;
-        
+            case 'deleteAllStudents':
+                if($method =="GET")
+                {
+                    $response= Etudient::DeleteAllStudents($conn);
+                }else
+                {
+                    $response = ["success" => false, "message" => "Method does not match"];
+                }
+            break;
+        case "firstLoginProcess":
+            
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+                // Validate and assign variables
+                if (isset($data['studentId']) && isset($data['password'])) {
+                    $studentId = $data['studentId']; // Sanitize the input
+                    $password = $data['password']; // Sanitize the input
+                } else {
+                    echo json_encode(["success" => false, "message" => "studentId and password are required."]);
+                    exit;
+                }
+            
+                if ($studentId !== '' && $password !== '') {
+                    $response1=Etudient::changePassword($conn, $studentId, $password);
+                    $response2=Etudient::changeIsNewValue($conn, $studentId);
+                    if($response1['success'] && $response2['success']) $response = ["success" => true , "message" => "First login process has been completed successfully."];
+                    else $response = ["success"=> false, "message" => $response1['message'] . "\n" . $response2['message']];
+                } else {
+                    $response=(["success" => false, "message" => "studentId or password are empty value."]);
+                }
+            } else {
+                $response=(["success" => false, "message" => "Invalid request method. Use POST."]);
+            }
+            break;
+
     }
 }catch (Exception $e) {
     $response = ['success' => false, 'message' => $e->getMessage()];
