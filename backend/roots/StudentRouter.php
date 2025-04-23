@@ -21,7 +21,7 @@ try{
     {
         case 'addEtudient' :
             if($method == "POST"){
-                if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['educationYear']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['password']) ) {
+                if (isset($data['matricule']) && isset($data['firstName']) && isset($data['lastName']) && isset($data['educationYear']) && isset($data['section']) && isset($data['group']) &&  isset($data['email']) && isset($data['phoneNumber']) && isset($data['password']) ) {
                     $matricule = $data['matricule'];
                     $firstName = $data['firstName'];
                     $lastName = $data['lastName'];
@@ -31,14 +31,15 @@ try{
                     $section = $data['section'];
                     $group = $data['group'];
                     $email = $data['email'];
+                    $phoneNumber = $data['phoneNumber'];
                     $password = $data['password'];
                 } else {
                     echo json_encode(["success" => false, "message" => "all inputs  are required"]);
                     exit();
                 }
                 
-                if ($matricule !== '' && $firstName !== '' && $lastName !== '' &&  $educationYear !== '' && $section !== '' && $group !== '' &&  $email !== '' && $password !== '') {
-                    $etudient = new Etudient($firstName, $lastName, $email, $password,false, $matricule, $educationYear, $speciality, $section, $group);
+                if ($matricule !== '' && $firstName !== '' && $lastName !== '' &&  $educationYear !== '' && $section !== '' && $group !== '' &&  $email !== '' && $password !== '' && $phoneNumber !== '' ) {
+                    $etudient = new Etudient($firstName, $lastName, $email, $password,false, $matricule, $educationYear, $speciality, $section, $group,$phoneNumber);
                     $response=$etudient->addEtudient($conn);
                 } else {
                     $response =["success" => false, "message" => "input cant be empty"];
@@ -64,6 +65,15 @@ try{
             echo json_encode(["success" => false, "message" => "Invalid request. studentId is required"]);
         }
         break;
+        
+        case 'getStudentsRole':
+            if ($method == "GET" ) {
+                
+                Etudient::getStudentsRole($conn);
+            } else {
+                echo json_encode(["success" => false, "message" => "Invalid request. studentId is required"]);
+            }
+            break;
     
     
     

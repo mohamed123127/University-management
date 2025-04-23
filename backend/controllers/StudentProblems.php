@@ -7,6 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 require_once '../config/database.php'; 
+require '../packages/vendor/autoload.php';
 
 class StudentsProblems {
     private $Id;
@@ -69,6 +70,48 @@ public static function gettall($conn){
         return ["success" => false, "message" => "An error occurred: " . $ex];
     }
 }
+//----------
+public function sendReply() {
+    header('Content-Type: application/json');
+
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!isset($data['email']) || !isset($data['message'])) {
+        echo json_encode(["success" => false, "message" => "Missing email or message"]);
+        return;
+    }
+
+    $toEmail = $data['email'];
+    $replyMessage = $data['message'];
+
+    $mail = new PHPMailer(true);
+    try {
+        // إعدادات السيرفر SMTP
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // يمكن تغييره حسب مزود الخدمة
+        $mail->SMTPAuth = true;
+        $mail->Username = 'your-email@gmail.com'; // بريدك الإلكتروني
+        $mail->Password = 'your-app-password'; // كلمة مرور التطبيق
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // إعدادات المرسل والمستقبل
+        $mail->setFrom('your-email@gmail.com', 'Admin'); // البريد المرسل منه
+        $mail->addAddress($toEmail);
+
+        // محتوى البريد
+        $mail->isHTML(false);
+        $mail->Subject = "Reply to your problem report";
+        $mail->Body = $replyMessage;
+
+        // إرسال البريد
+        $mail->send();
+        echo json_encode(["success" => true, "message" => "Reply sent successfully"]);
+    } catch (Exception $e) {
+        echo json_encode(["success" => false, "message" => "Mailer Error: " . $mail->ErrorInfo]);
+    }
+}
+
 }
 
 ?>

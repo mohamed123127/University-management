@@ -112,6 +112,14 @@ static async getStudentWithRole(studentId) {
       console.error("catch in getStudentWithRole:", error);
   }
 }
+static async getStudentsRole(studentId) {
+  try {
+    const response = await ApiOperator.get(this.StudentRootUrl + "getStudentsRole");
+     return response; 
+  } catch (error) {
+      console.error("catch in getStudentWithRole:", error);
+  }
+}
 
 
 

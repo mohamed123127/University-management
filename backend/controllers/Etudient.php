@@ -20,10 +20,10 @@ class Etudient extends User {
     private $specialty;
     private $section;
     private $group;
-
+    private $phoneNumber;
     const TABLE_NAME = "etudient";
 
-    public function __construct($firstName, $lastName, $email, $password, $isActive, $matricule, $educationYear, $specialty, $section, $group) {
+    public function __construct($firstName, $lastName, $email, $password, $isActive, $matricule, $educationYear, $specialty, $section, $group,$phoneNumber) {
         parent::__construct($email, $password, $isActive);
         $this->matricule = $matricule;
         $this->firstName = $firstName;
@@ -32,6 +32,7 @@ class Etudient extends User {
         $this->specialty = $specialty;
         $this->section = $section;
         $this->group = $group;
+        $this->phoneNumber= $phoneNumber;
     }
     public static function isExistEtudient($conn, $email, $password) {
         $sql = "SELECT `Id`, `Active` FROM etudient WHERE email = ? AND password = ?";
@@ -106,38 +107,39 @@ class Etudient extends User {
         return null;
     }
     public function addEtudient($conn) {
-        
-        try{
-            $student = $this->getByEmail($conn,$this->email);
-            if($student == null){
-            $sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, Speciality, section, grp , email, password, Active) 
-                VALUES ( ?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            // إضافة رسالة تسجيل للتحقق من القيم المستلمة
+// قم بتسجيل كافة البيانات المستلمة
+               // $this->PhoneNumber='085753';
+            // تحقق من قيمة phoneNumber
+            if (empty($this->phoneNumber)) {
+                return ["success" => false, "message" => "Phone number cannot be empty"];
+                
+            }
+            $student = $this->getByEmail($conn, $this->email);
+            if ($student == null) {
+                $sql = "INSERT INTO etudient (matricule, firstName, lastName, educationYear, Speciality, section, grp, email, PhoneNumber, password, Active) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                if (!$stmt) {
+                    return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
+                }
     
-        $stmt = $conn->prepare($sql);
-        
-
-        if (!$stmt) {
-            return(["success" => false, "message" => "Database statement preparation failed: " . $conn->error]);
+                $stmt->bind_param("ssssssssssi", $this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->phoneNumber, $this->password, $this->isActive);
+    
+                if ($stmt->execute()) {
+                    return ["success" => true, "message" => "Student added successfully."];
+                } else {
+                    return ["success" => false, "message" => "Failed to add student. Error: " . $stmt->error];
+                }
+            } else {
+                return ["success" => false, "message" => "This email is already used"];
+            }
+        } catch (Exception $ex) {
+            return ["success" => false, "message" => "Error: " . $ex->getMessage()];
         }
-        
-        
-        // Bind parameters for 10 values (update type of parameters to match input data)
-        $stmt->bind_param("sssssssssi",$this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password, $this->isActive);
-       
-        if ($stmt->execute()) {
-           
-            return(["success" => true, "message" => "Student added successfully."]);
-        } else {
-            return(["success" => false, "message" => "Failed to add student."]);
-        }
-        }else{
-            return ["success"=> false, "message" => "this email has aleardy used"];
-        }
-        }catch(Exception $ex){
-            return(["success" => false, "message" => $ex->getMessage()]);
-        }
-        
     }
+    
     public static function changeActivate($conn, $id, $status) {
         try {
             $sql = "UPDATE etudient SET Active = ? WHERE Id = ?";
@@ -358,7 +360,29 @@ public static function getStudentWithRole($conn, $studentId) {
         exit; 
     }
 }
+public static function getStudentsRole($conn  ) {
+    try {
+        $query = "SELECT StudentId , Role FROM StudentRole ";
+        $stmt = $conn->prepare($query);
+     
+        $stmt->execute();
+       
+        $result = $stmt->get_result();
+    
+        $studentsRole = [];
+        while ($row = $result->fetch_assoc()) {
+            $studentsRole[] = $row;
+        }
 
+      
+        
+        echo json_encode(["success" => true, "studentsRole" => $studentsRole]);
+        exit;
+    } catch (Exception $e) {
+        echo json_encode(["success" => false, "error" => $e->getMessage()]);
+        exit; 
+    }
+}
 
 
 

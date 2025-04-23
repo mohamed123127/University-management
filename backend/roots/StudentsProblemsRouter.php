@@ -8,6 +8,8 @@ require_once '../config/database.php';
 require_once '../controllers/StudentProblems.php';  
 require_once '../utils/JwtLogin.php';
 
+
+
 $method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? null;
 
@@ -44,7 +46,28 @@ try {
         default:
             $response = ["success" => false, "message" => "Invalid endpoint"];
             break;
+//================================================================================
+         case 'sendReply':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    require_once '../controllers/StudentProblems.php';
+                    $controller = new ProblemController();
+                    $controller->sendReply();
+                } else {
+                    $response = ["success" => false, "message" => "Invalid method"];
+                }
+                break;
+                case 'sendReply':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        require_once '../Controllers/ProblemController.php';
+                        $controller = new ProblemController();
+                        $controller->sendReply();
+                    } else {
+                        $response = ["success" => false, "message" => "Invalid method"];
+                    }
+                    break;  
     }
+    
+     
 } catch (Exception $e) {
     $response = ['success' => false, 'message' => $e->getMessage()];
 }

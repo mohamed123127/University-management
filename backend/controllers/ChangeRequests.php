@@ -6,32 +6,48 @@ class ChangeRequests{
     private $id;
     private $type;
     private $status;
-    private $oldValue;
+    private $newValue1;
     private $newValue;
     private $submissionDate;
     private $lastUpdatedDate;
     private $studentId;
+    private $matricule1; 
+    private $matricule2; 
 
-
-    public function __construct($type,$oldValue,$newValue,$studentId){
+    public function __construct($type, $newValue1, $newValue2, $studentId, $matricule1, $matricule2) {
         $this->type = $type;
-        $this->oldValue = $oldValue;
-        $this->newValue = $newValue;
+        $this->newValue1 = $newValue1;
+        $this->newValue2 = $newValue2;
         $this->studentId = $studentId;
+        $this->matricule1 = $matricule1; 
+        $this->matricule2 = $matricule2; 
     }
 
-    public function add($conn){
-        try{
-            $sql = "INSERT INTO changerequests(Type, Status, OldValue, NewValue, SubmissionDate, LastUpdatedDate, StudentId) VALUES (?,'en attend',?,?,NOW(),NOW(),?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssi", $this->type, $this->oldValue, $this->newValue, $this->studentId);
-            $stmt->execute();
-            //$stmt->get_result();
+    public function add($conn) {
+        try {
+            $sql = "INSERT INTO changerequests (
+                Type, Status, NewValue1, Matricule1, Matricule2, NewValue2, SubmissionDate, LastUpdatedDate, StudentId
+            ) VALUES (?, 'en attend', ?, ?, ?, ?, NOW(), NOW(), ?)";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssi", 
+        $this->type,         
+        $this->newValue1,    
+        $this->matricule1,   
+        $this->matricule2,   
+        $this->newValue2,    
+        $this->studentId     
+    );
+    
+    $stmt->execute();
+    
+
             return ["success" => true, "message" => "change request was added"];
-        }catch(Exception $e) {
-            return ["success" => false, "message" => "هناك خطأ","error: " => $e->getMessage()];
+        } catch (Exception $e) {
+            return ["success" => false, "message" => "هناك خطأ", "error" => $e->getMessage()];
         }
     }
+
 
     public static function getAll($conn){
         try{
