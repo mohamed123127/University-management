@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ComboBoxStyle1 from 'components/custom controls/combo box/ComboBoxStyle1';
@@ -16,16 +15,14 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const [selectedDemande, setSelectedDemande] = useState('');
     const [matricule1, setmatricule1] = useState('');
     const [matricule2, setmatricule2] = useState('');
-    const [newGroup1, setNewGroup1] = useState('');
-    const [newGroup2, setNewGroup2] = useState('');
-    const [newSection1, setSelectedSection1] = useState('');
-    const [newSection2, setSelectedSection2] = useState('');
-    const [newSpeciality1, setSelectedSpeciality1] = useState('');
-    const [newSpeciality2, setSelectedSpeciality2] = useState('');
-    const [currentDay,setCurrentDay] = useState('');
+  
+      const [currentDay,setCurrentDay] = useState('');
     const [currentHour,setCurrentHour] = useState('');
     const [newDay,setNewDay] = useState('');
     const [newHour,setNewHour] = useState('');
+    const [newValue1, setNewValue1] = useState(''); // بدل matricule1
+    const [newValue2, setNewValue2] = useState(''); // بدل matricule2
+
     const [submittedRequests, setSubmittedRequests] = useState([]);
 
     const demandeOptions = [
@@ -85,15 +82,15 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const getNewValue = ()=>{
         if(selectedDemande === t('Group'))
         {
-            return [newGroup1,newGroup2];
+            return [newValue1,newValue2];
         }
         else if(selectedDemande === t('Section'))
         {
-            return [newSection1,newSection2];
+            return [newValue1,newValue2];
         }
         else if(selectedDemande === t('Speciality'))
         {
-            return [newSpeciality1,newSpeciality2];
+            return [newValue1,newValue2];
         }
         else if(selectedDemande === t('LessonTiming'))
             {
@@ -117,10 +114,10 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     
                 const newData = {
                     Type: selectedDemande,
-                    newValue1: newVal1,
-                    newValue2: newVal2,
-                    matricule1: matricule1, 
-                    matricule2: matricule2, 
+                    NewValue1: newVal1,
+                    NewValue2: newVal2,
+                    Matricule1: matricule1, 
+                    Matricule2: matricule2, 
                     Status: "Pending",
                     SubmissionDate: new Date().toLocaleDateString('en-CA'),
                     LastUpdatedDate: new Date().toLocaleDateString('en-CA'),
@@ -152,7 +149,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         />
     
         {selectedDemande === t('Group') && (
-          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-2 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-1 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
             <p className="text-[#374151] font-semibold">{t('Matricule 1')}</p>
             <TextBoxStyle2 
               Name="Matricule 1" 
@@ -165,8 +162,8 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             <ComboBoxStyle1 
               Name="New Group 1" 
               options={groupOptions} 
-              value={newGroup1} 
-              onChange={(e) => setNewGroup1(e.target.value)} 
+              value={newValue1} 
+              onChange={(e) => setNewValue1(e.target.value)} 
               comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
             />
     
@@ -182,8 +179,8 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             <ComboBoxStyle1 
               Name="New Group 2" 
               options={groupOptions} 
-              value={newGroup2} 
-              onChange={(e) => setNewGroup2(e.target.value)} 
+              value={newValue2} 
+              onChange={(e) => setNewValue2(e.target.value)} 
               comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
             />
           </div>
@@ -203,8 +200,8 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             <ComboBoxStyle1
               Name="New Section 1"
               options={sectionOptions}
-              value={newSection1}
-              onChange={(e) => setSelectedSection1(e.target.value)}
+              value={newValue1}
+              onChange={(e) => setNewValue1(e.target.value)}
               comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
             />
     
@@ -220,15 +217,15 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             <ComboBoxStyle1
               Name="New Section 2"
               options={sectionOptions}
-              value={newSection2} 
-              onChange={(e) => setSelectedSection2(e.target.value)}
+              value={newValue2} 
+              onChange={(e) => setNewValue2(e.target.value)}
               comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
             />
           </div>
         )}
     
         {selectedDemande === t('Speciality') && (
-          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-1 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-0,5 bg-gray-100 border p-1 rounded-lg shadow-md border-gray-300">
             <p className="text-[#374151] font-semibold">{t('Matricule 1')}</p>
             <TextBoxStyle2
               Name="Matricule 1"
@@ -241,8 +238,8 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             <ComboBoxStyle1
               Name="New Speciality 1"
               options={specialityOptions}
-              value={newSpeciality1}
-              onChange={(e) => setSelectedSpeciality1(e.target.value)}
+              value={newValue1}
+              onChange={(e) => setNewValue1(e.target.value)}
               comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
             />
     
@@ -258,8 +255,8 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             <ComboBoxStyle1
               Name="New Speciality 2"
               options={specialityOptions}
-              value={newSpeciality2}
-              onChange={(e) => setSelectedSpeciality2(e.target.value)}
+              value={newValue2}
+              onChange={(e) => setNewValue2(e.target.value)}
               comboBoxClassName="h-8 w-full sm:w-auto rounded-md shadow-sm"
             />
           </div>

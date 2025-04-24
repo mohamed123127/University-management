@@ -12,39 +12,7 @@ export default function Students() {
     const { t } = useTranslation();
     const [students, setStudents] = useState([]);
     const options1 = [t("Matricule"), t("EducationYear"), t("full name"), t("Email")];
-    const options2 = ["all", "Active", "desactive
-
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const result = await Student.getAll();
-            const roles = await Student.getStudentsRole();
-      
-            if (result.success === true) {
-              const studentsWithRoles = result.Data.students.map(student => {
-                const matchedRole = roles.studentsRole.find(
-                  role => role.StudentId === student.Id
-                );
-                return {
-                  ...student,
-                  Role: matchedRole ? matchedRole.Role : null 
-                };
-              });
-      
-              setStudents(studentsWithRoles);
-              console.log(studentsWithRoles);
-            } else {
-              alert(result.success + '\n ' + result.message);
-            }
-          } catch (error) {
-            console.error("Fetch error:", error);
-            alert("An error occurred while getting all students. Please try again later.");
-          }
-        };
-        fetchData();
-      }, []);
-      
-
+    const options2 = ["all", "Active", "desactive"];
 
     const columns = [
         { name: "Matricule", Header: "Matricule", width: "10%", className: "text-center" },
@@ -62,6 +30,37 @@ export default function Students() {
     const [selectedOption2, setSelectedOption2] = useState(t("all"));
     const [searchTerm, setSearchTerm] = useState("");
     const expectedHeaders = ["matricule", "firstName", "lastName", "educationYear", "speciality", "section", "group", "email", "password", "phone"];
+
+    const fetchData = async () => {
+      try {
+        const result = await Student.getAll();
+        const roles = await Student.getStudentsRole();
+  
+        if (result.success === true) {
+          const studentsWithRoles = result.Data.students.map(student => {
+            const matchedRole = roles.studentsRole.find(
+              role => role.StudentId === student.Id
+            );
+            return {
+              ...student,
+              Role: matchedRole ? matchedRole.Role : null 
+            };
+          });
+  
+          setStudents(studentsWithRoles);
+          console.log(studentsWithRoles);
+        } else {
+          alert(result.success + '\n ' + result.message);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+        alert("An error occurred while getting all students. Please try again later.");
+      }
+    };
+
+    useEffect(() => {
+      fetchData();
+    }, []);
 
       const isSameSchema = (headers)=>{
         //console.log("1");
