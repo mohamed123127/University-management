@@ -125,6 +125,7 @@ class Etudient extends User {
         }
         return null;
     }
+
     public function addEtudient($conn) {
       try {
 		$sql = "INSERT INTO  etudient ( matricule , firstName , lastName  , educationYear, Speciality, section, grp , email, password,PhoneNumber, Active,isNew) 
@@ -142,13 +143,11 @@ class Etudient extends User {
                 } else {
                     return ["success" => false, "message" => "Failed to add student. Error: " . $stmt->error];
                 }
-            } else {
-                return ["success" => false, "message" => "This email is already used"];
-            }
-        } catch (Exception $ex) {
+            }catch (Exception $ex) {
             return ["success" => false, "message" => "Error: " . $ex->getMessage()];
         }
     }
+
 
     public function updateStudent($conn) {
         try {    
@@ -351,7 +350,6 @@ class Etudient extends User {
             return(["success" => false, "message" => "An error occurred: " . $ex]);
         }
     }  
-//----------------------------------
 
 
 public static function SetRole($conn, $studentId, $role) {
@@ -397,7 +395,7 @@ public static function getStudentWithRole($conn, $studentId) {
         exit; 
     }
 }
-public static function getStudentsRole($conn  ) {
+public static function getStudentsRole($conn) {
     try {
         $query = "SELECT StudentId , Role FROM StudentRole ";
         $stmt = $conn->prepare($query);
@@ -412,6 +410,9 @@ public static function getStudentsRole($conn  ) {
         }
 
         echo json_encode(["success" => true, "studentsRole" => $studentsRole]);
+        exit;
+    }catch (Exception $e) {
+        echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
         exit;
     }
 }
