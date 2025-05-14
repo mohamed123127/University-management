@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import LoginSignUp from "pages/Authentication/Login_SignUp";
 import StudentIDCard from "pdfGenerator/StudentIDCard";
-import BlockAcademicYear from "pdfGenerator/BlockAcademicYear";
+import BlockAcademicYear from "pdfGenerator/Attestation-MajorPromotion";
 import RegistrationCertificate from "pdfGenerator/RegistrationCertificate";
 import InternshipPermit from "pdfGenerator/InternshipPermit";
 import LibaryCard from "pdfGenerator/LibaryCard";

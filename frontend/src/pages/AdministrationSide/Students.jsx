@@ -35,7 +35,7 @@ export default function Students() {
       try {
         const result = await Student.getAll();
         const roles = await Student.getStudentsRole();
-  
+    
         if (result.success === true) {
           const studentsWithRoles = result.Data.students.map(student => {
             const matchedRole = roles.studentsRole.find(
@@ -43,10 +43,10 @@ export default function Students() {
             );
             return {
               ...student,
-              Role: matchedRole ? matchedRole.Role : null 
+              Role: matchedRole ? matchedRole.Role : "Simple Student" // إذا لم يتم العثور على دور، يتم تعيين "Simple Student"
             };
           });
-  
+    
           setStudents(studentsWithRoles);
           console.log(studentsWithRoles);
         } else {
@@ -57,6 +57,7 @@ export default function Students() {
         alert("An error occurred while getting all students. Please try again later.");
       }
     };
+    
 
     useEffect(() => {
       fetchData();

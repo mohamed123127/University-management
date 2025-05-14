@@ -149,7 +149,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         />
     
         {selectedDemande === t('Group') && (
-          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-1 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-4 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
             <p className="text-[#374151] font-semibold">{t('Matricule 1')}</p>
             <TextBoxStyle2 
               Name="Matricule 1" 
@@ -187,7 +187,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         )}
     
         {selectedDemande === t('Section') && (
-          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-1 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-4 bg-gray-100 border p-2 rounded-lg shadow-md border-gray-300">
             <p className="text-[#374151] font-semibold">{t('Matricule 1')}</p>
             <TextBoxStyle2
               Name="Matricule 1"
@@ -225,7 +225,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         )}
     
         {selectedDemande === t('Speciality') && (
-          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-0,5 bg-gray-100 border p-1 rounded-lg shadow-md border-gray-300">
+          <div className="flex flex-col md:flex-row flex-wrap items-start md:items-center gap-4 bg-gray-100 border p-1 rounded-lg shadow-md border-gray-300">
             <p className="text-[#374151] font-semibold">{t('Matricule 1')}</p>
             <TextBoxStyle2
               Name="Matricule 1"
