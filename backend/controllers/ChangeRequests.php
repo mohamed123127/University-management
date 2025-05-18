@@ -51,8 +51,7 @@ class ChangeRequests{
 
     public static function getAll($conn){
         try{
-            $sql = "SELECT changerequests.Id, `Matricule`, `FirstName` , `LastName` , `EducationYear` , `Type`, `OldValue`, `NewValue`, `SubmissionDate`, `LastUpdatedDate`,`Status` FROM `Changerequests` 
-                    INNER JOIN etudient ON changerequests.StudentId = etudient.Id";
+            $sql = "SELECT `Id`,`Type`,`Matricule1`, `NewValue1` , `Matricule2` , `NewValue2` ,  `SubmissionDate`, `LastUpdatedDate`,`StudentId` FROM `Changerequests` where Status='en attend'";
             $stmt = $conn->prepare($sql);
 
             if (!$stmt) {
@@ -82,8 +81,14 @@ class ChangeRequests{
                 case 'Group':
                     Etudient::changeGroup($conn,$studentId,$newValue);
                 break;
+                case 'Swap Group':
+                    Etudient::swapGroups($conn, $newValue, $studentId); 
+                break;
                 case 'Section':
                     Etudient::changeSection($conn, $studentId, $newValue);
+                break;
+                case 'Swap Section':
+                    Etudient::swapSection($conn, $newValue, $studentId); 
                 break;
                 case 'Speciality':
                     Etudient::changeSpeciality($conn, $studentId, $newValue);

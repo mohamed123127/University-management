@@ -147,7 +147,7 @@
     "reason": "Reason",
   "requestRejectionNumber": "Request rejection number",
   "notifications": "Notifications",
-  "changePasswordOnFirstLoginForSecurityReason": "You must change your password on first login for security reasons"
-    
+  "changePasswordOnFirstLoginForSecurityReason": "You must change your password on first login for security reasons",
+  "requestApprovalNumber": "Approved request number "
   }
   

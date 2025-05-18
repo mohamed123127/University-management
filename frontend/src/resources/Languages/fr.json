@@ -148,8 +148,8 @@
     "reason": "La raison",
   "requestRejectionNumber": "Rejet de la demande numéro",
   "notifications": "Notifications",
-  "changePasswordOnFirstLoginForSecurityReason": "Le mot de passe doit être changé lors de la première connexion pour des raisons de sécurité"
-    
+  "changePasswordOnFirstLoginForSecurityReason": "Le mot de passe doit être changé lors de la première connexion pour des raisons de sécurité",
+  "requestApprovalNumber": "Demande approuvée numéro "
 
   }
   

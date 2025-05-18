@@ -9,6 +9,7 @@ class Announcement
     try 
     {
         const result = await ApiOperator.post(this.AnnouncementRootUrl + "add", data);
+        console.log(result);
         return result; 
     } catch (error) {
         alert("catch in add announcement: " + error);

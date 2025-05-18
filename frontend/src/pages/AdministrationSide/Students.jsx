@@ -48,7 +48,6 @@ export default function Students() {
           });
   
           setStudents(studentsWithRoles);
-          console.log(studentsWithRoles);
         } else {
           alert(result.success + '\n ' + result.message);
         }

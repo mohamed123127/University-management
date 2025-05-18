@@ -69,8 +69,11 @@ try{
                             $phone = $student['phone'];
 
                             $etudient = new Etudient($firstName, $lastName, $email, $password, false, $matricule, $educationYear, $speciality, $section, $group, $phone);
-                                if(Etudient::isExistEtudient_matricule($conn,$matricule)){
-                                    $response = $etudient->updateStudent($conn);
+                            $d = Etudient::isExistEtudient_matricule($conn,$matricule,true);    
+                            if($d['success']){
+                               
+                                        $response = $etudient->updateStudent_withoutChangePassword($conn);
+                                    
                                 }else{
                                     $response = $etudient->addEtudient($conn);
                                 }
@@ -275,7 +278,9 @@ try{
                 $response=(["success" => false, "message" => "Invalid request method. Use POST."]);
             }
             break;
-
+        case "test":
+            $response = Etudient::isNew($conn,4414);
+            break;
     }
 }catch (Exception $e) {
     $response = ['success' => false, 'message' => $e->getMessage()];

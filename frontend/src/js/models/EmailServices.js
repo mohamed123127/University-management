@@ -1,15 +1,13 @@
 import ApiOperator from '../Helpers/ApiOperator'
-import settings from '../../resources/Settings'
 
-class DocumentRequest 
+class EmailServices 
 {
-    static DocumentRequestRootUrl = "DocumentRequestRouter.php?endpoint="
-    static rootUrl = settings.domain + "1/University-management/backend/roots/";
+    static EmailServicesRootUrl = "EmailServicesRouter.php?endpoint="
 
-    static async SaveDocumentRequestInDb(data){
-        const response = await ApiOperator.post(this.DocumentRequestRootUrl+"SaveDocumentRequestInDb",data)
+    static async sendEmail(emailReceiver,title,content){
+        const response = await ApiOperator.post(this.EmailServicesRootUrl+"sendEmail",{emailReceiver:emailReceiver,title:title,content:content})
         return response;
     }    
 }
 
-export default DocumentRequest;
+export default EmailServices;

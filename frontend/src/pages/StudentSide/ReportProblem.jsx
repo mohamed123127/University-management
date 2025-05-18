@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import ReportProblem from "js/models/ReportProblem";
 
 
-export default function Repport({Email}) {
+export default function Repport({Email,StudentId}) {
     const [t] = useTranslation();
   const [repportData, setRepportData] = useState({
     title: '',
@@ -33,7 +33,7 @@ export default function Repport({Email}) {
     }
   
     try{
-        const result = await ReportProblem.Add({"title":repportData.title,"content":repportData.content,"email":Email});
+        const result = await ReportProblem.Add({"title":repportData.title,"content":repportData.content,"email":Email,"studentId":StudentId});
         if (result.success === true) {
         setSuccessMessage("Repport sent successfully.");
         setRepportData({ title: '', content: '' });

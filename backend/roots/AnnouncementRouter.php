@@ -28,11 +28,11 @@ try{
                         $title = $data['title'];
                         $content = $data['content'];
                     } else {
-                        echo json_encode(["success" => false, "message" => "Recipient, title, and content are required"]);
+                        $response = ["success" => false, "message" => "Recipient, title, and content are required"];
                         exit();
                     }
 
-                    if ($recipient !== '' && $title !== '' && $content !== '') {
+                    if ($recipient !== '' && $title !== '') {
                         $announcement = new Announcement($conn, $title, $content);
                         $response = $announcement->add($recipient); 
                     } else {

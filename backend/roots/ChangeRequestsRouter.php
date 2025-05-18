@@ -69,13 +69,15 @@ try{
                     $type = $data['requestType'];
                     $newValue = $data['newValue'];
                     $studentId = $data['studentId'];
+                    $matricule1 = $data['matricule1'] ?? null;  // accept if exists
+                    $matricule2 = $data['matricule2'] ?? null;  // accept if exists
                 } else {
                     echo json_encode(["success" => false, "message" => "all inputs  are required"]);
                     exit();
                 }
                 
                 if ($type !== '' && $requestId !== '' && $newValue !== '' && $studentId !== '') {
-                    $response = ChangeRequests::accepteRequest($conn,$requestId,$type,$newValue,$studentId);
+                    $response = ChangeRequests::accepteRequest($conn,$requestId,$type,$newValue,$studentId, $matricule1, $matricule2);
                 } else {
                     $response = ["success" => false, "message" => "inputs  are vide"];
                 }

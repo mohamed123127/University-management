@@ -3,7 +3,6 @@ import ButtonStyle1 from "components/custom controls/buttons/ButtonStyle1";
 import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1";
 import DataGridView from "components/custom controls/data grid view/dataGridViewStyle1";
 import { useTranslation } from 'react-i18next';
-import Student from "js/models/Student";
 import TextBoxStyle2 from "components/custom controls/textBox/TextBoxStyle2";
 import DocumentRequest from "js/models/DocumentRequest";
 
@@ -26,7 +25,6 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
         { name: "Notes", Header: 'Notes', width: "200px" },
         { name: "SubmissionDate", Header: 'SubmissionDate', width: "100px" },
         { name: "LastUpdatedDate", Header: 'LastUpdatedDate', width: "100px" }
-
     ];
 
     
@@ -48,6 +46,7 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
     
     const demandeOptions = [
         t('registration_certificate'),
+        t('registration_certificate2'),
         t('grade_transcript'),
         t('parking_permit'),
         t('library_card'),
@@ -55,12 +54,20 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
         t('studentCard'),
         t('block_academic_year'),
         t('bon_conduit'),
+        t('bon_conduit2'),
         t('classement'),
+        t('classement2'),
         t('convention_de_stage'),
         t('copie_de_bac'),
         t('releve_de_note'),
         t('attestation_de_langue'),
-        t('accise_de_diplome')
+        t('accise_de_diplome'),
+        t('Attestation-MajorPromotion'),
+        t('attestation1'),
+        t('attestation2'),
+        t('attestation3'),
+        t('Prestage'),
+        t('ficheDePresenceDeStage')
     ];
     
 
@@ -75,15 +82,18 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
         }
        loadData();
   },[])
+
     const AddButtonClickHandled = () => {
       switch(docunentType){
        
           case t('registration_certificate'):
               window.open(`/DocumentRequest/RegistrationCertificate/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&educationYear=${StudentData.EducationYear}&faculty=${StudentData.Faculty}&Speciality=${StudentData.Speciality}`, "_blank");
           break;
+          case t('registration_certificate2'):
+              window.open(`/DocumentRequest/CertificatScolarite2/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&educationYear=${StudentData.EducationYear}&faculty=${StudentData.Faculty}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
           case t('internship_permit'):
             window.open(`/DocumentRequest/InternshipPermit/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&educationYear=${StudentData.EducationYear}&Speciality=${StudentData.Speciality}&internshipPlace=${internshipPlace}&internshipPeriod=${internshipPeriod }`, "_blank");
-           
           break;
           case t('library_card'):
               window.open(`/DocumentRequest/LibaryCard/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}`, "_blank");
@@ -97,22 +107,42 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
           case t('studentCard'):
               window.open(`/DocumentRequest/StudentIDCard/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}`, "_blank");
           break;
+          case t('classement'):
+            window.open(`/DocumentRequest/attestationClassement/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
+          case t('classement2'):
+            window.open(`/DocumentRequest/attestationClassement2/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
+          case t('bon_conduit'):
+            window.open(`/DocumentRequest/attestationBonneConduite/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}`, "_blank");
+          break;
+          case t('Attestation-MajorPromotion'):
+            window.open(`/DocumentRequest/Attestation-MajorPromotion/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
+          case t('attestation1'):
+            window.open(`/DocumentRequest/attestation1/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
+          case t('attestation2'):
+            window.open(`/DocumentRequest/attestation2/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
+          case t('attestation3'):
+            window.open(`/DocumentRequest/attestation3/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
+          case t('bon_conduit2'):
+            window.open(`/DocumentRequest/attestationBonneConduite1/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
+          case t('Prestage'):
+            window.open(`/DocumentRequest/Prestage/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+          break;
+          case t('ficheDePresenceDeStage'):
+            window.open(`/DocumentRequest/ficheDePresenceDeStage/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&Group=${StudentData.Grp}`, "_blank");
+          break;
           case t('block_academic_year'):
             alert("Go to : Rectora)");
           break;
-         
           case t(''):
             alert("Go to : ");
          break;
-         case t(''):
-            alert("Go to :");
-         break;
-          
-        
-            
-         
-
-
           default:
               break;
       }

@@ -6,3 +6,4 @@ backend/config/SecreteData.php
 backend/test
 frontend/src/components/Tests
 frontend/package-lock.json
+.env
