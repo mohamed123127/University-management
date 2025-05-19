@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function EtudientDashboard({ studentName }) {
   const { t } = useTranslation();
-
+  
   return (
     <div className="p-6 space-y-6">
       

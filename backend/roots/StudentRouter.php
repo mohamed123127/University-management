@@ -128,9 +128,6 @@ try{
                 echo json_encode(["success" => false, "message" => "Invalid request. studentId is required"]);
             }
             break;
-    
-    
-    
         case 'isExistEtudient':
             if($method == "POST"){
                 if (isset($data['matricule']) && isset($data['password'])) {
@@ -167,6 +164,34 @@ try{
 
                 if ($id !== '') {
                     $StudentData = Etudient::getById($conn, $id);
+                    if ($StudentData != null) {
+                        $response = ["success" => true, 'Data' => $StudentData];
+                    } else {
+                        $response = ["success" => false, "message" => "it's not exists data by this id"];
+                    }
+                } else {
+                    $response = ["success" => false, "message" => "Id is required"];
+                }
+            }else
+            {
+                $response = ["success" => false, "message" => "Method does not match"];
+            }
+        break;
+        case 'getStudentByMatricule':
+            if($method =="GET")
+            {
+                if (isset($_GET['matricule'])) 
+                {
+                    $matricule = $_GET['matricule'];
+                } else 
+                {
+                    $response = ["success" => false, "message" => "matricule is required"];
+                    echo json_encode($response);
+                    exit();
+                }
+
+                if ($matricule !== '') {
+                    $StudentData = Etudient::getByMatricule($conn, $matricule);
                     if ($StudentData != null) {
                         $response = ["success" => true, 'Data' => $StudentData];
                     } else {

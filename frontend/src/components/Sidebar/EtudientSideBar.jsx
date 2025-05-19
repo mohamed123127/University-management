@@ -86,26 +86,18 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
             Title={'dashboard'} 
             isOpen={isOpen} 
           />
-          <SideBarItemWithList 
+          <SideBatItem 
             OnClick={() => sidebarItemClickHundled('document_requests', <DocumentIcon className="w-8 h-8" />, <DocumentRequests StudentData={studentData}/>)} 
             itemIcon={<DocumentIcon />} 
             Title={'document_requests'} 
             isOpen={isOpen} 
-            ItemsList={DocumentRequestItemsList} 
-            OpenedList={openedList} 
-            setOpenedList={setOpenedList}
-            itemClickHandled={DocumentRequestListItemClickHundled}
             StudentData={studentData}
           />
-     <SideBarItemWithList 
+     <SideBatItem 
   OnClick={() => sidebarItemClickHundled('visual_requests', <EyeIcon className="w-8 h-8" />, <VisualRequests studentData={studentData}/>)} 
   itemIcon={<EyeIcon />} 
   Title={'visual_requests'} 
   isOpen={isOpen} 
-  ItemsList={VisualRequestsItemsList} 
-  OpenedList={openedList} 
-  setOpenedList={setOpenedList}
-  itemClickHandled={VisualRequestsListItemClickHundled}
   StudentData={studentData}
   ClassName={`${studentRole !== "Section Delegate" ? 'hidden':'visible' }`}
  />
@@ -116,16 +108,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
   Title={'report_problem'} 
   isOpen={isOpen}
   ClassName={`${studentRole !== "Section Delegate" ? 'hidden':'visible' }`}
- />
-
-          <SideBatItem 
-            OnClick={() => sidebarItemClickHundled('manage_account', <UserCircleIcon className="w-8 h-8" />, <ManageAccount StudentData={studentData}/>)} 
-            itemIcon={<UserCircleIcon />} 
-            Title={'manage_account'} 
-            isOpen={isOpen}
-          />
-          
-
+ />       
           <h1 className={`text-xl font-bold absolute bottom-4 left-1/2 transform -translate-x-1/2 ${isOpen ? '' : 'hidden'}`}>{new Date().toLocaleDateString('en-GB').toString("d")}</h1>
         </div>
       </div>

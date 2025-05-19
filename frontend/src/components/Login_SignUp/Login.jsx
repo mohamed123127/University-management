@@ -10,16 +10,228 @@ import Language from "components/Basics/Language";
 import Student from "js/models/Student";
 import Administration from "js/models/Administration";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
+import EmailServices from "js/models/EmailServices";
 import Swal from 'sweetalert2';
 import i18n from 'i18next';
-
-
 
 export default function Login({SignUpButtonHandled,ClassName,currentLanguage,setCurrentLanguage}){
     const { t, i18n } = useTranslation();
     const SignUpButton = useRef(null);
 
-    
+    const ForgetPasswordButtonClick = async () => {
+        // الخطوة 1: إدخال Matricule
+        const { value: matricule } = await Swal.fire({
+          title: "Restore Password",
+          input: "text",
+          inputLabel: "Enter your Matricule",
+          inputPlaceholder: "e.g. 222234586466",
+          showCancelButton: true,
+          confirmButtonText: "Continue",
+          cancelButtonText: "Cancel",
+          inputValidator: (value) => {
+            if (!value) return "You must enter your matricule!";
+          }
+        });
+      
+        if (!matricule) return;
+      
+        // استرجاع البريد بناءً على matricule 
+        const result = await Student.GetByMatricule(matricule);
+        if(!result.success){
+             Swal.fire("Success!", "matricule dosent exsists", "error");
+             return;
+        }
+        const studentData = result.Data;
+        const email = studentData.Email;
+        const maskedEmail = maskEmail(email);
+      
+        // الخطوة 2: تأكيد البريد
+        let emailConfirmed = false;
+        while (!emailConfirmed) {
+          const { isCorrectEmail } = await Swal.fire({
+            title: "Confirm your email",
+            html: `
+              <p>We found an email that looks like: <strong>${maskedEmail}</strong></p>
+              <input type="email" id="email-confirm" class="swal2-input" placeholder="Enter full email">
+              <div id="email-error" style="color:red; font-size:0.9em; min-height:1.2em;"></div>
+            `,
+            preConfirm: () => {
+              const value = document.getElementById("email-confirm").value;
+              if (!value) {
+                Swal.getHtmlContainer().querySelector("#email-error").innerText = "Please enter your full email.";
+                return false;
+              }
+              if (value !== email) {
+                Swal.getHtmlContainer().querySelector("#email-error").innerText = "The email you entered is incorrect.";
+                return false;
+              }
+              emailConfirmed = true;
+              return true;
+            },
+            showCancelButton: true,
+            confirmButtonText: "Confirm",
+            cancelButtonText: "Cancel"
+          });
+        }
+        await showVerificationPrompt(email);
+      };
+      
+      // إخفاء جزء من البريد
+      const maskEmail = (email) => {
+        const [user, domain] = email.split("@");
+        const visible = user.slice(0, 2);
+        const masked = "*".repeat(user.length - 1);
+        return `${visible}${masked}@${domain}`;
+      };
+      
+      // إدخال كود من 6 خلايا + زر إعادة إرسال
+      const generateConfirmCode = () => {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+      };
+      
+      const showVerificationPrompt = async (email) => {
+        let confirmCode = generateConfirmCode();
+        EmailServices.sendEmail(
+          email,
+          "Code to restore password",
+          `Here is the code to restore your password: ${confirmCode}. Please insert it in the form.`
+        );
+      
+        while (true) {
+          await Swal.fire({
+            title: "Enter the verification code",
+            html: `
+              <p>We have sent a code to <strong>${email}</strong></p>
+              <div id="code-inputs" style="display: flex; gap: 5px; justify-content: center; margin-top: 10px;">
+                ${Array.from({ length: 6 }).map((_, i) => `
+                  <input type="text" id="code-${i}" maxlength="1" 
+                    class="bg-white border-slate-400 border-2 h-14 mr-2 w-10 text-center text-xl rounded-lg" />
+                `).join('')}
+              </div>
+              <div id="error-msg" style="color: red; font-size: 0.9em; min-height: 1.2em; text-align:center;"></div>
+              <button type="button" id="resend-code" class="bg-gray-500 w-fit h-fit p-4 text-white rounded-lg mt-2">
+                Resend Code
+              </button>
+            `,
+            didOpen: () => {
+              const inputs = Array.from({ length: 6 }, (_, i) => document.getElementById(`code-${i}`));
+              let timeoutId = null;
+let hasSubmitted = false;
+
+// نضيف طريقة للوصول لـ hasSubmitted من الخارج
+window._setHasSubmitted = (val) => {
+  hasSubmitted = val;
+};
+
+      
+              const checkAutoSubmit = () => {
+                if (hasSubmitted) return;
+                const allFilled = inputs.every(input => input.value.length === 1);
+                if (allFilled) {
+                  clearTimeout(timeoutId);
+                  timeoutId = setTimeout(() => {
+                    hasSubmitted = true;
+                    Swal.clickConfirm();
+                  }, 1000);
+                } else {
+                  clearTimeout(timeoutId);
+                }
+              };
+      
+              inputs.forEach((input, index) => {
+                input.addEventListener("input", (e) => {
+                    const value = e.target.value;
+                  
+                    // إذا كان هناك خطأ سابق، نخفي رسالة الخطأ
+                    if (window._codeInputHadError) {
+                      const errorMsg = Swal.getHtmlContainer().querySelector("#error-msg");
+                      if (errorMsg) errorMsg.innerText = "";
+                      window._codeInputHadError = false;
+                    }
+                  
+                    if (!/^\d$/.test(value)) {
+                      e.target.value = "";
+                      return;
+                    }
+                  
+                    if (index < 5) inputs[index + 1].focus();
+                    checkAutoSubmit();
+                  });
+                  
+      
+                input.addEventListener("keydown", (e) => {
+                  if (e.key === "Backspace" && !input.value && index > 0) {
+                    inputs[index - 1].focus();
+                  }
+                });
+      
+                input.addEventListener("paste", (e) => {
+                  e.preventDefault();
+                  const paste = e.clipboardData.getData("text").trim();
+                  paste.split("").forEach((char, i) => {
+                    if (inputs[i]) inputs[i].value = char;
+                  });
+                  if (inputs[5]) inputs[5].focus();
+                  checkAutoSubmit();
+                });
+              });
+      
+              document.getElementById("resend-code").addEventListener("click", () => {
+                confirmCode = generateConfirmCode();
+                EmailServices.sendEmail(
+                  email,
+                  "Code to restore password",
+                  `Here is your new code: ${confirmCode}. Please insert it in the form.`
+                );
+                Swal.getHtmlContainer().querySelector("#error-msg").innerText = "A new code has been sent!";
+                console.log("Resending code to:", email);
+              });
+      
+              const confirmButton = Swal.getConfirmButton();
+              confirmButton.style.display = "none";
+            },
+            preConfirm: () => {
+                let fullCode = "";
+                for (let i = 0; i < 6; i++) {
+                  fullCode += document.getElementById(`code-${i}`).value;
+                }
+              
+                if (fullCode === confirmCode) {
+                  console.log("Correct code entered:", fullCode);
+                  return fullCode;
+                } else {
+                  const errorMsg = Swal.getHtmlContainer().querySelector("#error-msg");
+                  errorMsg.innerText = "Incorrect code. Please try again or resend.";
+              
+                  // مسح الحقول
+                  for (let i = 0; i < 6; i++) {
+                    const input = document.getElementById(`code-${i}`);
+                    if (input) input.value = "";
+                  }
+              
+                  // تركيز المؤشر على أول خانة
+                  document.getElementById("code-0")?.focus();
+              
+                  // تعيين الفلاغات لإعادة التحقق
+                  window._codeInputHadError = true;
+                  window._canAutoSubmitAgain = true;
+              
+                  // إعادة تفعيل التحقق
+                  if (typeof window._setHasSubmitted === "function") {
+                    window._setHasSubmitted(false);
+                  }
+              
+                  console.log("Incorrect code:", fullCode, " / Expected:", confirmCode);
+                  return false;
+                }
+              }
+              
+              
+          })
+        }
+      };
+      
+      
     useEffect(()=>{
         i18n.changeLanguage(currentLanguage);
         const html = document.documentElement;
@@ -125,12 +337,14 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                             <Language ClassName="mt-2 mr-2 rtl:ml-2" onLanguageChange={handleLanguageChange} DefaultLanguage={currentLanguage}/>
                         </div>
                     {/* Login_SignUp form */}
-                    <form className="bg-white flex flex-col w-[80%]">
+                    <div className="bg-white flex flex-col w-[80%]">
                     <LabelStyle1 labelText='Matricule' labelClassName="text-md"/>
                     <TextBoxStyle2 Name='matricule' placeholder="22227653984" value={loginFormData.matricule} onChange={handleChange} textBoxClassName="w-full pr-1"/>
                     <LabelStyle1 labelText='Password' labelClassName="text-md mt-5"/>
                     <TextBoxStyle2 type="password" Name='password' placeholder={`${'Password'}`} value={loginFormData.password} onChange={handleChange} textBoxClassName="w-full pr-1"/>
-                    <a href="#" className="self-end text-sm text-blue-400 max-w-fit">{`${t('ForgotPassword')}`}</a>
+                    <button className="self-end text-sm text-blue-400 max-w-fit" onClick={()=>ForgetPasswordButtonClick()}>
+                    {`${t('ForgotPassword')}`}
+                    </button>
                     <ButtonStyle1 buttonText={`${'Login'}`} buttonClassName="mt-5" onClick={LoginButtonHandled}/>
                     <div className="relative mt-8">
                         <h5 className="absolute left-1/2 transform -translate-x-1/2 top-[-12px] bg-white px-2">{`${t('OR')}`}</h5>
@@ -142,7 +356,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                             {`${t('SignWithGoogle')}`}
                         </div>
                     </button>
-                    </form>
+                    </div>
                     <p className={`text-gray-400 text-xs mr-auto rtl:ml-auto rtl:mr-11  ltr:ml-11 mt-3 ${isStudent ? 'visible' : 'hidden'}`}>{`${t('DontHaveAccount')}`} <button ref={SignUpButton} disabled onClick={SignUpButtonHandled} className="text-blue-400 opacity-50 cursor-not-allowed">{`${t('SignUp')}`}</button></p>
 
                     <ToggleButton toggleButtonClassName="absolute bottom-4" leftLabel={`${'Administration'}`} rightLabel={`${'Student'}`} onToggle={setIsStudent}/>

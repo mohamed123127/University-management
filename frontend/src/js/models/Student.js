@@ -66,6 +66,18 @@ class Student
     }
   }
 
+  static async GetByMatricule(Matricule)
+  {
+    try
+    {
+      const data = await ApiOperator.get(this.StudentRootUrl + "getStudentByMatricule",{matricule:Matricule});
+      return data;
+    } catch(error)
+    {
+      alert("catch in GetByMatricule: " + error);
+    }
+  }
+
   static async GetStudentsById(listId)
   {
     try

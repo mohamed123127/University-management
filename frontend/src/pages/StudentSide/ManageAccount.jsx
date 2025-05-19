@@ -11,7 +11,7 @@ export default function ManageAccount({StudentData}) {
   const [accountData, setAccountData] = useState({ firstName: '', lastName: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [selectedField, setSelectedField] = useState('');
+  const [selectedField, setSelectedField] = useState('FirstName');
   const [newValue, setNewValue] = useState('');
   const { t } = useTranslation();
   const AccountManagmentFields = ['FirstName','LastName','Email','Password'];
@@ -33,7 +33,7 @@ export default function ManageAccount({StudentData}) {
 
   const handleComboSubmit = (e) => {
     setError("error");
-    /*
+    
     e.preventDefault();
     if (!selectedField || !newValue) {
       setError(t('CompleteYourDataToLoginMessage'));
@@ -42,7 +42,7 @@ export default function ManageAccount({StudentData}) {
     setAccountData((prevData) => ({ ...prevData, [selectedField]: newValue }));
     setSuccessMessage(`${selectedField} has been successfully updated.`);
     setSelectedField('');
-    setNewValue('');*/
+    setNewValue('');
   };
 
   const getOldValue = ()=>{
@@ -84,7 +84,7 @@ export default function ManageAccount({StudentData}) {
     } else {
         //alert(result.success + " \n" + result.message);
         setSuccessMessage(null);
-        setError(result.success + " \n" + result.message);
+        setError(result.success + " \n" + result.message + selectedField + " " + getOldValue() + " " + newValue + " " + StudentData.Id);
     }
 }catch(error) {
     alert("catch in addButtonHandled in visual request" + error);

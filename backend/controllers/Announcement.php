@@ -64,7 +64,6 @@ class Announcement {
                         return ["success" => false, "message" => "Announcment does't added."];
                     }
                     break;                
-                break;
                 case 'Licence 2':
                     $studentsId = Etudient::getByEducationYear($this->conn,"Licence 2");
                     foreach ($studentsId as $value) {

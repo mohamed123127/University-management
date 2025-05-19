@@ -105,6 +105,19 @@ class Etudient extends User {
         }
         return null;
     }
+
+    public static function getByMatricule($conn, $matricule) {
+        $sql = "SELECT * FROM etudient WHERE Matricule = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $matricule);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+        return null;
+    }
+
     public static function getByEducationYear($conn, $EducationYear) {
         $sql = "SELECT Id FROM etudient WHERE EducationYear = ?";
         $stmt = $conn->prepare($sql);
@@ -457,30 +470,28 @@ class Etudient extends User {
     }  
 
 
-public static function SetRole($conn, $studentId, $role) {
-    try {
-        if ($role == 'Simple Student') {
-
-          $querydelete = "DELETE FROM StudentRole WHERE StudentId = ?";
-            $stmt = $conn->prepare($querydelete);
-            $stmt->execute([$studentId]);
-        } else {
-          
-            $query = "INSERT INTO StudentRole (StudentId, Role) 
-                      VALUES (?, ?) 
-                      ON DUPLICATE KEY UPDATE Role = ?";
-
-            $stmt = $conn->prepare($query);
-            $stmt->execute([$studentId, $role, $role]);
-        }
-
-        return ["success" => true, "message" => "Student set as $role"];
-    } catch (Exception $e) {
-        return ["success" => false, "error" => $e->getMessage()];
-    }
-
+    public static function SetRole($conn, $studentId, $role) {
+        try {
+            if ($role == 'Simple Student') {
+                $querydelete = "DELETE FROM StudentRole WHERE StudentId = ?";
+                $stmt = $conn->prepare($querydelete);
+                $stmt->bindParam(1, $studentId);
+                $stmt->execute();
+            } else {
+                $query = "INSERT INTO StudentRole (StudentId, Role) 
+                          VALUES (?, ?) 
+                          ON DUPLICATE KEY UPDATE Role = ?";
     
-}
+                $stmt = $conn->prepare($query);
+                $stmt->bindParam('iss', $studentId,$role,$role);
+            }
+    
+            return ["success" => true, "message" => "Student set as $role"];
+        } catch (Exception $e) {
+            return ["success" => false, "error" => $e->getMessage()];
+        }
+    }
+    
 
 
 public static function getStudentWithRole($conn, $studentId) {

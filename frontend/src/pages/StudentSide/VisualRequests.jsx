@@ -12,7 +12,7 @@ import { VirtualRequests } from 'js/models/VirtualRequest';
 export default function VisualRequests({selectedRequest,studentData=[]}){
     const { t, i18n } = useTranslation(); 
     const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
-    const [selectedDemande, setSelectedDemande] = useState('');
+    const [selectedDemande, setSelectedDemande] = useState('Group');
     const [matricule1, setmatricule1] = useState('');
     const [matricule2, setmatricule2] = useState('');
   
@@ -38,8 +38,6 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     const sectionOptions = ['1','2'];
     const days = ['Saturday','Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
     const hours = ['8:00 - 9:30', '9:40 - 11:10', '11:20 - 12:50', '13:00 - 14:30', '14:40 - 16:10','16:20 - 17:50'];
-    //const [studentData,setStudentData] = useState(null);
-    //useEffect(()=>{setStudentData(StudentData)},[])
 
     useEffect(()=>{
         const loadData =async()=>{
@@ -52,8 +50,8 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
     
     },[])
     useEffect(()=>{
-        setSelectedDemande(selectedRequest);
-      },[selectedRequest])
+        setSelectedDemande("Group");
+      },[])
     const specialityOptions = ['Isil', 'Si'];
 
     const columns = [
@@ -61,9 +59,9 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         { name: "Type", Header: t('RequestType'), width: "15%" },
         { name: "Status", Header: t('Status'), width: "10%" },
         { name: "Matricule1", Header: t('Matricule 1'), width: "10%" },
-        { name: "NewValue1", Header: t('New Value 1'), width: "10%" },
+        { name: "NewValue1", Header: t('Value 1'), width: "10%" },
         { name: "Matricule2", Header: t('Matricule 2'), width: "10%" },
-        { name: "NewValue2", Header: t('New Value 2'), width: "10%" },
+        { name: "NewValue2", Header: t('Value 2'), width: "10%" },
         { name: "SubmissionDate", Header: t('SubmissionDate'), width: "12%" },
         { name: "LastUpdatedDate", Header: t('LastUpdatedDate'), width: "13%" },
     ];
@@ -94,13 +92,43 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
         }
         else if(selectedDemande === t('LessonTiming'))
             {
-                return newDay + " " + newHour;
+                return [currentDay + " " + currentHour,newDay + " " + newHour];
             }
     }
     const addButtonHandled = async () => {
         try {
-            const [newVal1, newVal2] = getNewValue(); 
-    
+          const [newVal1, newVal2] = getNewValue(); 
+
+          if(selectedDemande === t('LessonTiming')){
+            const result = await ChangeRequests.add({
+              type: selectedDemande,
+              newValue1: newVal1,
+              newValue2: newVal2,
+              studentId: studentData.Id,
+             matricule1: "-", 
+             matricule2: "-"  
+          });
+  
+          if (result.success === true) {
+  
+              const newData = {
+                  Type: selectedDemande,
+                  NewValue1: newVal1,
+                  NewValue2: newVal2,
+                  Matricule1: "-", 
+                  Matricule2: "-", 
+                  Status: "Pending",
+                  SubmissionDate: new Date().toLocaleDateString('en-CA'),
+                  LastUpdatedDate: new Date().toLocaleDateString('en-CA'),
+              };
+  
+              
+              setData((prevData) => [...prevData, newData]);
+  
+          } else {
+              alert(result.success + "  \n" + result.message);
+          }
+          }else{    
             const result = await ChangeRequests.add({
                 type: selectedDemande,
                 newValue1: newVal1,
@@ -129,6 +157,7 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
             } else {
                 alert(result.success + "  \n" + result.message);
             }
+          }
         } catch (error) {
             alert("catch in addButtonHandled in visual request" + error);
         }
@@ -262,6 +291,19 @@ export default function VisualRequests({selectedRequest,studentData=[]}){
           </div>
         )}
     
+    {selectedDemande === t('LessonTiming') && (
+                <div className="flex items-center">
+                    <p className={`text-[#374151] font-semibold`}>{t('CurrentDay')}</p>
+                    <ComboBoxStyle1 options={days} value={currentDay} onChange={(e) => setCurrentDay(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
+                    <p className={`text-[#374151] font-semibold`}>{t('CurrentHour')}</p>                   
+                    <ComboBoxStyle1 options={hours} value={currentHour} onChange={(e) => setCurrentHour(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
+                    <p className={`text-[#374151] font-semibold`}>{t('NewDay')}</p>
+                    <ComboBoxStyle1 options={days} value={newDay} onChange={(e) => setNewDay(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1 ltr:mr-4 rtl:ml-4 " />
+                    <p className={`text-[#374151] font-semibold`}>{t('NewHour')}</p>                   
+                    <ComboBoxStyle1 options={hours} value={newHour} onChange={(e) => setNewHour(e.target.value)} comboBoxClassName="h-8 rounded-md shadow-sm ltr:ml-1 rtl:mr-1" />
+                </div>
+            )} 
+
         <ButtonStyle1 
           onClick={addButtonHandled} 
           buttonText={'Add'} 

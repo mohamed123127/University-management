@@ -20,6 +20,33 @@ try{
     
     switch($endpoint)
     {
+        case 'simpleAdd':
+            if ($method == "POST") {
+                if (
+                    isset($data['type']) &&
+                    isset($data['oldValue']) &&
+                    isset($data['newValue']) &&
+                    isset($data['studentId'])
+                ) {
+                    $type = $data['type'];
+                    $oldValue = $data['oldValue'];
+                    $newValue = $data['newValue'];
+                    $studentId = $data['studentId'];
+                } else {
+                    echo json_encode(["success" => false, "message" => "all inputs are required"]);
+                    exit();
+                }
+        
+                if ($type !== '' && $oldValue !== '' && $newValue !== '' && $studentId !== '') {
+                    $changeRequest = new ChangeRequests($type, $newValue1, $newValue2, $studentId, $matricule1, $matricule2); 
+                    $response = $changeRequest->add($conn);
+                } else {
+                    $response = ["success" => false, "message" => "inputs are empty"];
+                }
+            } else {
+                $response = ["success" => false, "message" => "Invalid method"];
+            }
+            break;
         case 'add':
             if ($method == "POST") {
                 if (
