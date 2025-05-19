@@ -74,6 +74,7 @@ class Etudient extends User {
         }
         return null;
     }
+    
     public static function isExistEtudient_matricule($conn, $matricule,$detailed=false) {
         $sql = "SELECT `Id` FROM etudient WHERE Matricule = ? ";
         $stmt = $conn->prepare($sql);

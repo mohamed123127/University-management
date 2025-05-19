@@ -84,7 +84,7 @@ export default function Administrations() {
             <div className="mb-6 bg-white p-2 rounded-lg shadow-sm flex items-end space-x-4 rtl:space-x-reverse">
                 {/* First Name */}
                 <div className="flex flex-col w-[15%]">
-                    <LabelStyle1 labelText="First Name :" labelClassName="mb-1 text-sm text-gray-700" />
+                    <LabelStyle1 labelText="FirstName" labelClassName="mb-1 text-sm text-gray-700" />
                     <TextBoxStyle2
                         Name="firstName"
                         value={formData.firstName}
@@ -96,7 +96,7 @@ export default function Administrations() {
 
                 {/* Last Name */}
                 <div className="flex flex-col w-[15%]">
-                    <LabelStyle1 labelText="Last Name :" labelClassName="mb-1 text-sm text-gray-700" />
+                    <LabelStyle1 labelText="LastName" labelClassName="mb-1 text-sm text-gray-700" />
                     <TextBoxStyle2
                         Name="lastName"
                         value={formData.lastName}
@@ -108,7 +108,7 @@ export default function Administrations() {
 
                 {/* Email */}
                 <div className="flex flex-col w-[20%]">
-                    <LabelStyle1 labelText="Email :" labelClassName="mb-1 text-sm text-gray-700" />
+                    <LabelStyle1 labelText="Email" labelClassName="mb-1 text-sm text-gray-700" />
                     <TextBoxStyle2
                         Name="email"
                         value={formData.email}
@@ -120,7 +120,7 @@ export default function Administrations() {
 
                 {/* Password */}
                 <div className="flex flex-col w-[18%]">
-                    <LabelStyle1 labelText="Password :" labelClassName="mb-1 text-sm text-gray-700" />
+                    <LabelStyle1 labelText="Password" labelClassName="mb-1 text-sm text-gray-700" />
                     <TextBoxStyle2
                         Name="password"
                         value={formData.password}

@@ -149,7 +149,12 @@
   "requestRejectionNumber": "Rejet de la demande numéro",
   "notifications": "Notifications",
   "changePasswordOnFirstLoginForSecurityReason": "Le mot de passe doit être changé lors de la première connexion pour des raisons de sécurité",
-  "requestApprovalNumber": "Demande approuvée numéro "
+  "requestApprovalNumber": "Demande approuvée numéro " ,
+   "Matricule1": "Matricule 1",
+    "Matricule2": "Matricule 2" ,
+       "NewValue1": "Nouvelle valeur 1",
+    "NewValue2": "Nouvelle valeur 2",
+    "Request Type": "Type de demande"
 
   }
   

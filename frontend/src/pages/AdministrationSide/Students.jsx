@@ -18,7 +18,7 @@ export default function Students() {
         { name: "Matricule", Header: "Matricule", width: "10%", className: "text-center" },
         { name: "FirstName", Header: "FirstName", width: "10%", className: "text-center" },
         { name: "LastName", Header: "LastName", width: "10%", className: "text-center" },
-        { name: "EducationYear", Header: "Year", width: "10%", className: "text-center" },
+        { name: "EducationYear", Header: "EducationYear", width: "10%", className: "text-center" },
         { name: "Speciality", Header: "Speciality", width: "5%", className: "text-center" },
         { name: "Section", Header: "Section", width: "5%", className: "text-center" },
         { name: "Grp", Header: "Group", width: "10%", className: "text-center" },
@@ -116,6 +116,14 @@ export default function Students() {
         }
         else if (selectedOption ===t("Matricule")){
             return student.Matricule.startsWith(searchTerm.toLowerCase());
+
+        }
+        else if (selectedOption ===t("EducationYear")){
+            return student.EducationYear.startsWith(searchTerm.toLowerCase());
+
+        }
+         else if (selectedOption ===t("Email")){
+            return student.Email.startsWith(searchTerm.toLowerCase());
 
         }
         return student[selectedOption]?.toLowerCase().includes(searchTerm.toLowerCase());
