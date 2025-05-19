@@ -145,9 +145,14 @@
       "rejectionReason": "Reason for request rejection",
       "rejectionNote": "Note regarding the rejection reason",
     "reason": "Reason",
-  "requestRejectionNumber": "Request rejection number",
-  "notifications": "Notifications",
-  "changePasswordOnFirstLoginForSecurityReason": "You must change your password on first login for security reasons",
-  "requestApprovalNumber": "Approved request number "
+    "requestRejectionNumber": "Request rejection number",
+    "notifications": "Notifications",
+    "changePasswordOnFirstLoginForSecurityReason": "You must change your password on first login for security reasons",
+    "requestApprovalNumber": "Approved request number ",
+    "Matricule1": "Matricule 1",
+    "Matricule2": "Matricule 2" ,
+      "NewValue1": "New Value 1",
+    "NewValue2": "New Value 2",
+    "Request Type": "Request Type"
   }
   

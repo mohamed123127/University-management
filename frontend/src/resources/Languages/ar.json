@@ -150,7 +150,11 @@
     "requestRejectionNumber": "رفض الطلب رقم",
     "notifications": "الإشعارات",
     "changePasswordOnFirstLoginForSecurityReason": "يجب تغيير كلمة المرور عند الدخول لأول مرة لأسباب أمنية",
-    "requestApprovalNumber": "تم قبول الطلب رقم "
-
+    "requestApprovalNumber": "تم قبول الطلب رقم ",
+    "Matricule1": "الرقم  الجامعي 1",
+    "Matricule2": "الرقم  الجامعي 2" ,
+      "NewValue1": "القيمة الجديدة 1",
+    "NewValue2": "القيمة الجديدة 2",
+    "Request Type": "نوع الطلب"
 }
   

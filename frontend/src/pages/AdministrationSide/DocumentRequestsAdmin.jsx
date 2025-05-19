@@ -47,6 +47,7 @@ export default function DocumentRequestsAdmin() {
     });
 
     const columns = [
+        { name: "Matricule", Header: "Matricule", width: "10%", className: "text-center" },
         { name: "Type", Header: "Request Type", width: "20%", className: "text-center" },
         { name: "textBox", Header: "Notes" , width: "30%", className: "text-center" },
         { name: "combobox", Header: "Status" , width: "12%", className: "text-center" },

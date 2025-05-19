@@ -115,11 +115,11 @@ export default function ManageAccount({StudentData}) {
         <div className="w-full">
           <div className="flex space-x-4">
             <div className="flex flex-col h-16 w-1/2">
-              <LabelStyle1 labelText="First Name" labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700"/>
+              <LabelStyle1 labelText="FirstName" labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700"/>
               <TextBoxStyle2 type="text" name="firstName" placeholder="" value={StudentData.FirstName} onChange={handleChange} className="flex-1 w-full" />
             </div>
             <div className="flex flex-col h-16 w-1/2">
-              <LabelStyle1 labelText="Last Name" labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700 "/>
+              <LabelStyle1 labelText="LastName" labelClassName="text-lg whitespace-nowrap font-semibold text-gray-700 "/>
               <TextBoxStyle2 type="text" name="lastName" placeholder="" value={StudentData.LastName} onChange={handleChange} className="flex-1 w-full" />
             </div>
           </div>          

@@ -64,11 +64,11 @@ export default function VisualRequestsAdmin() {
 
     const columns = [
         { name: "Id", Header: "Id", width: "5%", className: "text-center" },
-        { name: "Type", Header: "Request Type", width: "15%", className: "text-center" },
+        { name: "Request Type", Header: "Request Type", width: "15%", className: "text-center" },
         { name: "Matricule1", Header: "Matricule1", width: "15%", className: "text-center" },
-        { name: "NewValue1", Header: "Value", width: "10%", className: "text-center" },
+        { name: "NewValue1", Header: "NewValue1", width: "10%", className: "text-center" },
         { name: "Matricule2", Header: "Matricule2", width: "15%", className: "text-center" },
-        { name: "NewValue2", Header: "Value", width: "10%", className: "text-center" },
+        { name: "NewValue2", Header: "NewValue2", width: "10%", className: "text-center" },
         { name: "SubmissionDate", Header: "Submission Date", width: "12%", className: "text-center" },
         { name: "LastUpdatedDate", Header: "LastUpdated Date", width: "13%", className: "text-center " },
         { name: "YesNoButtons", Header: "Action Date", width: "15%", className: "text-center" },

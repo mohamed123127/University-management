@@ -91,49 +91,61 @@ function DataGridViewStyle3({ Columns, Data, setData }) {
                         ))}
                     </tr>
                 </thead>
-                <tbody>
-                    {paginatedData.map((row, rowIndex) => (
+              <tbody>
+  {
+    paginatedData.length > 0 ? (
+      paginatedData.map((row, rowIndex) => (
+        <tr key={rowIndex} className={`border-b transition duration-200 ${rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-gray-200`}>
+          {Columns.map((column, colIndex) => (
+            <td key={colIndex} className="px-4 py-2 text-sm text-gray-600 text-center">
+              {column.name === "Action" ? (
+                <div className="flex space-x-2 justify-center items-center">
+                  <button onClick={() => { const url = row.DocumentUrl.replace("C:/xampp/htdocs", "http://localhost"); window.open(url, "_blank"); }} className="px-3 py-1 rounded text-white bg-blue-500 hover:bg-blue-600 transition duration-200 flex items-center justify-center">
+                    <FontAwesomeIcon icon={faImage} className="ltr:mr-2 rtl:ml-2" /> {t("Review")}
+                  </button>
+                </div>
+              ) : column.name === "combobox" ? (
+                <ComboBoxStyle2
+                  key={rowIndex}
+                  Name={`comboBox-${rowIndex}`}
+                  options={options}
+                  value={row.Status}
+                  onChange={(e) => handleChange(row, e.target.value)}
+                  comboBoxClassName="w-36 h-10"
+                />
+              ) : column.name === "textBox" ? (
+                <TextBoxStyle2
+                  key={rowIndex}
+                  Name={`textBox-${rowIndex}`}
+                  value={row.Notes}
+                  onChange={(e) => handleTextboxChange(row, e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleTextboxSubmit(row, e.target.value);
+                    }
+                  }}
+                  onBlur={(e) => handleTextboxSubmit(row, e.target.value)}
+                  placeholder=""
+                  textBoxClassName='h-7 bg-transparent border-none w-full text-center'
+                />
+              ) : (
+                t(row[column.name])
+              )}
+            </td>
+          ))}
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan={Columns.length} className="text-center text-gray-500 py-4">
+          {t("No data to show")}
+        </td>
+      </tr>
+    )
+  }
+</tbody>
 
-                        <tr key={rowIndex} className={`border-b transition duration-200 ${rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-gray-200`}>
-                            {Columns.map((column, colIndex) => (
-                                <td key={colIndex} className="px-4 py-2 text-sm text-gray-600 text-center">
-                                    {column.name === "Action" ? (
-                                        <div className="flex space-x-2 justify-center items-center">
-                                            <button onClick={() => { const url = row.DocumentUrl.replace("C:/xampp/htdocs", "http://localhost"); window.open(url, "_blank"); }} className="px-3 py-1 rounded text-white bg-blue-500 hover:bg-blue-600 transition duration-200 flex items-center justify-center">
-                                                <FontAwesomeIcon icon={faImage} className="ltr:mr-2 rtl:ml-2" /> {t("Review")}
-                                            </button>
-                                        </div>
-                                    ) : column.name === "combobox" ? (
-                                        <div>
-                                            <ComboBoxStyle2
-                                                    key={rowIndex}
-                                                    Name={`comboBox-${rowIndex}`}
-                                                    options={options}
-                                                    value={row.Status}
-                                                    onChange={(e) => handleChange(row, e.target.value)}
-                                                    comboBoxClassName="w-36 h-10"
-                                                    />        
-                                        </div>
-                                    ) : column.name === "textBox" ? (
-                                        <div>
-                                            <TextBoxStyle2 key={rowIndex} Name={`textBox-${rowIndex}`} value={row.Notes} onChange={(e) => handleTextboxChange(row, e.target.value)}
-                                            onKeyDown={(e) => {
-                                                if (e.key === "Enter") {
-                                                    e.preventDefault(); // منع السلوك الافتراضي (مثل الانتقال للسطر التالي)
-                                                    handleTextboxSubmit(row, e.target.value); // استدعاء المعالجة عند الضغط على Enter
-                                                }
-                                            }}
-                                            onBlur={(e) => handleTextboxSubmit(row, e.target.value)} // استدعاء المعالجة عند فقدان التركيز
-                                            placeholder="" textBoxClassName='h-7 bg-transparent border-none w-full text-center'/>
-                                        </div>
-                                    ) : (
-                                        t(row[column.name])
-                                    )}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
             </table>
             <div className="flex justify-center items-center mt-4 gap-2 pt-2 pb-2">
                 <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 bg-gray-300 text-gray-700 rounded disabled:opacity-50">{"<"}</button>
