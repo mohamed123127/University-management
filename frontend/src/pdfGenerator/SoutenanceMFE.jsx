@@ -20,7 +20,7 @@ export default function SoutenanceMFE() {
 
   const params = new URLSearchParams(location.search);
   const name = params.get('name');
-  const matricule = params.get('matricule');
+  //const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
   const educationYear = params.get('educationYear');
 
@@ -28,7 +28,7 @@ export default function SoutenanceMFE() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, name, type };
+      const pdfData = {  name,speciality,educationYear, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -95,17 +95,17 @@ export default function SoutenanceMFE() {
        
         <h2 className="mt-16 text-3xl font-semibold mb-6 text-center">
           <span className="underline">Soutenance de MFE</span><br />
-          <span className="underline">Niveau :</span> <span>........................</span>
+          <span className="underline">Niveau : {educationYear}</span>
         </h2>
 
        
         <div className="space-y-10">
           <div className="text-xl font-semibold space-y-5 ml-5">
             <div className="flex justify-between">
-              <p><span className="underline">L'étudiant(e) :</span> ..............</p>
+              <p><span className="underline">L'étudiant(e) :</span> <span>{name}</span></p>
               <p className="mr-16"><span className="underline">N° d'inscription :</span> ............</p>
             </div>
-            <p><span className="underline">Spécialité :</span> ................</p>
+            <p><span className="underline">Spécialité : {speciality}</span> </p>
             <p><span className="underline">Sujet :</span> .........................................</p>
           </div>
 

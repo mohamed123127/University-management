@@ -23,7 +23,7 @@ export default function FicheDePresenceDeStage() {
   const name = params.get('name');
   const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
-  const group = params.get('group');
+  const group = params.get('Group');
 
 
   const handleValidateClick = async () => {

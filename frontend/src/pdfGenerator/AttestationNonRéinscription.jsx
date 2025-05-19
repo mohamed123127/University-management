@@ -103,9 +103,9 @@ export default function AttestationNonRéinscription() {
       </p>
 
       <div className="mt-6 space-y-4 text-lg leading-8 pr-6">
-        <p className='font-semibold'>الطالــــب(ة): ………………………………………………………</p>
+        <p className='font-semibold'>الطالــــب(ة): {name}</p>
         <p className='font-semibold' >المولــــود(ة) بتاريخ: …………………… بـ: ……………………، ولاية: ………………………</p>
-        <p className='font-semibold'>رقم التسجيــــل: …………………………،</p>
+        <p className='font-semibold'>رقم التسجيــــل: {matricule}</p>
         <p className='font-semibold'>الفـــــرع: إعلام آلي</p>
       </div>
 

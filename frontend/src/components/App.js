@@ -32,6 +32,12 @@ import AttestationClassement2 from "pdfGenerator/attestationClassement2";
 import CertificatScolarite from "pdfGenerator/CertificaScolarite";
 import Prestage from "pdfGenerator/preStage";
 import FicheDePresenceDeStage from "pdfGenerator/ficheDePresenceDeStage";
+import ProlongationStage from "pdfGenerator/prolongationStage";
+import RecommandationStageDintégration from "pdfGenerator/stageIntgration";
+import SoutenanceMFE from "pdfGenerator/SoutenanceMFE";
+import AttestationAbandonDesEtudes from "pdfGenerator/AttestationAbandonDesEtudes";
+import AttestationNonRéinscription from "pdfGenerator/AttestationNonRéinscription";
+import ConventionDePreStage from "pdfGenerator/conventionDePreStage";
 
 const routes = [
   {
@@ -115,6 +121,30 @@ const routes = [
   {
     path: "/DocumentRequest/ficheDePresenceDeStage",
    element: <FicheDePresenceDeStage />,
+  },
+  {
+    path: "/DocumentRequest/prolongationStage",
+   element: <ProlongationStage />,
+  },
+  {
+    path: "/DocumentRequest/stageIntgration",
+   element: <RecommandationStageDintégration />,
+  },
+  {
+    path: "/DocumentRequest/SoutenanceMFE",
+   element: <SoutenanceMFE />,
+  },
+  {
+    path: "/DocumentRequest/AttestationAbandonDesEtudes",
+   element: <AttestationAbandonDesEtudes />,
+  },
+  {
+    path: "/DocumentRequest/conventionDePreStage",
+   element: <ConventionDePreStage />,
+  },
+  {
+    path: "/DocumentRequest/AttestationNonRéinscription",
+   element: <AttestationNonRéinscription />,
   },
   {
     path: "/AdministrationMainPage",
