@@ -6,7 +6,7 @@ import ComboBoxStyle1 from "components/custom controls/combo box/ComboBoxStyle1"
 import AnnouncementJs from "js/models/Announcement";
 
 export default function Announcement() {
-    const [recipient,setRecipient] = useState("");
+    const [recipient,setRecipient] = useState("All");
   const [announcementData, setAnnouncementData] = useState({
     title: '',
     content: ''
@@ -25,9 +25,9 @@ export default function Announcement() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();  
-    console.log(announcementData.title);
+    //console.log(announcementData.title);
     // Input validation
-    /*if (!recipient && !announcementData.title && !announcementData.content) {
+    if (!recipient && !announcementData.title && !announcementData.content) {
       setError("All fields (recipient, Title, and Content) are required.");
       setSuccessMessage("");
       return;
@@ -49,7 +49,7 @@ export default function Announcement() {
       }
     } catch (error) {
       alert("catch in button handled : \n" + error)
-    }*/
+    }
   };
   
   const { t, i18n } = useTranslation();
