@@ -14,7 +14,7 @@ export default function AttestationMajorPromotion() {
   
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'Attestation-MajorPromotion';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
@@ -30,7 +30,7 @@ export default function AttestationMajorPromotion() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule,FirstName ,LastName, type };
+      const pdfData = { matricule,name:LastName + " " + FirstName, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 

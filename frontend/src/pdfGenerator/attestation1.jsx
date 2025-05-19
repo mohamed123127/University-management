@@ -13,14 +13,15 @@ import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 export default function Attestation1() {
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'attestation1';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
   // استخراج البيانات من رابط URL
   const params = new URLSearchParams(location.search);
   const FirstName = params.get('FirstName');
-  const LastName = params.get('LastName');  const matricule = params.get('matricule');
+  const LastName = params.get('LastName');  
+  const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
   const educationYear = params.get('educationYear');
 
@@ -28,7 +29,7 @@ export default function Attestation1() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, FirstName,LastName, type };
+      const pdfData = { matricule,name:LastName + " " + FirstName, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 

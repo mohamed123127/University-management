@@ -17,7 +17,7 @@ export default function AttestationClassement2() {
   const documentRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
-  const type = 'block_academic_year';
+  const type = 'attestastionClassement2';
   const studentId = localStorage.getItem('id');
 
   const params = new URLSearchParams(location.search);

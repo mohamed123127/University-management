@@ -13,7 +13,7 @@ import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 export default function SoutenanceMFE() {
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'SoutenanceMFE';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
@@ -23,12 +23,14 @@ export default function SoutenanceMFE() {
   //const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
   const educationYear = params.get('educationYear');
+  const matricule = params.get('matricule');
+
 
 
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = {  name,speciality,educationYear, type };
+      const pdfData = {  name,matricule, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 

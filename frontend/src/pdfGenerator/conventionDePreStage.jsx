@@ -14,13 +14,14 @@ import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 export default function ConventionDePreStage() {
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'conventionDePreStage';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
 
   const params = new URLSearchParams(location.search);
-  const name = params.get('name');
+  const FirstName = params.get('FirstName');
+  const LastName = params.get('LastName');  
   const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
   const educationYear = params.get('educationYear');
@@ -29,7 +30,7 @@ export default function ConventionDePreStage() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, name, type };
+      const pdfData = { matricule, name:LastName + " " + FirstName, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -121,15 +122,15 @@ export default function ConventionDePreStage() {
           </div>
 
         <div className="border-2 border-black">
-            <p className='ml-32'>Niveau : 2ème année</p>
+            <p className='ml-32'>Niveau : {educationYear}</p>
           <div className='flex justify-between mt-4'>
             <p className='ml-14'>Filière : Informatique: </p>
-            <p className='mr-44'> spécialité :</p>
+            <p className='mr-44'> spécialité : {speciality}</p>
          </div>
          <div className='flex justify-between mt-4'>
-            <p className='ml-14'>Nom : <span className="font-semibold">……..</span> </p>
-            <p>Prénom :<span className="font-semibold">……..</span></p>
-            <p className='mr-32'>Matricule : <span className="font-semibold">232331……..</span></p>
+            <p className='ml-14'>Nom : <span className="font-semibold">{LastName}.</span> </p>
+            <p>Prénom :<span className="font-semibold">{FirstName}.</span></p>
+            <p className='mr-32'>Matricule : <span className="font-semibold">{matricule}.</span></p>
          </div>
        </div>
         <p className='ml-24 font-semibold'> Lieu de stage : ………………….</p>

@@ -16,7 +16,7 @@ export default function Attestation3() {
   const documentRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
-  const type = 'block_academic_year';
+  const type = 'attestationDeLangue';
   const studentId = localStorage.getItem('id');
   const params = new URLSearchParams(location.search);
   const FirstName = params.get('FirstName');
@@ -28,7 +28,7 @@ export default function Attestation3() {
     setIsLoading(true);
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, FirstName,LastName,speciality, type };
+      const pdfData = { matricule,name:LastName + " " + FirstName, type };
 
       const saveResult = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -88,8 +88,8 @@ export default function Attestation3() {
 
         <div className="text-justify leading-8 text-[18px] my-6 font-serif">
           <p>
-            Je, soussigné, le chef de département d’informatique, certifie que l’étudiant ……… , né le ………,
-            a obtenu le diplôme de …… en Informatique – spécialité : ………… en l’année universitaire ……., sous le matricule ……….
+            Je, soussigné, le chef de département d’informatique, certifie que l’étudiant {LastName + " " +  FirstName} , né le ………,
+            a obtenu le diplôme de …… en Informatique – spécialité : {speciality} en l’année universitaire ……., sous le matricule {matricule}.
           </p>
           <p className="mt-4">
             Par ailleurs, le programme de la formation qu’il a suivi durant son cursus s’est effectué en langue ……… en globalité.

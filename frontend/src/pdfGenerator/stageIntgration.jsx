@@ -16,7 +16,7 @@ export default function  RecommandationStageDintégration () {
   const documentRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
-  const type = 'block_academic_year';
+  const type = 'stageIntgration';
   const studentId = localStorage.getItem('id');
   const params = new URLSearchParams(location.search);
   const name = params.get('name');

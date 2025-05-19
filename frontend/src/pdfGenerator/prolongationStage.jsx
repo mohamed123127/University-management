@@ -14,7 +14,7 @@ export default function ProlongationStage() {
   
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'prolongationStage';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 

@@ -13,7 +13,7 @@ import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 export default function CertificatScolarite2() {
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'CertificaScolarite';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 

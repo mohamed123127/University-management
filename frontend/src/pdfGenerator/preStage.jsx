@@ -16,12 +16,13 @@ export default function Prestage() {
   const documentRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
-  const type = 'block_academic_year';
+  const type = 'preStage';
   const studentId = localStorage.getItem('id');
 
   const params = new URLSearchParams(location.search);
   const name = params.get('name');
   const matricule = params.get('matricule');
+  const educationYear = params.get('educationYear');
 
   const ValiderButtonClickHandled = async () => {
     setIsLoading(true);
@@ -95,7 +96,7 @@ export default function Prestage() {
         <div className="text-justify text-[18px] my-6 font-serif">
           <p className="font-bold">Madame/ Monsieur :</p>
           <p className="mt-3">Nous avons l’honneur et le plaisir de vous demander de bien vouloir recevoir l’étudiant : {name}</p>
-          <p className="mt-3">Inscrite en ……. année filière : Informatique sous le matricule {matricule}</p>
+          <p className="mt-3">Inscrite en {educationYear}. filière : Informatique sous le matricule {matricule}</p>
           <p className="mt-3">Il souhaiterait effectuer un stage afin d’approfondir ses connaissances du milieu professionnel et de connaître ses apports et ses contraintes à la structure de l’organisme d’accueil.</p>
           <p className="mt-3">Nous vous serons reconnaissants de bien vouloir l’accueillir dans votre établissement durant la période des vacances de printemps du ……. au …..</p>
           <p className="mt-3">Dans l’attente d’une réponse favorable, veuillez agréer, Monsieur / Madame, l’expression de nos salutations les plus distinguées.</p>

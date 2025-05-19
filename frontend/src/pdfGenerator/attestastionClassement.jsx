@@ -28,7 +28,7 @@ export default function AttestastionClassement() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule,LastName, FirstName, type };
+      const pdfData = { matricule,name: LastName + " " + FirstName, type };
       console.log(pdfData);
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);

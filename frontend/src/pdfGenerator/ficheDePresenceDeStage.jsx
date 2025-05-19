@@ -14,7 +14,7 @@ export default function FicheDePresenceDeStage() {
   
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'ficheDePresenceDeStage';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
@@ -29,7 +29,7 @@ export default function FicheDePresenceDeStage() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, name, speciality,group,type };
+      const pdfData = { matricule, name,type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 

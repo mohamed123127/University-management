@@ -27,7 +27,7 @@ export default function AttestationBonneConduite() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, FirstName,LastName, type };
+      const pdfData = { matricule,name: LastName + " " + FirstName , type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 

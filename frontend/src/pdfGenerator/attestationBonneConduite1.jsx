@@ -13,7 +13,7 @@ import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 export default function AttestationBonneConduite1() {
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'attestationBonneConduite2';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
@@ -28,7 +28,7 @@ export default function AttestationBonneConduite1() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule,LastName, FirstName, type };
+      const pdfData = { matricule,name: LastName + " " + FirstName, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -106,7 +106,7 @@ export default function AttestationBonneConduite1() {
 
          <p>
            A obtenu le diplôme Licence en Informatique ,<br />
-           Spécialité  ………… en l’année universitaire …….. sous le matricule …………<br /><br />
+           Spécialité  {speciality} en l’année universitaire …….. sous le matricule {matricule}<br /><br />
            L’intéressée a eu une bonne conduite durant son cursus universitaire<br /> et
            n’a pas été soumis au conseil de disciplinaire.
         </p>

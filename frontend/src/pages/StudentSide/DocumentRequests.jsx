@@ -58,14 +58,12 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
         t('classement'),
         t('classement2'),
         t('convention_de_stage'),
-        t('copie_de_bac'),
-        t('releve_de_note'),
+        t('copieDeBac'),
         t('attestation_de_langue'),
         t('accise_de_diplome'),
         t('Attestation-MajorPromotion'),
         t('attestation1'),
         t('attestation2'),
-        t('attestation3'),
         t('Prestage'),
         t('ficheDePresenceDeStage'),
         t('prolongationStage'),
@@ -108,7 +106,8 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
               window.open(`/DocumentRequest/ParkingPermit/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}&carId=${carId}&licenseCardId=${licenseCardId}`, "_blank");
           break;
           case t('grade_transcript'):
-              window.open(`/DocumentRequest/GradeTranscript/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}&section=${StudentData.Section}&groupe=${StudentData.Grp}`, "_blank");
+            alert("Go to : INH)");    
+          //window.open(`/DocumentRequest/GradeTranscript/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}&section=${StudentData.Section}&groupe=${StudentData.Grp}`, "_blank");
           break;
           case t('studentCard'):
               window.open(`/DocumentRequest/StudentIDCard/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}`, "_blank");
@@ -131,14 +130,14 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
           case t('attestation2'):
             window.open(`/DocumentRequest/attestation2/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
           break;
-          case t('attestation3'):
+          case t('attestation_de_langue'):
             window.open(`/DocumentRequest/attestation3/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
           break;
           case t('bon_conduit2'):
             window.open(`/DocumentRequest/attestationBonneConduite1/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
           break;
           case t('Prestage'):
-            window.open(`/DocumentRequest/Prestage/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}`, "_blank");
+            window.open(`/DocumentRequest/Prestage/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}`, "_blank");
           break;
           case t('ficheDePresenceDeStage'):
             window.open(`/DocumentRequest/ficheDePresenceDeStage/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&Group=${StudentData.Grp}`, "_blank");
@@ -156,12 +155,15 @@ export default function DocumentRequests({ ClassName, selectedRequest,StudentDat
             window.open(`/DocumentRequest/AttestationAbandonDesEtudes/?name=${StudentData.LastName} ${StudentData.FirstName}&Speciality=${StudentData.Speciality}&matricule=${StudentData.Matricule}&educationYear=${StudentData.EducationYear}`, "_blank");
           break;
           case t('conventionDePreStage'):
-            window.open(`/DocumentRequest/conventionDePreStage/?name=${StudentData.LastName} ${StudentData.FirstName}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}`, "_blank");
+            window.open(`/DocumentRequest/conventionDePreStage/?LastName=${StudentData.LastName}&FirstName=${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&educationYear=${StudentData.EducationYear}`, "_blank");
           break;
           case t('AttestationNonRéinscription'):
             window.open(`/DocumentRequest/AttestationNonRéinscription/?name=${StudentData.LastName} ${StudentData.FirstName}&matricule=${StudentData.Matricule}&Speciality=${StudentData.Speciality}&matricule=${StudentData.Matricule}&educationYear=${StudentData.EducationYear}`, "_blank");
           break;
           case t('block_academic_year'):
+            alert("Go to : Rectora)");
+          break;
+          case t('copieDeBac'):
             alert("Go to : Rectora)");
           break;
           case t(''):
