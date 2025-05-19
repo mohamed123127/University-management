@@ -45,18 +45,19 @@ export default function EtudientSideBar({ ClassName, SetActualPageName, SetActua
           </button>
         </div>
         <div className={`flex flex-col ${isOpen ? "items-center md:items-start" : ""} space-y-4 mt-20 h-full relative`}>
+           <SideBatItem
+            OnClick={() => sidebarItemClickHundled('statistics', <FaChartBar className="w-8 h-8" /> , <StatisticsPage />)}
+            itemIcon={    <FaChartBar size={25} color="#FFFFFF" />}
+            Title={'statistics'}
+            isOpen={isOpen}
+          />
           <SideBatItem
             OnClick={() => sidebarItemClickHundled('students', <UserGroupIcon className="w-8 h-8" />, <Students />)}
             itemIcon={<UserGroupIcon size='25' />}
             Title={'students'}
             isOpen={isOpen}
           />
-          <SideBatItem
-            OnClick={() => sidebarItemClickHundled('statistics', <FaChartBar className="w-8 h-8" /> , <StatisticsPage />)}
-            itemIcon={    <FaChartBar size={25} color="#FFFFFF" />}
-            Title={'statistics'}
-            isOpen={isOpen}
-          />
+       
           <SideBatItem
             OnClick={() => sidebarItemClickHundled('document_requests_administration', <DocumentIcon className="w-8 h-8" />, <DocumentRequestsAdmin />)}
             itemIcon={<DocumentIcon />}
