@@ -149,6 +149,8 @@
     "reason": "السبب",
     "requestRejectionNumber": "رفض الطلب رقم",
     "notifications": "الإشعارات",
-    "changePasswordOnFirstLoginForSecurityReason": "يجب تغيير كلمة المرور عند الدخول لأول مرة لأسباب أمنية"
+    "changePasswordOnFirstLoginForSecurityReason": "يجب تغيير كلمة المرور عند الدخول لأول مرة لأسباب أمنية",
+    "requestApprovalNumber": "تم قبول الطلب رقم "
+
 }
   

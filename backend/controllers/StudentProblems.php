@@ -14,19 +14,22 @@ class StudentsProblems {
     private $Title;
     private $Content;
     private $Email;
+    
+    private $studentId;
 
 
-    public function __construct($Email,$Title,$Content){
+    public function __construct($studentId,$Email,$Title,$Content){
         $this->Email = $Email;
         $this->Title = $Title;
         $this->Content = $Content;
+        $this->studentId = $studentId;
     }
 
 
 public function add($conn) {
     try {
-        $sql = "INSERT INTO ReportProblem (Email, Title, Content, Date) 
-                VALUES (?, ?, ?, CURRENT_TIME())";
+        $sql = "INSERT INTO ReportProblem (studentId,Email, Title, Content,status, Date) 
+                VALUES (?,?, ?, ?,'en Attend', CURRENT_TIME())";
 
         $stmt = $conn->prepare($sql);
 
@@ -35,7 +38,7 @@ public function add($conn) {
         }
 
         // Bind parameters
-        $stmt->bind_param("sss", $this->Email, $this->Title, $this->Content);
+        $stmt->bind_param("ssss", $this->studentId,$this->Email, $this->Title, $this->Content);
 
         if ($stmt->execute()) {
             return ["success" => true, "message" => "Problem added successfully."];
@@ -47,6 +50,32 @@ public function add($conn) {
         return ["success" => false, "message" => $ex->getMessage()];
     }
 }
+
+public static function changeStatus($conn, $problemId, $status) {
+    try {
+        $sql = "UPDATE ReportProblem SET status = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
+        }
+
+        $stmt->bind_param("si", $status, $problemId);
+
+        if ($stmt->execute()) {
+            if ($stmt->affected_rows > 0) {
+                return ["success" => true, "message" => "Status updated successfully."];
+            } else {
+                return ["success" => false, "message" => "No record found or status already set."];
+            }
+        } else {
+            return ["success" => false, "message" => "Failed to update status."];
+        }
+    } catch (Exception $ex) {
+        return ["success" => false, "message" => $ex->getMessage()];
+    }
+}
+
 
 public static function gettall($conn){
     try {

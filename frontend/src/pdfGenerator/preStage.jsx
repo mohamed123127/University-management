@@ -9,9 +9,8 @@ import uniBoumrdas from 'resources/Images/univ-logo.png';
 import umbblocal from 'resources/Images/umbb.png';
 
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
-//Attestation 
 
-export default function Attestation2() {
+export default function Prestage() {
   const { t } = useTranslation();
   const location = useLocation();
   const documentRef = useRef();
@@ -21,32 +20,26 @@ export default function Attestation2() {
   const studentId = localStorage.getItem('id');
 
   const params = new URLSearchParams(location.search);
-  const FirstName = params.get('FirstName');
-  const LastName = params.get('LastName');  const matricule = params.get('matricule');
-  const speciality = params.get('Speciality');
-  const educationYear = params.get('educationYear');
+  const name = params.get('name');
+  const matricule = params.get('matricule');
 
   const ValiderButtonClickHandled = async () => {
     setIsLoading(true);
     try {
       const pdf = await PdfGenerator.generate(documentRef);
 
-      const pdfData = { matricule, FirstName,LastName,speciality, type };
-
-
-      const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
+      const dataToSavePdf = { matricule, name, type };
+      const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, dataToSavePdf);
 
       if (result.success) {
         const fileUrl = result.fileUrl;
-
         const result2 = await DocumentRequest.SaveDocumentRequestInDb({
           documentUrl: fileUrl,
           type,
           studentId
         });
 
-        if (result2.success) alert(result2.message);
-        else alert("لم يتم حفظ في قاعدة البيانات");
+        alert(result2.success ? result2.message : "لم يتم حفظ في قاعدة البيانات");
       } else {
         alert('لم يتم حفظ الملف. تأكد من الخادم.\n' + result.message);
       }
@@ -63,9 +56,10 @@ export default function Attestation2() {
    
       <div
         ref={documentRef}
-        className="relative bg-white rounded-lg shadow-md border-2 border-gray-300 w-[794px] h-[1023px] p-14 box-border my-8"
+        className="relative bg-white rounded-lg shadow-md border-2 border-gray-300 w-[774px] h-[1023px] p-14 box-border my-8"
         dir="ltr"
       >
+       
         <div className="flex justify-between items-center mb-4">
           <img src={uniBoumrdas} alt="University Logo" className="w-24 h-24" />
           <div className="text-center flex-1 font-bold">
@@ -78,7 +72,7 @@ export default function Attestation2() {
           </div>
         </div>
 
-       
+      
         <div className="flex justify-between font-bold mb-4">
           <div className="text-left ltr">
             <h2>Faculté des sciences</h2>
@@ -92,33 +86,32 @@ export default function Attestation2() {
           </div>
         </div>
 
-    
-        <h2 className="mt-12 text-2xl font-bold mb-4 text-center underline">Attestation</h2>
+      
+        <h2 className="mb-4">
+          <span className="underline">Objet</span>: Recommandation pour un pré-stage
+        </h2>
 
-     
-        <div className="text-justify leading-8 text-[18px] my-6 font-serif">
-          <p>
-            Je, soussigné, le chef de département d’informatique, certifie que l’étudiant ……… , né le ………,
-            a obtenu le diplôme de …… en Informatique – spécialité : ………… en l’année universitaire ……., sous le matricule ……….
-          </p>
-          <p className="mt-4">
-            Par ailleurs, le programme de la formation qu’il a suivi durant son cursus s’est effectué en langue ……… en globalité.
-          </p>
+       
+        <div className="text-justify text-[18px] my-6 font-serif">
+          <p className="font-bold">Madame/ Monsieur :</p>
+          <p className="mt-3">Nous avons l’honneur et le plaisir de vous demander de bien vouloir recevoir l’étudiant : {name}</p>
+          <p className="mt-3">Inscrite en ……. année filière : Informatique sous le matricule {matricule}</p>
+          <p className="mt-3">Il souhaiterait effectuer un stage afin d’approfondir ses connaissances du milieu professionnel et de connaître ses apports et ses contraintes à la structure de l’organisme d’accueil.</p>
+          <p className="mt-3">Nous vous serons reconnaissants de bien vouloir l’accueillir dans votre établissement durant la période des vacances de printemps du ……. au …..</p>
+          <p className="mt-3">Dans l’attente d’une réponse favorable, veuillez agréer, Monsieur / Madame, l’expression de nos salutations les plus distinguées.</p>
           <p className="mt-10 mr-5 font-semibold text-right">Le Chef de département</p>
         </div>
 
-        {/* أسفل الصفحة */}
+       
         <div className="absolute bottom-20 left-14 right-14 text-justify text-[13px] italic">
-          <p className="pl-20">
-            Cette attestation est délivrée à la demande de l’étudiant(e) pour servir et valoir ce que de droit.
-          </p>
+          <p className="pl-20">Cette attestation est délivrée à la demande de l’étudiant(e).</p>
           <div className="flex justify-center">
             <img src={umbblocal} alt="University localisation" className="w-250 h-30 ltr" />
           </div>
         </div>
       </div>
 
-      {/* الأزرار */}
+    
       <div className="flex justify-center mt-4 space-x-4">
         <ButtonStyle1
           onClick={ValiderButtonClickHandled}

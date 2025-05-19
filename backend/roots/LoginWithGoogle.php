@@ -16,7 +16,7 @@ session_start();
 $client = new Google_Client();
 $client->setClientId(SecreteData::$clientId); // استبدلها بـ Client ID
 $client->setClientSecret(SecreteData::$clientSecrete); // استبدلها بـ Client Secret
-$client->setRedirectUri('https://www.university-management.website/roots/callback.php'); // رابط العودة
+$client->setRedirectUri('http://localhost/University-management/backend/roots/callback.php'); // رابط العودة
 $client->addScope('email');//to get email
 
 $loginUrl = $client->createAuthUrl();

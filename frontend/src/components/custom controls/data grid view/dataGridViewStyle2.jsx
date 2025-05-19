@@ -40,8 +40,10 @@ function DataGridViewStyle2({ Columns, Data, onAction, ClassName, setData }) {
     };
 
     const AcceptButtonClick = async (row) => {
-        const request = await VirtualRequests.getByRequestId(row.Id);
-        ChangeRequests.accepteRequest(row.Id, row.Type, row.NewValue, request[0].StudentId);
+        console.log(row);
+        ChangeRequests.accepteRequest(row.Id, row.Type, row.Matricule1,row.NewValue1,row.Matricule2, row.NewValue2,row.StudentId);
+        console.log(t('requestApprovalNumber') + ' ' + row.Id + "\n" + row.StudentId);
+        Announcement.Add({"title": t('requestApprovalNumber') + ' ' + row.Id,"content": "","recipient":row.StudentId});
         setData(Data.filter((r) => r.Id !== row.Id));
     };
 

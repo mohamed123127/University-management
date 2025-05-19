@@ -10,7 +10,7 @@ import umbblocal from 'resources/Images/umbb.png';
 
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 
-export default function BlockAcademicYear() {
+export default function AttestationMajorPromotion() {
   
   const { t } = useTranslation();
   const location = useLocation();
@@ -20,7 +20,8 @@ export default function BlockAcademicYear() {
 
 
   const params = new URLSearchParams(location.search);
-  const name = params.get('name');
+  const FirstName = params.get('FirstName');
+  const LastName = params.get('LastName');
   const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
   const educationYear = params.get('educationYear');
@@ -29,7 +30,7 @@ export default function BlockAcademicYear() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, name, type };
+      const pdfData = { matricule,FirstName ,LastName, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -101,8 +102,8 @@ export default function BlockAcademicYear() {
         {/* محتوى الوثيقة */}
         <div className="text-left mb-4 space-y-4 leading-8">
           <p>Vu les procès-verbaux des délibérations, je, soussigné, Chef de département de la faculté de sciences, atteste que l’étudiant :</p>
-          <p><span className="font-semibold">Nom :</span> {name}</p>
-          <p><span className="font-semibold">Prénom :</span> </p>
+          <p><span className="font-semibold">Nom :</span> {LastName}</p>
+          <p><span className="font-semibold">Prénom :</span>{FirstName} </p>
           <p><span className="font-semibold">Date et lieu de naissance :</span> ….. à ………..</p>
           <p><span className="font-semibold">Matricule :</span> {matricule}</p>
           <p><span className="font-semibold">Domaine :</span> Mathématiques et Informatique</p>

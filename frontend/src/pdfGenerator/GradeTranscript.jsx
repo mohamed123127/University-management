@@ -35,7 +35,6 @@ export default function GradeTranscript() {
                 "name" : name,
                 "type" : type
             }
-            console.log(dataToSavePdf);
             const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf,dataToSavePdf);
             if (result.success) {
                 // الحصول على رابط الملف المحفوظ

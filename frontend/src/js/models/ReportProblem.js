@@ -17,6 +17,19 @@ class ReportProblem
     }
   }
 
+  static async ChangeStatus(problemId,status)
+  {
+    try
+    {
+      const result = await ApiOperator.post(this.ReportProblemRootUrl + "changeStatus",{problemId:problemId,status:status});
+      return result;
+    } catch(error)
+    {
+      alert("catch in AddReportProblem: " + error);
+      console.log(error);
+    }
+  }
+
   static async getAll()
   {
     try

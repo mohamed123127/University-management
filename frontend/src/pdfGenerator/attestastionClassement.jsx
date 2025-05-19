@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -13,22 +13,23 @@ import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 export default function AttestastionClassement() {
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'attestastionClassement';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
 
   const params = new URLSearchParams(location.search);
-  const name = params.get('name');
+  const LastName = params.get('LastName');
+  const FirstName = params.get('FirstName');
   const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
-  const educationYear = params.get('educationYear');
 
 
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, name, type };
+      const pdfData = { matricule,LastName, FirstName, type };
+      console.log(pdfData);
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -99,18 +100,18 @@ export default function AttestastionClassement() {
         {/* محتوى الوثيقة */}
         <div className="text-left mb-4 space-y-1 leading-8 font-serif">
           <p>Le Chef de Département d’Informatique Soussigné, atteste que l’Etudiant :</p>
-          <p><span className="font-semibold">Nom :</span> {name}</p>
-          <p><span className="font-semibold">Prénom :</span> </p>
-          <p><span className="font-semibold">Né :</span> ….. à ………..</p>
+          <p><span className="font-semibold">Nom :</span> {LastName}</p>
+          <p><span className="font-semibold">Prénom :</span>{FirstName} </p>
+          <p><span className="font-semibold">Né :</span> ….. à ………..</p>
           <p><span className="font-semibold">N° d’inscription:</span> </p>
           <p><span className="font-semibold">Domaine :</span> Mathématiques et Informatique</p>
           <p><span className="font-semibold">Filière :</span> Informatique</p>
           <p><span className="font-semibold">Spécialité :</span> {speciality}</p>
           <p>A acquis son diplôme de licence en 202…., il a obtenu les résultats suivants durant son cursus  universitaire.</p>
           <div className='ml-20'>
-            <p><span className="">Moyenne générale :</span> </p>
-            <p><span className="">Classement :</span> </p>
-            <p><span className="">Nombre d’étudiants de la promotion :</span> </p>
+            <p><span className="">Moyenne générale :</span> </p>
+            <p><span className="">Classement :</span> </p>
+            <p><span className="">Nombre d’étudiants de la promotion :</span> </p>
         </div>
          
         </div>

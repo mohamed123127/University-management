@@ -72,7 +72,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
 
     const LoginWithGoogleButtonHandled = (e)=>{
         e.preventDefault();
-        window.location.href = 'https://www.university-management.website/roots/LoginWithGoogle.php';
+        window.location.href = 'http://localhost/University-management/backend/roots/LoginWithGoogle.php';
     }
 
     useEffect(() => {

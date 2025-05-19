@@ -13,22 +13,21 @@ import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 export default function AttestationBonneConduite() {
   const { t } = useTranslation();
   const location = useLocation();
-  const type = 'block_academic_year';
+  const type = 'attestationBonneConduite';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
 
   const params = new URLSearchParams(location.search);
-  const name = params.get('name');
+  const FirstName = params.get('FirstName');
+  const LastName = params.get('LastName');
   const matricule = params.get('matricule');
-  const speciality = params.get('Speciality');
-  const educationYear = params.get('educationYear');
 
 
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, name, type };
+      const pdfData = { matricule, FirstName,LastName, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -99,11 +98,11 @@ export default function AttestationBonneConduite() {
         {/* محتوى الوثيقة */}
         <div className="text-left mb-4 space-y-1 leading-8 font-serif">
           <p>Le Chef de Département d’Informatique Soussigné, atteste que l’Etudiant :</p>
-          <p><span className="">Nom :</span> {name}</p>
-          <p><span className="">Prénom :</span> </p>
-          <p><span className="">Date et lieu de Naissance :</span> </p>
+          <p><span className="">Nom :</span> {LastName}</p>
+          <p><span className="">Prénom :</span> {FirstName}</p>
+          <p><span className="">Date et lieu de Naissance :</span> </p>
           <p><span className="">N° d’inscription:</span> </p>
-         <p><span className="">Matricule :</span> {speciality}</p>
+         <p><span className="">Matricule :</span> {matricule}</p>
           <p>A eu une bonne conduite depuis sa première inscription et n’a pas été soumis (e)
           au conseil disciplinaire.</p>
          

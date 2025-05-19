@@ -25,17 +25,18 @@ class ChangeRequests
           }
     }
 
-    static async accepteRequest(requestId,requestType,newValue,studentId){
-        try{
+    static async accepteRequest(requestId, requestType, Matricule1, Value1, Matricule2, Value2,studentId) {
+        try {
             const data = {
                 requestId: requestId,
                 requestType: requestType,
-                newValue: newValue,
-                studentId: studentId
-            }
-
+                studentId: studentId,
+                Matricule1: Matricule1,
+                Value1: Value1,
+                Matricule2: Matricule2,
+                Value2: Value2
+            };
             const response = await ApiOperator.post(this.ChangeRequestsRootUrl + "accepteRequest",data);
-            console.log(response);
             return response;
         } catch(error){
             alert("catch in updateRequest: " + error);

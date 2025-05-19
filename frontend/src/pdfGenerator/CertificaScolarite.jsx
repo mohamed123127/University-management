@@ -10,25 +10,25 @@ import umbblocal from 'resources/Images/umbb.png';
 
 import ButtonStyle1 from 'components/custom controls/buttons/ButtonStyle1';
 
-export default function AttestationBonneConduite1() {
+export default function CertificatScolarite2() {
   const { t } = useTranslation();
   const location = useLocation();
   const type = 'block_academic_year';
   const studentId = localStorage.getItem('id');
   const documentRef = useRef();
 
-
+  // استخراج البيانات من رابط URL
   const params = new URLSearchParams(location.search);
-  const LastName = params.get('LastName');
-  const FirstName = params.get('FirstName');
+  const name = params.get('name');
   const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
+  const educationYear = params.get('educationYear');
 
-
+  // عند الضغط على زر "Valider"
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule,LastName, FirstName, type };
+      const pdfData = { matricule, name, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -59,13 +59,14 @@ export default function AttestationBonneConduite1() {
 
   return (
     <div className="p-4 w-full">
-
-<div
+    
+      <div
   ref={documentRef}
-  className="bg-white p-8 rounded-lg shadow-md mx-auto border-2 border-gray-300 text-sm"
+  className="bg-white rounded-lg shadow-md mx-auto border-2 border-gray-300 flex flex-col justify-between"
   dir="ltr"
-  style={{ width: '704px', height: '1090px', padding: '40px', boxSizing: 'border-box', position: 'relative' }}
+  style={{ width: '764px', height: '1123px', padding: '40px', boxSizing: 'border-box', position: 'relative' }}
 >
+   
         <div className="flex justify-between items-center mb-2">
           <img src={uniBoumrdas} alt="University Logo" className="w-24 h-23 ltr" />
           <div className="text-center flex-1 font-bold">
@@ -78,8 +79,8 @@ export default function AttestationBonneConduite1() {
           </div>
         </div>
 
-
-        <div className="flex justify-between mt-6 font-bold">
+     
+        <div className="flex justify-between font-bold">
           <div className="text-left ltr">
             <h2>Faculté des sciences</h2>
             <h2>Département d’informatique</h2>
@@ -93,35 +94,27 @@ export default function AttestationBonneConduite1() {
           </div>
         </div>
 
-       
-        <h2 className="mt-16 text-l font-semibold  mb-6 text-center underline">Attestation <br></br>de bonne conduite</h2>
+        
+        <h2 className="mt-12 text-2xl font-bold mb-4 text-center underline">Certificat de Scolarité</h2>
 
-        <div className="text-left text-lg mb-4 ml-14 mt-10 space-y-0.5 leading-5 font-serif">
-         <p>Le Chef de département d’Informatique, atteste que l’étudiante :</p>
-         <div className='ml-8'>
-         <p>● Nom : {LastName}</p>
-         <p>● Prénom : {FirstName}</p>
-         <p>● Date de Naissance : à</p>
-         </div>
-
-         <p>
-           A obtenu le diplôme Licence en Informatique ,<br />
-           Spécialité  ………… en l’année universitaire …….. sous le matricule …………<br /><br />
-           L’intéressée a eu une bonne conduite durant son cursus universitaire<br /> et
-           n’a pas été soumis au conseil de disciplinaire.
-        </p>
-      </div>
-      <p className="pl-10 mt-20 italic">
-        Cette attestation est délivrée à la demande de l’étudiant(e) pour servir  et valoir ce qui est de droit.
-          </p>
        
-        <div className='mt-16'>
-        <p className="mt-20 mr-5 font-semibold text-right font-serif">Le Chef de département</p>
-         <img src={umbblocal} alt="University localisation" className="w-250 h-30 ltr mt-28" />
+        <div className="text-left ml-10 mb-2 space-y-2 leading-8 font-serif">
+         <p><span className="">Etudiant (e) : {name}</span> </p>
+         <p><span className="">Né (e) le :</span> </p>
+         <p><span className="">N° d’inscription :</span> </p>
+         <p><span className="">Domaine : Mathématiques et Informatique.</span> </p>
+         <p><span className="">Filière : Informatique</span> </p>
+         <p><span className="">Année d’étude : Licence 3</span> </p>
+         <p className="">Année universitaire : </p>
+        </div> 
+         <p className="mt-9  mr-5 font-semibold text-right font-serif">Head of Department</p>
+
+       <div className='mt-40' >
+          <img src={umbblocal} alt="University localisation" className="w-250 h-30 ltr  " />
         </div>
-      </div>
+        </div>
 
-
+ 
       <div className="flex justify-center mt-4 space-x-4">
         <ButtonStyle1
           onClick={handleValidateClick}

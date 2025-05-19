@@ -21,6 +21,17 @@ import Login_SignUp from "pages/Authentication/Login_SignUp";
 import DocumentRequests from "pages/StudentSide/DocumentRequests";
 import Student from "js/models/Student";
 import StudentRoleSelector from "pages/test";
+import AttestationBonneConduite from "pdfGenerator/attestationBonneConduite";
+import AttestastionClassement from "pdfGenerator/attestastionClassement";
+import AttestationMajorPromotion from "pdfGenerator/Attestation-MajorPromotion";
+import Attestation1 from "pdfGenerator/attestation1";
+import Attestation2 from "pdfGenerator/attestation2";
+import Attestation3 from "pdfGenerator/attestation3";
+import AttestationBonneConduite1 from "pdfGenerator/attestationBonneConduite1";
+import AttestationClassement2 from "pdfGenerator/attestationClassement2";
+import CertificatScolarite from "pdfGenerator/CertificaScolarite";
+import Prestage from "pdfGenerator/preStage";
+import FicheDePresenceDeStage from "pdfGenerator/ficheDePresenceDeStage";
 
 const routes = [
   {
@@ -45,6 +56,10 @@ const routes = [
     path: "/DocumentRequest/RegistrationCertificate",
     element: <RegistrationCertificate />,
   },
+  {
+    path: "/DocumentRequest/CertificatScolarite2",
+    element: <CertificatScolarite />,
+  },
 {
     path: "/DocumentRequest/GradeTranscript",
     element: <GradeTranscript />,
@@ -60,6 +75,46 @@ const routes = [
   {
     path: "/DocumentRequest/ParkingPermit",
     element: <ParkingPermit />,
+  },
+  {
+    path: "/DocumentRequest/attestationBonneConduite",
+    element: <AttestationBonneConduite />,
+  },
+  {
+    path: "/DocumentRequest/attestationClassement",
+   element: <AttestastionClassement />,
+  },
+  {
+    path: "/DocumentRequest/attestationClassement2",
+   element: <AttestationClassement2 />,
+  },
+  {
+    path: "/DocumentRequest/Attestation-MajorPromotion",
+   element: <AttestationMajorPromotion />,
+  },
+  {
+    path: "/DocumentRequest/attestation1",
+   element: <Attestation1 />,
+  },
+  {
+    path: "/DocumentRequest/attestation2",
+   element: <Attestation2 />,
+  },
+  {
+    path: "/DocumentRequest/attestation3",
+   element: <Attestation3 />,
+  },
+  {
+    path: "/DocumentRequest/attestationBonneConduite1",
+   element: <AttestationBonneConduite1 />,
+  },
+  {
+    path: "/DocumentRequest/Prestage",
+   element: <Prestage />,
+  },
+  {
+    path: "/DocumentRequest/ficheDePresenceDeStage",
+   element: <FicheDePresenceDeStage />,
   },
   {
     path: "/AdministrationMainPage",

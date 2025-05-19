@@ -25,8 +25,9 @@ export default function Announcement() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();  
+    console.log(announcementData.title);
     // Input validation
-    if (!recipient && !announcementData.title && !announcementData.content) {
+    /*if (!recipient && !announcementData.title && !announcementData.content) {
       setError("All fields (recipient, Title, and Content) are required.");
       setSuccessMessage("");
       return;
@@ -48,7 +49,7 @@ export default function Announcement() {
       }
     } catch (error) {
       alert("catch in button handled : \n" + error)
-    }
+    }*/
   };
   
   const { t, i18n } = useTranslation();

@@ -19,8 +19,8 @@ export default function Attestation1() {
 
   // استخراج البيانات من رابط URL
   const params = new URLSearchParams(location.search);
-  const name = params.get('name');
-  const matricule = params.get('matricule');
+  const FirstName = params.get('FirstName');
+  const LastName = params.get('LastName');  const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
   const educationYear = params.get('educationYear');
 
@@ -28,7 +28,7 @@ export default function Attestation1() {
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, name, type };
+      const pdfData = { matricule, FirstName,LastName, type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -100,11 +100,11 @@ export default function Attestation1() {
        
         <div className="text-left mb-2 space-y-1 leading-8">
          <p> I, the undersigned, the Head of the computer science department, certify that the student:</p>
-         <p><span className="font-semibold">Last Name:</span> </p>
-         <p><span className="font-semibold">First Name:</span> </p>
+         <p><span className="font-semibold">Last Name: </span>{LastName} </p>
+         <p><span className="font-semibold">First Name: </span>{FirstName} </p>
          <p><span className="font-semibold">Date and Place of Birth:</span> ….. in ………..</p>
          <p><span className="font-semibold">Registration Number:</span> </p>
-         <p><span className="font-semibold">Sector ::</span> Mathematics and Computer Science</p>
+         <p><span className="font-semibold">Sector :</span> Mathematics and Computer Science</p>
          <p><span className="font-semibold">Education level:</span> Computer Science</p>
          <p className="font-semibold">Continued his university studies in our department in English. </p>
         </div> 

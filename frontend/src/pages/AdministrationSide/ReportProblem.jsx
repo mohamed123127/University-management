@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import ReportProblem from "js/models/ReportProblem";
+import EmailServices from "js/models/EmailServices"
+import Announcement from "js/models/Announcement";
+import Swal from 'sweetalert2';
 
 export default function Problems() {
   const [problemsData, setProblemsData] = useState([]);
   const [replyMessage, setReplyMessage] = useState("");
-  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [problemData,setProblemData] = useState(null);
+  const [isClickedRefusedButton,setIsClickedRefusedButton] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await ReportProblem.getAll();
+        //console.log(result);
         if (result.success) {
-          const withStatus = result.problmes.map((p) => ({ ...p, status: null }));
-          setProblemsData(withStatus);
+          const data = result.problmes.filter(prevData => prevData.status === "en Attend");
+          setProblemsData(data);
         } else {
           alert(result.success + " \n" + result.message);
         }
@@ -24,38 +29,40 @@ export default function Problems() {
     fetchData();
   }, []);
 
-  const handleStatusChange = (index, status) => {
-    const updated = [...problemsData];
-    updated[index].status = status;
-    setProblemsData(updated);
-  };
+  const acceptButtonHandled = async (problem)=>{
+    Announcement.Add({"title":"Problem reported resolved","content":"problem about '" + problem.Title + "' has resolved","recipient":problem.studentId})
+    ReportProblem.ChangeStatus(problem.Id,"Completed");
+    setProblemsData(
+      problemsData
+        .map(p => p.Id === problem.Id ? { ...p, status: "Completed" } : p)
+        .filter(p => p.status === "en Attend")
+    );
+  }
+
+  const refusedButtonHandled = async (problem)=>{
+    setIsClickedRefusedButton(true);
+    setProblemData(problem);
+  }
 
   const handleSendReply = async () => {
-    try {
-      const response = await fetch("http://localhost/YOUR_BACKEND_PATH/sendEmail.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: selectedEmail,        
-          message: replyMessage,       
-        }),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        alert("Reply sent successfully!");
-      } else {
-        alert("Failed to send reply: " + result.message);
-      }
-    } catch (error) {
-      alert("Error sending reply: " + error.message);
-    } finally {
-      setSelectedEmail(null);
-      setReplyMessage("");
+    //console.log(problemData);
+    if(!isClickedRefusedButton){
+      Announcement.Add({"title":"repley for problem about '" + problemData.Title + "'","content":replyMessage,"recipient":problemData.studentId})
+      Swal.fire({
+        title:"replay envoiyer succefuly"
+      })
+    }else{
+      Announcement.Add({"title":"Problem about '" + problemData.Title + "' has refused","content":"cause : " + replyMessage,"recipient":problemData.studentId})
+      ReportProblem.ChangeStatus(problemData.Id,"Refused");
+      setProblemsData(
+        problemsData
+          .map(p => p.Id === problemData.Id ? { ...p, status: "Refused" } : p)
+          .filter(p => p.status === "en Attend")
+      );
+      setIsClickedRefusedButton(false);
     }
+    setProblemData(null);
+    setReplyMessage("");
   };
 
   return (
@@ -74,31 +81,24 @@ export default function Problems() {
                 </div>
 
                 {/* ✅ Icons */}
-                <div className="flex items-center space-x-2">
-                  {problem.status === null && (
+                <div className="flex items-center space-x-2">l
+                  {problem && (
                     <>
                       <button
-                        onClick={() => handleStatusChange(index, "accepted")}
+                        onClick={() => acceptButtonHandled(problem)}
                         title="Accept"
                         className="text-green-500 hover:text-green-700 text-xl"
                       >
                         ✅
                       </button>
                       <button
-                        onClick={() => handleStatusChange(index, "refused")}
+                        onClick={() => refusedButtonHandled(problem)}
                         title="Refuse"
                         className="text-red-500 hover:text-red-700 text-xl"
                       >
                         ❌
                       </button>
                     </>
-                  )}
-
-                  {problem.status === "accepted" && (
-                    <span className="text-green-600 text-xl">✅</span>
-                  )}
-                  {problem.status === "refused" && (
-                    <span className="text-red-600 text-xl">❌</span>
                   )}
                 </div>
               </div>
@@ -110,7 +110,7 @@ export default function Problems() {
               <div className="text-right text-gray-400 text-xs mt-4">{problem.Date}</div>
 
               <button
-                onClick={() => setSelectedEmail(problem.Email)}
+                onClick={() => setProblemData(problem)}
                 className="mt-3 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Reply
@@ -123,10 +123,10 @@ export default function Problems() {
       </div>
 
       {/* Reply Modal */}
-      {selectedEmail && (
+      {problemData && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm z-50">
           <div className="bg-white shadow-lg p-4 rounded-lg border border-gray-300 w-80">
-            <h3 className="text-lg font-semibold text-gray-700">Reply to {selectedEmail}</h3>
+            <h3 className="text-lg font-semibold text-gray-700">Reply to {problemData.Email}</h3>
             <textarea
               className="w-full p-2 border rounded mt-2"
               rows="3"
@@ -143,7 +143,7 @@ export default function Problems() {
               </button>
               <button
                 onClick={() => {
-                  setSelectedEmail(null);
+                  setProblemData(null);
                   setReplyMessage("");
                 }}
                 className="ml-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"

@@ -33,6 +33,26 @@ class Etudient extends User {
         $this->phoneNumber = $phoneNumber;
         $this->isActive = $isActive;
     }
+
+    public static function isNew($conn, $studentId) {
+        $sql = "SELECT `isNew` FROM etudient WHERE Id = ?";
+        $stmt = $conn->prepare($sql);
+    
+        if (!$stmt) {
+            return ["success" => false, "message" => "Failed to prepare statement: " . $conn->error];
+        }
+    
+        $stmt->bind_param("i", $studentId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($row = $result->fetch_assoc()) {
+            return ["success" => true, "isNew" => $row['isNew']];
+        } else {
+            return ["success" => false, "message" => "Student not found"];
+        }
+    }
+
     public static function isExistEtudient($conn, $matricule, $password) {
         $sql = "SELECT `Id`, `Active` FROM etudient WHERE Matricule = ? AND password = ?";
         $stmt = $conn->prepare($sql);
@@ -135,7 +155,7 @@ class Etudient extends User {
                     return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
                 }
     
-                $stmt->bind_param("ssssssssssi", $this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->phoneNumber, $this->password, $this->isActive);
+                $stmt->bind_param("ssssssssss", $this->matricule, $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password, $this->phoneNumber);
     
 
                 if ($stmt->execute()) {
@@ -155,6 +175,18 @@ class Etudient extends User {
             if (!($stmt = $conn->prepare($sql))) return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
     
             $stmt->bind_param("ssssssssss",  $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->password,$this->phoneNumber,$this->matricule);
+            return $stmt->execute() ? ["success" => true, "message" => "Student updated successfully."] : ["success" => false, "message" => "Failed to update student."];
+        } catch (Exception $ex) {
+            return ["success" => false, "message" => $ex->getMessage()];
+        }
+    }
+
+    public function updateStudent_withoutChangePassword($conn) {
+        try {    
+            $sql = "UPDATE etudient SET firstName = ?, lastName = ?, educationYear = ?, Speciality = ?, section = ?, grp = ?,email = ?,PhoneNumber = ?, Active = true WHERE Matricule=?";
+            if (!($stmt = $conn->prepare($sql))) return ["success" => false, "message" => "Database statement preparation failed: " . $conn->error];
+    
+            $stmt->bind_param("sssssssss",  $this->firstName, $this->lastName, $this->educationYear, $this->specialty, $this->section, $this->group, $this->email, $this->phoneNumber,$this->matricule);
             return $stmt->execute() ? ["success" => true, "message" => "Student updated successfully."] : ["success" => false, "message" => "Failed to update student."];
         } catch (Exception $ex) {
             return ["success" => false, "message" => $ex->getMessage()];
@@ -234,6 +266,79 @@ class Etudient extends User {
             ]);
         }
     }
+
+    public static function swapGroups($conn, $studentId1, $studentId2) {
+        try {
+            $query = "SELECT Id, Grp FROM etudient WHERE Id IN (?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ii", $studentId1, $studentId2);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows !== 2) {
+                return ["success" => false, "message" => "One or both students not found."];
+            }
+            
+            $students = [];
+            while ($row = $result->fetch_assoc()) {
+                $students[$row['Id']] = $row['Grp'];
+            }
+            
+            $group1 = $students[$studentId1];
+            $group2 = $students[$studentId2];
+    
+            $updateQuery = "UPDATE etudient SET Grp = ? WHERE Id = ?";
+            $updateStmt = $conn->prepare($updateQuery);
+            
+            $updateStmt->bind_param("si", $group2, $studentId1);
+            $updateStmt->execute();
+            
+            $updateStmt->bind_param("si", $group1, $studentId2);
+            $updateStmt->execute();
+            
+            return ["success" => true, "message" => "Groups swapped successfully."];
+        } catch (Exception $ex) {
+            return ["success" => false, "message" => "An unexpected error occurred: " . $ex->getMessage()];
+        }
+    }
+    public static function swapSection($conn, $studentId1, $studentId2) {
+        try {
+            // Fetch current sections
+            $query = "SELECT Id, Section FROM etudient WHERE Id IN (?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ii", $studentId1, $studentId2);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            if ($result->num_rows !== 2) {
+                return ["success" => false, "message" => "One or both students not found."];
+            }
+    
+            $sections = [];
+            while ($row = $result->fetch_assoc()) {
+                $sections[$row['Id']] = $row['Section'];
+            }
+    
+            $section1 = $sections[$studentId1];
+            $section2 = $sections[$studentId2];
+    
+            // Swap the sections
+            $updateQuery = "UPDATE etudient SET Section = ? WHERE Id = ?";
+            $updateStmt = $conn->prepare($updateQuery);
+    
+            $updateStmt->bind_param("si", $section2, $studentId1);
+            $updateStmt->execute();
+    
+            $updateStmt->bind_param("si", $section1, $studentId2);
+            $updateStmt->execute();
+    
+            return ["success" => true, "message" => "Sections swapped successfully."];
+    
+        } catch (Exception $ex) {
+            return ["success" => false, "message" => "An unexpected error occurred: " . $ex->getMessage()];
+        }
+    }
+    
 
     public static function changeSpeciality($conn, $id, $specialty){
         try{

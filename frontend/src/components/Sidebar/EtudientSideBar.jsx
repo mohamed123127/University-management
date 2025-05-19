@@ -111,7 +111,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
  />
 
 <SideBatItem 
-  OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem Email={studentData.Email}/>)} 
+  OnClick={() => sidebarItemClickHundled('report_problem', <ExclamationCircleIcon className="w-8 h-8" />, <ReportProblem Email={studentData.Email} StudentId={studentData.Id}/>)} 
   itemIcon={<ExclamationCircleIcon />} 
   Title={'report_problem'} 
   isOpen={isOpen}

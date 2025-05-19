@@ -23,13 +23,13 @@ export default function FicheDePresenceDeStage() {
   const name = params.get('name');
   const matricule = params.get('matricule');
   const speciality = params.get('Speciality');
-  const educationYear = params.get('educationYear');
+  const group = params.get('group');
 
 
   const handleValidateClick = async () => {
     try {
       const pdf = await PdfGenerator.generate(documentRef);
-      const pdfData = { matricule, name, type };
+      const pdfData = { matricule, name, speciality,group,type };
 
       const result = await DocumentRequest.SaveDocumentRequestAsPdf(pdf, pdfData);
 
@@ -100,9 +100,9 @@ export default function FicheDePresenceDeStage() {
        
        <div className="bg-gray-300 p-4 font-serif space-y-2">
          <p><span className="font-semibold underline">Etudiant concerné</span> :</p>
-         <p><span className="font-semibold">Nom et Prénom</span> : ………………………………………………………………….</p>
-         <p><span className="font-semibold">Groupe</span> : …………………………….</p>
-         <p><span className="font-semibold">Spécialité</span> : ………………………………………………..</p>
+         <p><span className="font-semibold">Nom et Prénom</span> : {name}.</p>
+         <p><span className="font-semibold">Groupe</span> : {group}</p>
+         <p><span className="font-semibold">Spécialité</span> : {speciality}</p>
          <p><span className="font-semibold">Adresse</span> : ………………………………………………………………………………………………….</p>
          <p>…………………………………………………………………………………………………………………………</p>
        
