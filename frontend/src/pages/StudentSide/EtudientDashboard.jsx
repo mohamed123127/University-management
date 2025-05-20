@@ -1,6 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import LazyVideo from 'components/LeazyLoading/LazyVideo';
 import reportVideo from 'resources/videos/Repport_Problems.mp4';
+import additionalFeatures from 'resources/videos/Additional.mp4';
+import Announncement from 'resources/videos/Announncement.mp4';
+import VirtualRequest from 'resources/videos/VirtualRequest.mp4';
+
 export default function EtudientDashboard({ studentName }) {
   const { t } = useTranslation();
 
@@ -22,9 +27,7 @@ export default function EtudientDashboard({ studentName }) {
               {t('request_services')}
             </h2>
             <div className="mb-6">
-            <video controls className="w-full rounded-md">
-              <source src={reportVideo} />
-            </video>
+            <LazyVideo src={reportVideo} />
           </div>
             <ul className="list-disc rtl:pr-6 ltr:pl-6 text-sm">
               <li>{t('registration_certificate')}</li>
@@ -39,14 +42,11 @@ export default function EtudientDashboard({ studentName }) {
               {t('visual_requests')}
             </h2>
             <div className="mb-6">
-            <video controls className="w-full rounded-md">
-              <source src={reportVideo}/>
-            </video>
+            <LazyVideo src={VirtualRequest} />
           </div>
             <ul className="list-disc rtl:pr-6 ltr:pl-6 text-sm">
               <li>{t('department_change')}</li>
               <li>{t('specialization_change')}</li>
-              <li>{t('create_new_club')}</li>
             </ul>
           </div>
 
@@ -55,9 +55,7 @@ export default function EtudientDashboard({ studentName }) {
               {t('university_announcements')}
             </h2>
             <div className="mb-6">
-            <video controls className="w-full rounded-md">
-              <source src={reportVideo} />
-            </video>
+            <LazyVideo src={Announncement} />
           </div>
             <p className="rtl:pr-6 ltr:pl-6 text-sm">
               {t('stay_informed')}
@@ -69,9 +67,7 @@ export default function EtudientDashboard({ studentName }) {
               {t('report_issues')}
             </h2>
             <div className="mb-6">
-            <video controls className="w-full rounded-md">
-              <source src={reportVideo}/>
-            </video>
+            <LazyVideo src={reportVideo} />
           </div>
           <p className="rtl:pr-6 ltr:pl-6 text-sm">
             {t('report_problems')}
@@ -83,9 +79,7 @@ export default function EtudientDashboard({ studentName }) {
             {t('account_management')}
           </h2>
           <div className="mb-6">
-            <video controls className="w-full rounded-md">
-              <source src={reportVideo} />
-            </video>
+            <LazyVideo src={reportVideo} />
           </div>
           <p className="rtl:pr-6 ltr:pl-6 text-sm">
             {t('manage_account_card')}
@@ -97,9 +91,7 @@ export default function EtudientDashboard({ studentName }) {
             {t('additional_features')}
           </h2>
           <div className="mb-6">
-            <video controls className="w-full rounded-md">
-              <source src={reportVideo} />
-            </video>
+            <LazyVideo src={additionalFeatures} />
           </div>
           <ul className="list-disc rtl:pr-6 ltr:pl-6 text-sm">
             <li>{t('change_language')}</li>
