@@ -303,6 +303,23 @@ try{
                 $response=(["success" => false, "message" => "Invalid request method. Use POST."]);
             }
             break;
+        case "setIsNew" :
+            if (isset($data['isNewValue']) && isset($data['studentId'])) {
+                $isNewValue = $data['isNewValue']; 
+                $studentId = $data['studentId']; 
+            } else {
+                echo json_encode(["success" => false, "message" => "isNewValue et studentId are required."]);
+                exit;
+            }
+
+            if ($isNewValue !== '' && $studentId !== '') {
+                $response=Etudient::changeIsNewValue($conn, $studentId,$isNewValue);
+                if($response['success']) $response = ["success" => true , "message" => "is new value changed successfully."];
+                else $response = ["success"=> false, "message" => $response['message']];
+            } else {
+                $response=(["success" => false, "message" => "studentId or password are empty value."]);
+            }
+            break;
         case "test":
             $response = Etudient::isNew($conn,4414);
             break;

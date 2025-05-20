@@ -9,7 +9,7 @@ import GoogleIcon from "resources/Icons/GoogleIcon.png"
 import Language from "components/Basics/Language";
 import Student from "js/models/Student";
 import Administration from "js/models/Administration";
-import { isDisabled } from "@testing-library/user-event/dist/utils";
+import { isDisabled, wait } from "@testing-library/user-event/dist/utils";
 import EmailServices from "js/models/EmailServices";
 import Swal from 'sweetalert2';
 import i18n from 'i18next';
@@ -54,7 +54,17 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
               <p>We found an email that looks like: <strong>${maskedEmail}</strong></p>
               <input type="email" id="email-confirm" class="swal2-input" placeholder="Enter full email">
               <div id="email-error" style="color:red; font-size:0.9em; min-height:1.2em;"></div>
-            `,
+            `,didOpen:()=>{
+              const input = document.getElementById("email-confirm");
+              input.addEventListener("input", (e) => {              
+                // إذا كان هناك خطأ سابق، نخفي رسالة الخطأ
+                if (window._codeInputHadError) {
+                  const errorMsg = Swal.getHtmlContainer().querySelector("#email-error");
+                  if (errorMsg) errorMsg.innerText = "";
+                  window._codeInputHadError = false;
+                }});
+            }
+            ,
             preConfirm: () => {
               const value = document.getElementById("email-confirm").value;
               if (!value) {
@@ -63,6 +73,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
               }
               if (value !== email) {
                 Swal.getHtmlContainer().querySelector("#email-error").innerText = "The email you entered is incorrect.";
+                window._codeInputHadError = true;
                 return false;
               }
               emailConfirmed = true;
@@ -73,7 +84,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
             cancelButtonText: "Cancel"
           });
         }
-        await showVerificationPrompt(email);
+        await showVerificationPrompt(email,studentData.Id);
       };
       
       // إخفاء جزء من البريد
@@ -89,16 +100,17 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
         return Math.floor(100000 + Math.random() * 900000).toString();
       };
       
-      const showVerificationPrompt = async (email) => {
+      const showVerificationPrompt = async (email,studentId) => {
         let confirmCode = generateConfirmCode();
+        //console.log(confirmCode);
         EmailServices.sendEmail(
           email,
           "Code to restore password",
           `Here is the code to restore your password: ${confirmCode}. Please insert it in the form.`
         );
-      
-        while (true) {
-          await Swal.fire({
+       let isCorrectCode = true;
+        while (isCorrectCode) {
+            await Swal.fire({
             title: "Enter the verification code",
             html: `
               <p>We have sent a code to <strong>${email}</strong></p>
@@ -116,12 +128,12 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
             didOpen: () => {
               const inputs = Array.from({ length: 6 }, (_, i) => document.getElementById(`code-${i}`));
               let timeoutId = null;
-let hasSubmitted = false;
+              let hasSubmitted = false;
 
-// نضيف طريقة للوصول لـ hasSubmitted من الخارج
-window._setHasSubmitted = (val) => {
-  hasSubmitted = val;
-};
+              // نضيف طريقة للوصول لـ hasSubmitted من الخارج
+              window._setHasSubmitted = (val) => {
+                hasSubmitted = val;
+              };
 
       
               const checkAutoSubmit = () => {
@@ -184,21 +196,31 @@ window._setHasSubmitted = (val) => {
                   `Here is your new code: ${confirmCode}. Please insert it in the form.`
                 );
                 Swal.getHtmlContainer().querySelector("#error-msg").innerText = "A new code has been sent!";
-                console.log("Resending code to:", email);
+                //console.log("Resending code to:", email);
               });
       
               const confirmButton = Swal.getConfirmButton();
               confirmButton.style.display = "none";
             },
-            preConfirm: () => {
+            preConfirm: async() => {
                 let fullCode = "";
                 for (let i = 0; i < 6; i++) {
                   fullCode += document.getElementById(`code-${i}`).value;
                 }
               
                 if (fullCode === confirmCode) {
-                  console.log("Correct code entered:", fullCode);
-                  return fullCode;
+                  Student.setIsNew(studentId,1);
+                  await Swal.fire({
+                    icon: "success",
+                    title: "Verification successful",
+                    text: "You will be logged into your account. Please reset your password.",
+                    confirmButtonText: "OK"
+                  });
+                                    isCorrectCode = false;
+                  localStorage.setItem('id',studentId)
+                  isStudent ? navigate("/EtudientMainPage") : navigate("/AdministrationMainPage");
+                  //console.log("Correct code entered:"+ isCorrectCode);
+                  return;
                 } else {
                   const errorMsg = Swal.getHtmlContainer().querySelector("#error-msg");
                   errorMsg.innerText = "Incorrect code. Please try again or resend.";
@@ -221,12 +243,10 @@ window._setHasSubmitted = (val) => {
                     window._setHasSubmitted(false);
                   }
               
-                  console.log("Incorrect code:", fullCode, " / Expected:", confirmCode);
+                  //console.log("Incorrect code:", fullCode, " / Expected:", confirmCode);
                   return false;
                 }
               }
-              
-              
           })
         }
       };
