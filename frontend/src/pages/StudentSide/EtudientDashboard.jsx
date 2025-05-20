@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LazyVideo from 'components/LeazyLoading/LazyVideo';
 import reportVideo from 'resources/videos/Repport_Problems.mp4';
 import additionalFeatures from 'resources/videos/Additional.mp4';
-import Announncement from 'resources/videos/Announncement.mp4';
+import Announncment from 'resources/videos/Announncment.mp4';
 import VirtualRequest from 'resources/videos/VirtualRequest.mp4';
 
 export default function EtudientDashboard({ studentName }) {
@@ -55,7 +55,7 @@ export default function EtudientDashboard({ studentName }) {
               {t('university_announcements')}
             </h2>
             <div className="mb-6">
-            <LazyVideo src={Announncement} />
+            <LazyVideo src={Announncment} />
           </div>
             <p className="rtl:pr-6 ltr:pl-6 text-sm">
               {t('stay_informed')}
