@@ -7,3 +7,4 @@ backend/test
 frontend/src/components/Tests
 frontend/package-lock.json
 .env
+/assets/
