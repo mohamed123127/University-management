@@ -6,6 +6,21 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 // السماح بالهيدر Content-Type
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
+ $data = json_decode(file_get_contents('php://input'), true);
+   /*   $token = $data['token'] ?? null;
+     if (empty($token)) {
+        $response = ["success" => false, "message" => "Token is missing or empty"];
+        echo json_encode($response);
+        exit;
+    }
+
+    $decoded = JwtLogin::verifyJWT($token);
+
+    if ($decoded === null) {
+        $response = ["success" => false, "message" => "Invalid or expired token"];
+        echo json_encode($response);
+        exit;
+    }*/
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
@@ -28,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $uploadDirectory = 'University-management/assets/'.$type.'/';
                 $fileName = basename($pdfFile['name']);
                 $filePath = $uploadDirectory . $fileName;
-                $fileUrl = "C:/xampp/htdocs/" . $filePath;
+                $fileUrl = "C:/wamp64/www/" . $filePath;
                 echo json_encode(['success' => true, 'fileUrl' => $fileUrl]);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Error while saving file']);

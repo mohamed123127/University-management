@@ -5,7 +5,7 @@ class ApiOperator{
 
     static async request(apiUrl,method,data){
         //alert(this.rootUrl+apiUrl);
-
+//alert(apiUrl + localStorage.getItem("jwt"));
         if(apiUrl != null && method != null){
             const options = {
                 method,
@@ -14,8 +14,11 @@ class ApiOperator{
                 },
               };
               if (data ) {
-                options.body = JSON.stringify(data); // إرسال كـ JSON
-              } 
+              options.body = JSON.stringify({
+             ...data,
+             token: localStorage.getItem("jwt")
+                });
+   } 
             const response = await fetch(this.rootUrl+apiUrl,options);
 
            // alert(this.rootUrl+apiUrl);

@@ -482,12 +482,12 @@ class Etudient extends User {
                 $query = "INSERT INTO StudentRole (StudentId, Role) 
                           VALUES (?, ?) 
                           ON DUPLICATE KEY UPDATE Role = ?";
-    
+
                 $stmt = $conn->prepare($query);
                 $stmt->bind_param('iss', $studentId,$role,$role);
                 $stmt->execute();
             }
-    
+
             return ["success" => true, "message" => "Student set as $role"];
         } catch (Exception $e) {
             return ["success" => false, "error" => $e->getMessage()];

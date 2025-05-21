@@ -25,17 +25,19 @@ export default function MainPage({openedPage}){
             await fetchStudentData(); 
             fetchRole();
         };
-    
+   //      alert(localStorage.getItem("jwt"));
         fetchData();
     }, []);
     
 
     // استخدام useEffect لتحديث actualPage بعد تحميل بيانات الطالب
     useEffect(() => {
+      //  alert(localStorage.getItem("jwt"));
         if (studentData) {
             setActualPage(<EtudientDashboard studentName={studentData.FirstName} />);
             checkIsFirstLogin();
         }
+        
     }, [studentData]); // تحديث actualPage عند تغيير studentData
     const fetchStudentData = async () => {
         try {

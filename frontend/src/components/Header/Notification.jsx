@@ -18,6 +18,7 @@ export default function Notification({notificationsList,setNotification,isOpen,s
         }
     const [notificationNumber,setNotificationNumber] = useState(5);
     useEffect(() => {
+      console.log(notificationsList);
         setNotificationNumber(notificationsList.filter((n) => !n.IsRead).length);
       }, [notificationsList]);
     return (
