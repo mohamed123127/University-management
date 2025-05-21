@@ -140,6 +140,12 @@ class Student
   }catch(error){alert("catch in setRole: " + error);}
 }
 
+static async setIsNew(studentId, isNewValue) {
+  try{
+  return await ApiOperator.post(this.StudentRootUrl + "setIsNew", { studentId:studentId , isNewValue:isNewValue });
+}catch(error){alert("catch in setIsNew: " + error);}
+}
+
 static async getStudentWithRole(studentId) {
   try {
     const response = await ApiOperator.get(this.StudentRootUrl + "getStudentWithRole", { studentId });

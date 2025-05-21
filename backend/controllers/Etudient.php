@@ -476,7 +476,7 @@ class Etudient extends User {
             if ($role == 'Simple Student') {
                 $querydelete = "DELETE FROM StudentRole WHERE StudentId = ?";
                 $stmt = $conn->prepare($querydelete);
-                $stmt->bindParam(1, $studentId);
+                $stmt->bind_param("i", $studentId);
                 $stmt->execute();
             } else {
                 $query = "INSERT INTO StudentRole (StudentId, Role) 
@@ -484,7 +484,8 @@ class Etudient extends User {
                           ON DUPLICATE KEY UPDATE Role = ?";
     
                 $stmt = $conn->prepare($query);
-                $stmt->bindParam('iss', $studentId,$role,$role);
+                $stmt->bind_param('iss', $studentId,$role,$role);
+                $stmt->execute();
             }
     
             return ["success" => true, "message" => "Student set as $role"];
