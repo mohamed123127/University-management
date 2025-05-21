@@ -76,6 +76,8 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
         await showVerificationPrompt(email);
       };
       
+    
+
       // إخفاء جزء من البريد
       const maskEmail = (email) => {
         const [user, domain] = email.split("@");
@@ -271,6 +273,8 @@ window._setHasSubmitted = (val) => {
             if (data.success === true) {
             localStorage.setItem('jwt', data.token); // تخزين التوكن في Local Storage
             localStorage.setItem('id',data.id)
+           // alert("wsh moooh!");
+            console.log(data.token);
             // يمكنك توجيه المستخدم إلى صفحة أخرى هنا
             isStudent ? navigate("/EtudientMainPage") : navigate("/AdministrationMainPage");
         } else {
@@ -299,7 +303,8 @@ window._setHasSubmitted = (val) => {
                         if(result.isRegistered){
                             const data = result.Data;
                             if(data.Active){
-                                localStorage.setItem('id',data.Id)
+                                localStorage.setItem('id',data.Id);
+                                 localStorage.setItem('jwt', data.token);
                                 navigate("/EtudientMainPage");
                             }else{
                                 alert("your account is not active")

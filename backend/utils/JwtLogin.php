@@ -21,7 +21,8 @@ class JwtLogin {
 
     public static function verifyJWT($jwt) {
         try {
-            $decoded = JWT::decode($jwt, new \Firebase\JWT\Key(self::$key, 'HS256')); // فك التشفير والتحقق من صحة التوكن
+            $decoded = JWT::decode($jwt, new \Firebase\JWT\Key(self::$key, 'HS256'));
+           // فك التشفير والتحقق من صحة التوكن
             return (array) $decoded;
         } catch (Exception $e) {
             return null; // في حال فشل التحقق، يتم إرجاع null
