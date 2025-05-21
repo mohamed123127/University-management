@@ -12,6 +12,21 @@ $method = $_SERVER['REQUEST_METHOD'];
 $endpoint = $_GET['endpoint'] ?? null;
 
 $response = ["success" => false, "message" => "Invalid request"];  // Default response
+ $data = json_decode(file_get_contents('php://input'), true);
+   /*   $token = $data['token'] ?? null;
+     if (empty($token)) {
+        $response = ["success" => false, "message" => "Token is missing or empty"];
+        echo json_encode($response);
+        exit;
+    }
+
+    $decoded = JwtLogin::verifyJWT($token);
+
+    if ($decoded === null) {
+        $response = ["success" => false, "message" => "Invalid or expired token"];
+        echo json_encode($response);
+        exit;
+    }*/
 
 try {
     switch($endpoint){

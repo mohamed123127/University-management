@@ -13,11 +13,15 @@ import VisualRequests from "pages/StudentSide/VisualRequests";
 import EtudientDashboard from "pages/StudentSide/EtudientDashboard";
 import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+
+import JwtVerify from "js/models/Jwt";
 
 
 export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPageIcon,SetActualPage,isOpen,setIsOpen,studentData, studentRole}) {
   const [openedList, setOpenedList] = useState(""); // القائمة الفرعية المفتوحة
   const { t, i18n } = useTranslation();
+const navigate = useNavigate();
 
   const DocumentRequestItemsList = [
     'registration_certificate',
@@ -42,8 +46,36 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
     setIsOpen(!isOpen);
   };
 
+ 
+ 
+
+
+  const verifyToken = async () => {
+      const token = localStorage.getItem("jwt");
+      console.log(token);
+      if (!token) {
+        console.log("❌ لا يوجد توكين في localStorage");
+        navigate("/");
+        return;
+      }
+
+      try {
+        const isValid = await JwtVerify.JwtVerify(); // لازم الدالة ترجع true أو throw
+        console.log("✅ النتيجة:", isValid);
+        if (!isValid.success) {
+            console.log("❌ nooo localStorage");
+          localStorage.removeItem("jwt");
+          navigate("/");
+        }
+      } catch (error) {
+        localStorage.removeItem("jwt");
+        navigate("/");
+      }
+    };
   const sidebarItemClickHundled = (PageName, PageIcon, Page) => {
+    verifyToken();
     const mediaQuery = window.matchMedia("(max-width: 768px)");
+
     SetActualPageName(PageName);
     SetActualPageIcon(PageIcon);
     SetActualPage(Page);
@@ -109,7 +141,7 @@ export default function EtudientSideBar({ClassName,SetActualPageName,SetActualPa
   isOpen={isOpen}
   ClassName={`${studentRole !== "Section Delegate" ? 'hidden':'visible' }`}
  />       
-          <h1 className={`text-xl font-bold absolute bottom-4 left-1/2 transform -translate-x-1/2 ${isOpen ? '' : 'hidden'}`}>{new Date().toLocaleDateString('en-GB').toString("d")}</h1>
+          <h1 className={`text-xl font-bold flex  absolute bottom-4 left-1/2 transform -translate-x-1/2 ${isOpen ? '' : 'hidden'}`}>{new Date().toLocaleDateString('en-GB').toString("d")}</h1>
         </div>
       </div>
     </div>

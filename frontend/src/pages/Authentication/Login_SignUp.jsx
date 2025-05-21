@@ -5,7 +5,7 @@ import Login from "../../components/Login_SignUp/Login";
 import SignUp from "../../components/Login_SignUp/SignUp";
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
-
+import  { useEffect } from 'react';
 
 
 export default function Login_SignUp() {
@@ -14,6 +14,13 @@ export default function Login_SignUp() {
   const { t } = useTranslation();
 
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
+
+  useEffect(() => {
+  window.history.pushState(null, "", window.location.href);
+  window.onpopstate = function () {
+    window.history.pushState(null, "", window.location.href);
+  };
+  }, []);
 
   const handleSignInClick = () => {
     setPosition(0);

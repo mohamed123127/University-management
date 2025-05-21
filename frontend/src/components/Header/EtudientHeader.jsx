@@ -8,12 +8,7 @@ import NotificationJs from "js/models/Notification";
 import BurggerButton from "components/custom controls/buttons/BurggerButton";
 
 export default function EtudientHeader({ ClassName, PageName, PageIcon,StudentName="",studentId='',isOpenedSidebar, setIsOpenedSidebar}) {
-  const [notifications, setNotifications] = useState([
-    { id: 1, message: "Your account has been activated", date_time: "04/11/2024 16:32", IsRead: true },
-    { id: 2, message: "Your demand to change group was accepted", date_time: "06/11/2024 09:20", IsRead: false },
-    { id: 3, message: "Your student card has been finished", date_time: "07/11/2024 11:58", IsRead: false },
-    { id: 4, message: "لقد تم تفعيل حسابك", date_time: "07/11/2024 11:58", IsRead: false },
-    ]);
+  const [notifications, setNotifications] = useState([]);
 
     useEffect(()=>{
       async function loadNotification() {
