@@ -86,8 +86,6 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
         }
         await showVerificationPrompt(email,studentData.Id);
       };
-      
-    
 
       // إخفاء جزء من البريد
       const maskEmail = (email) => {
