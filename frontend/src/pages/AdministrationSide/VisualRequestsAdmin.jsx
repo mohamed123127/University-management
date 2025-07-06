@@ -16,12 +16,7 @@ export default function VisualRequestsAdmin() {
         'Group',
         'Section',
         'Speciality',
-        'First Name',
-        'Last name',
-        'Email',
-        'Password'
-        
-        
+        'Lesson Timing'
     ];
 
     const yearOptionsTexts = [
@@ -48,6 +43,7 @@ export default function VisualRequestsAdmin() {
         const LoadData =async () => {
             try{
                 const resulte = await ChangeRequests.getAll();
+                console.log(resulte);
                 if(resulte.success){
                     setData(resulte.data.filter(row => row.Status !== "Completed" && row.Status !== "Rejected"));
                     //console.log(resulte.data.filter(row => row.Status !== "Completed"));
@@ -64,7 +60,7 @@ export default function VisualRequestsAdmin() {
 
     const columns = [
         { name: "Id", Header: "Id", width: "5%", className: "text-center" },
-        { name: "Request Type", Header: "Request Type", width: "15%", className: "text-center" },
+        { name: "Type", Header: "Request Type", width: "15%", className: "text-center" },
         { name: "Matricule1", Header: "Matricule1", width: "15%", className: "text-center" },
         { name: "NewValue1", Header: "NewValue1", width: "10%", className: "text-center" },
         { name: "Matricule2", Header: "Matricule2", width: "15%", className: "text-center" },
