@@ -19,74 +19,85 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
     const SignUpButton = useRef(null);
 
     const ForgetPasswordButtonClick = async () => {
-        // الخطوة 1: إدخال Matricule
-        const { value: matricule } = await Swal.fire({
-          title: "Restore Password",
-          input: "text",
-          inputLabel: "Enter your Matricule",
-          inputPlaceholder: "e.g. 222234586466",
-          showCancelButton: true,
-          confirmButtonText: "Continue",
-          cancelButtonText: "Cancel",
-          inputValidator: (value) => {
-            if (!value) return "You must enter your matricule!";
-          }
-        });
-      
-        if (!matricule) return;
-      
-        // استرجاع البريد بناءً على matricule 
-        const result = await Student.GetByMatricule(matricule);
-        if(!result.success){
-             Swal.fire("Success!", "matricule dosent exsists", "error");
-             return;
+      // الخطوة 1: إدخال Matricule
+      const { value: matricule } = await Swal.fire({
+        title: "Restore Password",
+        input: "text",
+        inputLabel: "Enter your Matricule",
+        inputPlaceholder: "e.g. 222234586466",
+        showCancelButton: true,
+        confirmButtonText: "Continue",
+        cancelButtonText: "Cancel",
+        inputValidator: (value) => {
+          if (!value) return "You must enter your matricule!";
         }
-        const studentData = result.Data;
-        const email = studentData.Email;
-        const maskedEmail = maskEmail(email);
-      
-        // الخطوة 2: تأكيد البريد
-        let emailConfirmed = false;
-        while (!emailConfirmed) {
-          const { isCorrectEmail } = await Swal.fire({
-            title: "Confirm your email",
-            html: `
-              <p>We found an email that looks like: <strong>${maskedEmail}</strong></p>
-              <input type="email" id="email-confirm" class="swal2-input" placeholder="Enter full email">
-              <div id="email-error" style="color:red; font-size:0.9em; min-height:1.2em;"></div>
-            `,didOpen:()=>{
-              const input = document.getElementById("email-confirm");
-              input.addEventListener("input", (e) => {              
-                // إذا كان هناك خطأ سابق، نخفي رسالة الخطأ
-                if (window._codeInputHadError) {
-                  const errorMsg = Swal.getHtmlContainer().querySelector("#email-error");
-                  if (errorMsg) errorMsg.innerText = "";
-                  window._codeInputHadError = false;
-                }});
+      });
+    
+      if (!matricule) return; // إذا ألغي المستخدم
+    
+      // استرجاع البريد بناءً على matricule
+      const result = await Student.GetByMatricule(matricule);
+      if (!result.success) {
+        await Swal.fire("Error!", "Matricule doesn't exist", "error");
+        return;
+      }
+    
+      const studentData = result.Data;
+      const email = studentData.Email;
+      const maskedEmail = maskEmail(email);
+    
+      const askForEmailConfirmation = async () => {
+        const { value: inputEmail, isConfirmed } = await Swal.fire({
+          title: "Confirm your email",
+          html: `
+            <p>We found an email that looks like: <strong>${maskedEmail}</strong></p>
+            <input type="email" id="email-confirm" class="swal2-input" placeholder="Enter full email">
+            <div id="email-error" style="color:red; font-size:0.9em; min-height:1.2em;"></div>
+          `,
+          didOpen: () => {
+            const input = document.getElementById("email-confirm");
+            input.addEventListener("input", () => {
+              if (window._codeInputHadError) {
+                const errorMsg = Swal.getHtmlContainer().querySelector("#email-error");
+                if (errorMsg) errorMsg.innerText = "";
+                window._codeInputHadError = false;
+              }
+            });
+          },
+          preConfirm: () => {
+            const value = document.getElementById("email-confirm").value.trim();
+            const errorMsg = Swal.getHtmlContainer().querySelector("#email-error");
+    
+            if (!value) {
+              errorMsg.innerText = "Please enter your full email.";
+              return false; 
             }
-            ,
-            preConfirm: () => {
-              const value = document.getElementById("email-confirm").value;
-              if (!value) {
-                Swal.getHtmlContainer().querySelector("#email-error").innerText = "Please enter your full email.";
-                return false;
-              }
-              if (value !== email) {
-                Swal.getHtmlContainer().querySelector("#email-error").innerText = "The email you entered is incorrect.";
-                window._codeInputHadError = true;
-                return false;
-              }
-              emailConfirmed = true;
-              return true;
-            },
-            showCancelButton: true,
-            confirmButtonText: "Confirm",
-            cancelButtonText: "Cancel"
-          });
-        }
-        await showVerificationPrompt(email,studentData.Id);
+            if (value.toLowerCase() !== email.toLowerCase()) {
+              errorMsg.innerText = "The email you entered is incorrect.";
+              window._codeInputHadError = true;
+              return false; 
+            }
+    
+            return value; 
+          },
+          showCancelButton: true,
+          confirmButtonText: "Confirm",
+          cancelButtonText: "Cancel"
+        });
+    
+        if (isConfirmed && inputEmail.toLowerCase() === email.toLowerCase()) {
+          // ✅ إذا تم تأكيد البريد بنجاح
+          await showVerificationPrompt(email, studentData.Id); // ✳️ استدعاء الدالة الأصلية بعد التأكد
+        } else if (isConfirmed) {
+          // ❗تم التأكيد لكن البريد خطأ → إعادة المحاولة
+          askForEmailConfirmation();
+        } 
       };
-
+    
+      // ✅ بدء التحقق من البريد
+      await askForEmailConfirmation();
+    };
+   
       // إخفاء جزء من البريد
       const maskEmail = (email) => {
         const [user, domain] = email.split("@");
@@ -100,17 +111,17 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
         return Math.floor(100000 + Math.random() * 900000).toString();
       };
       
-      const showVerificationPrompt = async (email,studentId) => {
+      const showVerificationPrompt = async (email, studentId) => {
         let confirmCode = generateConfirmCode();
-        //console.log(confirmCode);
+      
         EmailServices.sendEmail(
           email,
           "Code to restore password",
           `Here is the code to restore your password: ${confirmCode}. Please insert it in the form.`
         );
-       let isCorrectCode = true;
-        while (isCorrectCode) {
-            await Swal.fire({
+      
+        const showCodePopup = async () => {
+          const result = await Swal.fire({
             title: "Enter the verification code",
             html: `
               <p>We have sent a code to <strong>${email}</strong></p>
@@ -129,12 +140,11 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
               const inputs = Array.from({ length: 6 }, (_, i) => document.getElementById(`code-${i}`));
               let timeoutId = null;
               let hasSubmitted = false;
-
-              // نضيف طريقة للوصول لـ hasSubmitted من الخارج
+      
+              // نسمح بتعديل الحالة خارجياً
               window._setHasSubmitted = (val) => {
                 hasSubmitted = val;
               };
-
       
               const checkAutoSubmit = () => {
                 if (hasSubmitted) return;
@@ -143,7 +153,7 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                   clearTimeout(timeoutId);
                   timeoutId = setTimeout(() => {
                     hasSubmitted = true;
-                    Swal.clickConfirm();
+                    Swal.clickConfirm(); // محاكاة زر التأكيد
                   }, 1000);
                 } else {
                   clearTimeout(timeoutId);
@@ -152,24 +162,25 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
       
               inputs.forEach((input, index) => {
                 input.addEventListener("input", (e) => {
-                    const value = e.target.value;
-                  
-                    // إذا كان هناك خطأ سابق، نخفي رسالة الخطأ
-                    if (window._codeInputHadError) {
-                      const errorMsg = Swal.getHtmlContainer().querySelector("#error-msg");
-                      if (errorMsg) errorMsg.innerText = "";
-                      window._codeInputHadError = false;
-                    }
-                  
-                    if (!/^\d$/.test(value)) {
-                      e.target.value = "";
-                      return;
-                    }
-                  
-                    if (index < 5) inputs[index + 1].focus();
-                    checkAutoSubmit();
-                  });
-                  
+                  const value = e.target.value;
+      
+                  // إخفاء الخطأ إن وُجد
+                  if (window._codeInputHadError) {
+                    const errorMsg = Swal.getHtmlContainer().querySelector("#error-msg");
+                    if (errorMsg) errorMsg.innerText = "";
+                    window._codeInputHadError = false;
+                  }
+      
+                  // قبول فقط الأرقام
+                  if (!/^\d$/.test(value)) {
+                    e.target.value = "";
+                    return;
+                  }
+      
+                  // الانتقال تلقائياً إلى الحقل التالي
+                  if (index < 5) inputs[index + 1].focus();
+                  checkAutoSubmit();
+                });
       
                 input.addEventListener("keydown", (e) => {
                   if (e.key === "Backspace" && !input.value && index > 0) {
@@ -196,61 +207,69 @@ export default function Login({SignUpButtonHandled,ClassName,currentLanguage,set
                   `Here is your new code: ${confirmCode}. Please insert it in the form.`
                 );
                 Swal.getHtmlContainer().querySelector("#error-msg").innerText = "A new code has been sent!";
-                //console.log("Resending code to:", email);
               });
       
-              const confirmButton = Swal.getConfirmButton();
-              confirmButton.style.display = "none";
+              // إخفاء زر التأكيد لأننا نؤدي التأكيد تلقائياً
+              Swal.getConfirmButton().style.display = "none";
             },
-            preConfirm: async() => {
-                let fullCode = "";
-                for (let i = 0; i < 6; i++) {
-                  fullCode += document.getElementById(`code-${i}`).value;
-                }
-              
-                if (fullCode === confirmCode) {
-                  Student.setIsNew(studentId,1);
-                  await Swal.fire({
-                    icon: "success",
-                    title: "Verification successful",
-                    text: "You will be logged into your account. Please reset your password.",
-                    confirmButtonText: "OK"
-                  });
-                                    isCorrectCode = false;
-                  localStorage.setItem('id',studentId)
-                  isStudent ? navigate("/EtudientMainPage") : navigate("/AdministrationMainPage");
-                  //console.log("Correct code entered:"+ isCorrectCode);
-                  return;
-                } else {
-                  const errorMsg = Swal.getHtmlContainer().querySelector("#error-msg");
-                  errorMsg.innerText = "Incorrect code. Please try again or resend.";
-              
-                  // مسح الحقول
-                  for (let i = 0; i < 6; i++) {
-                    const input = document.getElementById(`code-${i}`);
-                    if (input) input.value = "";
-                  }
-              
-                  // تركيز المؤشر على أول خانة
-                  document.getElementById("code-0")?.focus();
-              
-                  // تعيين الفلاغات لإعادة التحقق
-                  window._codeInputHadError = true;
-                  window._canAutoSubmitAgain = true;
-              
-                  // إعادة تفعيل التحقق
-                  if (typeof window._setHasSubmitted === "function") {
-                    window._setHasSubmitted(false);
-                  }
-              
-                  //console.log("Incorrect code:", fullCode, " / Expected:", confirmCode);
-                  return false;
-                }
+            preConfirm: async () => {
+              let fullCode = "";
+              for (let i = 0; i < 6; i++) {
+                fullCode += document.getElementById(`code-${i}`).value;
               }
-          })
-        }
-      };
       
+              if (fullCode === confirmCode) {
+                // ✅ كود صحيح: نسجل الدخول ونخرج
+                await Student.setIsNew(studentId, 1);
+                await Swal.fire({
+                  icon: "success",
+                  title: "Verification successful",
+                  text: "You will be logged into your account. Please reset your password.",
+                  confirmButtonText: "OK"
+                });
+      
+                localStorage.setItem('id', studentId);
+      
+                isStudent ? navigate("/EtudientMainPage") : navigate("/AdministrationMainPage");
+                return true; // ينهي Swal بنجاح
+              } else {
+                // ❌ كود خاطئ: نظهر رسالة خطأ ونعيد المحاولة لاحقًا
+                const errorMsg = Swal.getHtmlContainer().querySelector("#error-msg");
+                errorMsg.innerText = "Incorrect code. Please try again or resend.";
+      
+                for (let i = 0; i < 6; i++) {
+                  const input = document.getElementById(`code-${i}`);
+                  if (input) input.value = "";
+                }
+      
+                document.getElementById("code-0")?.focus();
+      
+                window._codeInputHadError = true;
+                window._setHasSubmitted?.(false);
+                return false; // ❗ نبقي النافذة مفتوحة
+              }
+            },
+            showCancelButton: true,
+            confirmButtonText: "Confirm",
+            cancelButtonText: "Cancel"
+          });
+      
+          // ✅ إذا تم الإلغاء من قبل المستخدم، لا نكرر
+          if (!result.isConfirmed) {
+            //console.log("User canceled verification.");
+            return;
+          }
+      
+          // ❌ إذا preConfirm أرجع false، هذا يعني أن الكود خاطئ → نعيد فتح النافذة
+          if (result.dismiss === Swal.DismissReason.cancel) return;
+          if (!result.value) {
+            await showCodePopup(); // إعادة المحاولة فقط في حالة الكود الخاطئ
+          }
+        };
+      
+        // ✅ أول استدعاء لعرض نافذة الكود
+        await showCodePopup();
+      };
       
     useEffect(()=>{
         i18n.changeLanguage(currentLanguage);
