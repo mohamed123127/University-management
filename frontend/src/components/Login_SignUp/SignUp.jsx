@@ -144,20 +144,20 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
       return;
   }
 
-  console.log("Form Data:", SignUpFormData);
-        //alert(SignUpFormData.specialty);
-        Student.addEtudient({
-          matricule: SignUpFormData.matricule,
-          firstName: SignUpFormData.firstName,
-          lastName: SignUpFormData.lastName,
-          educationYear: SignUpFormData.educationYear,
-          speciality: SignUpFormData.specialty,
-          section: SignUpFormData.section,
-          group: SignUpFormData.group,
-          email: SignUpFormData.email,
-          password: SignUpFormData.password,
-          phoneNumber: SignUpFormData.phoneNumber
-      });
+  // console.log("Form Data:", SignUpFormData);
+  //       //alert(SignUpFormData.specialty);
+  //       Student.addEtudient({
+  //         matricule: SignUpFormData.matricule,
+  //         firstName: SignUpFormData.firstName,
+  //         lastName: SignUpFormData.lastName,
+  //         educationYear: SignUpFormData.educationYear,
+  //         speciality: SignUpFormData.specialty,
+  //         section: SignUpFormData.section,
+  //         group: SignUpFormData.group,
+  //         email: SignUpFormData.email,
+  //         password: SignUpFormData.password,
+  //         phoneNumber: SignUpFormData.phoneNumber
+  //     });
               
     };
 
@@ -266,7 +266,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
 
                     
                     <div className="flex space-x-1">
-                    <LabelStyle1  labelClassName="text-md w-auto ml-1" />
+                    <LabelStyle1 labelText={`${t('PhoneNumber')} :`}  labelClassName="text-md w-auto ml-1" />
                     <TextBoxStyle2
                             Name='phoneNumber'
                    
@@ -305,7 +305,7 @@ export default function SignUp({ SingInButtonHandled,ClassName,currentLanguage,s
            
         <ButtonStyle1
           buttonText={`${t('SignUp')}`}
-          buttonClassName="items-center w-full mt-8"
+          buttonClassName="items-center w-full mt-4"
           onClick={SignUpButtonHandled}
         />
       </div>

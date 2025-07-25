@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $uploadDirectory = 'University-management/assets/'.$type.'/';
                 $fileName = basename($pdfFile['name']);
                 $filePath = $uploadDirectory . $fileName;
-                $fileUrl = "C:/wamp64/www/" . $filePath;
+                $fileUrl = "C:/xampp/htdocs/" . $filePath;
                 echo json_encode(['success' => true, 'fileUrl' => $fileUrl]);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Error while saving file']);

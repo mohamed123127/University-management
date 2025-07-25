@@ -51,7 +51,7 @@ class ChangeRequests{
 
     public static function getAll($conn){
         try{
-            $sql = "SELECT `Id`,`Type`,`Matricule1`, `NewValue1` , `Matricule2` , `NewValue2` ,  `SubmissionDate`, `LastUpdatedDate`,`StudentId` FROM `Changerequests` where Status='en attend'";
+            $sql = "SELECT changerequests.Id ,`Type`,`Matricule1`, `NewValue1` , `Matricule2` , `NewValue2` ,  `SubmissionDate`, `LastUpdatedDate`,etudient.EducationYear,`StudentId` FROM `Changerequests` INNER JOIN etudient ON StudentId = etudient.Id where Status='en attend'";
             $stmt = $conn->prepare($sql);
 
             if (!$stmt) {
